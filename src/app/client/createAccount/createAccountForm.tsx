@@ -147,7 +147,7 @@ const CreateAccountForm=()=> {
  
  <div className="w-full flex item-center  mx-auto justify-center">
  <p className=   "text "> Aleady have account ?  </p>
- <Link href={"/signin"} >
+ <Link href={"/signIn"} >
    <p className="ml-3 text-[#7B3B99] font-bold"> Login </p>
  </Link> 
  </div>
