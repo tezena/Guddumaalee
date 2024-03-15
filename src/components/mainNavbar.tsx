@@ -22,23 +22,22 @@ const Navbar = () => {
 
  
   const navItems = [
-    { id: 1, text: 'Home' },
-    { id: 2, text: 'Company' },
-    { id: 3, text: 'Resources' },
-    { id: 4, text: 'About' },
-    { id: 5, text: 'Contact' },
+    { id: 1, text: 'Message' },
+    { id: 2, text: 'Lawyers' },
+    { id: 3, text: 'Profile' },
+    
   ];
 
   return (
     <div className='sticky top-0 bg-background/95 md:backdrop-blur md:text-black z-50 flex justify-between items-center h-24 min-w-screen mx-auto px-4 text-white border '>
     {/* Logo */}
-    <div className="w-[25%] pl-12">
+    <div className="w-[25%] lg:pl-12">
 
    
     <h1 className='w-full text-3xl font-bold text-black '>Guddumalee</h1>
     </div>
 
-    <div className="w-[30%] hidden  md:visible">
+    <div className="w-[30%]  md:flex hidden">
     <SearchInput/>
     </div>
 
@@ -57,7 +56,7 @@ const Navbar = () => {
           
           className='py-4 px-2 rounded-xl m-1 cursor-pointer duration-300 hover:text-black'
         >
-            <h3 className="text-2xl">Orders</h3>
+            <h3 className="text-2xl">Lawyers</h3>
         </li>
         <li
           
