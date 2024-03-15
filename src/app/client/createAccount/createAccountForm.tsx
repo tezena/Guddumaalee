@@ -27,7 +27,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-import { toast } from "@/components/ui/use-toast";
+import { Toaster } from "@/components/ui/toaster"
+import { useToast } from "@/components/ui/use-toast"
+
 import Link from "next/link";
 import { ToastAction } from "@/components/ui/toast";
 import { useRouter } from "next/navigation";
@@ -55,6 +57,7 @@ const CreateAccountForm=()=> {
   });
 
   function  onSubmit (values: z.infer<typeof formSchema>) {
+    const {toast}=useToast();
 
     axios.post("",values).then(res=>{
       console.log(`res : ${res.data}`)
