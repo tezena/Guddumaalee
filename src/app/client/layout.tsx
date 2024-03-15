@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "../globals.css";
-import  Navbar from "@/components/mainNavbar";
+import Navbar from "@/components/mainNavbar";
 import { cn } from "@/lib/utils";
-
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,19 +16,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (  
+  return (
     <html lang="en">
-      <body
-        className={cn(
-          "min-h-screen bg-background font-sans antialiased",
-         
-        )}
-      >
+      <body className={cn("min-h-screen bg-background font-sans antialiased")}>
         <div vaul-drawer-wrapper="">
-          < Navbar/>
-          <div className="relative container max-w-screen-2xl flex min-h-screen  flex-col bg-background">
+          <Navbar />
+          <div className="relative max-w-screen-2xl flex min-h-screen  flex-col bg-background">
             {children}
-           
           </div>
         </div>
       </body>
