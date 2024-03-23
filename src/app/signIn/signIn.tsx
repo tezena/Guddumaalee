@@ -15,6 +15,18 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { Context } from '../context/userContext';
+import { useContext } from 'react';
+import { useRouter } from 'next/navigation';
+
+
+interface ContextProps {
+  userName: string;
+  setUsername: React.Dispatch<React.SetStateAction<string>>;
+  secret: string;
+  setSecret: React.Dispatch<React.SetStateAction<string>>;
+}
+
 
 
 const FormSchema = z.object({
@@ -26,6 +38,15 @@ const FormSchema = z.object({
 });
 
 const SignInForm = () => {
+  const router=useRouter()
+  const context = useContext(Context);
+
+  if (!context) {
+    return null; 
+  }
+
+  const { setUsername, setSecret } = context;
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -35,6 +56,13 @@ const SignInForm = () => {
   });
 
   const onSubmit = (values: z.infer<typeof FormSchema>) => {
+
+    setUsername(values.email);
+    setSecret(values.password);
+
+    router.push("client/lawyers")
+
+
     console.log(values);
   };
 
