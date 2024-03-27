@@ -17,26 +17,14 @@ import {
   ConnectionBar,
   NewMessageForm,
   ChatSettings,
-  ChatSettingsTop,
   PeopleSettings,
   PhotosSettings,
   OptionsSettings,
+  ChatEngineWrapper,
+  ChatSocket,
+  Socket,
 } from "@/components/dynamickImportsModule";
-
-// const ChatEngine = dynamic(() =>
-//   import("react-chat-engine").then((module) => module.ChatEngine)
-// );
-// const MessageFormSocial = dynamic(() =>
-//   import("react-chat-engine").then((module) => module.MessageFormSocial)
-// );
-
-// interface ChatEngineProps {
-//   height: string;
-//   projectID: string;
-//   userName: string;
-//   userSecret: string;
-//   renderNewMessageForm: () => React.ReactNode;
-// }
+import { PrettyChatWindow } from "react-chat-engine-pretty";
 
 const Chat = () => {
   const context = useContext(Context);
@@ -64,16 +52,31 @@ const Chat = () => {
   if (!showChat) return <div />;
 
   return (
-    <div className=" w-full h-full">
+    <div className="" style={{ height: "90vh",  backgroundColor:"blue"}}>
+      <PrettyChatWindow
+        projectId="c079bdc9-9902-4ca4-b75c-a6b6d0b4f356"
+        username={userName}
+        secret={secret}
+        style={{ height: "100%" }}
+      />
+    </div>
+  );
+};
+
+export default Chat;
+
+{
+  /* <div className=" w-full h-full overflow-hidden">
       <div className="shadow">
         <ChatEngine
           classname="chatEngine"
-          height="[calc(100vh-3.5rem)]"
+          height="100vh"
           projectID="c079bdc9-9902-4ca4-b75c-a6b6d0b4f356"
-          userName={userName}
-          userSecret={secret}
+          userName="meze"
+          userSecret="mezePassword123!"
           // development={props.development}
-          // Customize UI
+          Customize
+          UI
           renderChatList={(chatAppState) => <ChatList {...chatAppState} />}
           renderChatCard={(chat, index) => (
             <ChatCard key={`${index}`} chat={chat} />
@@ -100,16 +103,13 @@ const Chat = () => {
           renderConnectionBar={(chat) => <ConnectionBar />}
           renderNewMessageForm={(creds, chatID) => <NewMessageForm />}
           renderChatSettings={(chatAppState) => (
-            <ChatSettings {...chatAppState} />
+            // <ChatSettings {...chatAppState} />
+            <div className=" hidden"></div>
           )}
-          renderChatSettingsTop={(creds, chat) => <ChatSettingsTop />}
-          renderPeopleSettings={(creds, chat) => <PeopleSettings />}
+          renderPeopleSettings={(creds, chat) => <div></div>}
           renderPhotosSettings={(chat) => <PhotosSettings />}
           renderOptionsSettings={(creds, chat) => <OptionsSettings />}
         />
       </div>
-    </div>
-  );
-};
-
-export default Chat;
+    </div> */
+}

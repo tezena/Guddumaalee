@@ -96,13 +96,10 @@
 
 ::-webkit-scrollbar {
   width: 0; /* Remove scrollbar space */
-background: transparent; }
+  background: transparent;
+}
 
 .chatEngine {
   padding: 1rem;
 }
 
-.ce-chat-engine {
-  height: 600px;
-  border-bottom: solid 1px black;
-}
