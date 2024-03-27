@@ -1,3 +1,5 @@
+
+import { motion } from "framer-motion";
 import { LawyerProps } from "@/components/lawyersCard";
 import React, { useState } from "react";
 import ReactStars from "react-rating-stars-component";
@@ -8,8 +10,18 @@ const LawyerDetail: React.FC<{ lawyer: LawyerProps; lawyers: LawyerProps[] }> = 
   const filteredLawyers = lawyers.filter((item) => item.id !== lawyer.id);
 
   return (
-    <div className="container mx-auto mt-10 px-4 md:px-0">
-      <div className="bg-gray-100 p-4 rounded-lg md:p-8 md:flex">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6 }}
+      className="container mx-auto mt-10 px-4 md:px-0"
+    >
+      <motion.div
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.2, duration: 0.6 }}
+        className="bg-gray-100 p-4 rounded-lg md:p-8 md:flex"
+      >
         <div className="md:w-1/4 md:mr-8">
           <h3 className="text-xl font-semibold text-gray-800 mb-4">Other Lawyers</h3>
           <ul>
@@ -21,18 +33,28 @@ const LawyerDetail: React.FC<{ lawyer: LawyerProps; lawyers: LawyerProps[] }> = 
                 onMouseLeave={() => setHoveredLawyer(null)}
               >
                 <Link href={`/client/lawyers/${otherLawyer.id}`} className="text-blue-500 hover:underline">
-                {otherLawyer.name}
+              {otherLawyer.name}
                 </Link>
                 {hoveredLawyer && hoveredLawyer.id === otherLawyer.id && (
-                  <div className="mt-1 bg-white shadow rounded-lg p-2">
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                    className="mt-1 bg-white shadow rounded-lg p-2"
+                  >
                     <p className="text-sm text-gray-600">{otherLawyer.des}</p>
-                  </div>
+                  </motion.div>
                 )}
               </li>
             ))}
           </ul>
         </div>
-        <div className="md:w-3/4">
+        <motion.div
+          initial={{ x: 20, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ delay: 0.4, duration: 0.6 }}
+          className="md:w-3/4"
+        >
           <div className="mb-4 flex justify-between items-center">
             <Link
               href="/client/lawyers"
@@ -54,12 +76,22 @@ const LawyerDetail: React.FC<{ lawyer: LawyerProps; lawyers: LawyerProps[] }> = 
           </div>
 
           <div className="max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden grid grid-cols-1 gap-4">
-            <div className="relative">
-              <img src={lawyer.imageUrl} alt={lawyer.name} className="w-full object-cover rounded-t-lg" />
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6, duration: 0.6 }}
+              className="relative"
+            >
+              <motion.img
+                src={lawyer.imageUrl}
+                alt={lawyer.name}
+                className="w-full object-cover rounded-t-lg"
+                whileHover={{ scale: 1.1 }}
+              />
               <div className="absolute bottom-0 left-0 p-6 bg-gray-800 bg-opacity-75 rounded-br-lg">
                 <h2 className="text-3xl font-semibold text-white">{lawyer.name}</h2>
               </div>
-            </div>
+            </motion.div>
             <div className="p-4 md:p-8">
               <h3 className="text-xl font-semibold text-gray-800 mb-4">Personal Information</h3>
               <p className="text-gray-600 mt-2">{lawyer.des}</p>
@@ -83,9 +115,9 @@ const LawyerDetail: React.FC<{ lawyer: LawyerProps; lawyers: LawyerProps[] }> = 
               </ul>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 };
 
