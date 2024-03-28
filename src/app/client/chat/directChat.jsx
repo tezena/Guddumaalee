@@ -24,7 +24,8 @@ import {
   ChatSocket,
   Socket,
 } from "@/components/dynamickImportsModule";
-import { PrettyChatWindow } from "react-chat-engine-pretty";
+import { PrettyChatWindow } from "../../../../react-chat-engine-pretty/src";
+// import { PrettyChatWindow } from "@/react-chat-engine";
 
 const Chat = () => {
   const context = useContext(Context);
@@ -52,7 +53,7 @@ const Chat = () => {
   if (!showChat) return <div />;
 
   return (
-    <div className="" style={{ height: "90vh",  backgroundColor:"blue"}}>
+    <div className="" style={{ height: "90vh", backgroundColor: "blue" }}>
       <PrettyChatWindow
         projectId="c079bdc9-9902-4ca4-b75c-a6b6d0b4f356"
         username={userName}
