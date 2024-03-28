@@ -9,6 +9,7 @@ export interface LawyerProps {
   des: string;
   imageUrl: string;
   rate: number;
+ 
 }
 const LawyersCard: React.FC<LawyerProps> = ({ id, name, imageUrl, des, rate }) => {
   return (

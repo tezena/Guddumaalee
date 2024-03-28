@@ -2,11 +2,14 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Button, buttonVariants } from "./ui/button";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import { MdOutlineLocalPostOffice } from "react-icons/md";
 import { IoPersonCircleSharp } from "react-icons/io5";
 import SearchInput from "./searchInput";
+import { Context } from "@/app/context/userContext";
+import {useRouter} from "next/navigation";
+import axios from "axios";
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
@@ -21,6 +24,35 @@ const Navbar = () => {
     { id: 3, text: "Profile" },
   ];
 
+  const context = useContext(Context);
+  const router=useRouter();
+  if (!context) {
+    return null;
+  }
+
+  const { userName, secret } = context;
+
+  const handleChat = async () => {
+    if (userName.length == 0 || secret.length == 0) {
+      router.push("/signIn");
+    }
+
+    await axios.put(
+      "https://api.chatengine.io/users/",
+      {
+        username: userName,
+        secret: secret,
+      },
+      { headers: { "PRIVATE-KEY": "a555c019-7fc0-483f-8750-7f545b753544" } }
+    ).then((res)=>{
+      console.log(res.data)
+
+      router.push("/client/chat")
+    }).catch((e)=>{
+      console.log(e.message)
+    });
+  };
+
   return (
     <div className="sticky top-0 bg-background/95 md:backdrop-blur md:text-black z-50 flex justify-between items-center h-24 min-w-screen mx-auto px-4 text-white border ">
       {/* Logo */}
@@ -34,7 +66,10 @@ const Navbar = () => {
 
       <ul className="hidden md:flex items-center ">
         <li className="py-4 px-2 rounded-xl m-1 cursor-pointer duration-300 hover:text-black hover:scale-110 ">
-          <MdOutlineLocalPostOffice className="w-16 h-12 text-gray-400 hover:text-[#7B3B99]" />
+          <MdOutlineLocalPostOffice
+            onClick={handleChat}
+            className="w-16 h-12 text-gray-400 hover:text-[#7B3B99]"
+          />
         </li>
         <li className="py-4 px-2 rounded-xl m-1 cursor-pointer duration-300 hover:text-black hover:scale-110  ">
           <h3 className="text-2xl group-hover:font-bolder hover:text-[#7B3B99]">
