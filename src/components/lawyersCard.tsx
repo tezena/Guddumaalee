@@ -1,17 +1,20 @@
 "use client";
+import Link from "next/link";
 import React from "react";
 import ReactStars from "react-rating-stars-component";
 
-interface Props {
+export interface LawyerProps {
   id: string;
   name: string;
   des: string;
   imageUrl: string;
   rate: number;
+ 
 }
-const LawyersCard: React.FC<Props> = ({ id, name, imageUrl, des, rate }) => {
+const LawyersCard: React.FC<LawyerProps> = ({ id, name, imageUrl, des, rate }) => {
   return (
-    <div className="text-start mx-auto md:mx-2 my-2 bg-white rounded-lg shadow-lg overflow-hidden  w-[60%] sm:w-[40%]  lg:w-[23%] transform transition duration-500 hover:scale-105">
+   <Link className="text-start mx-auto md:mx-2 my-2 bg-white rounded-lg shadow-lg overflow-hidden  w-[60%] sm:w-[40%]  lg:w-[23%] transform transition duration-500 hover:scale-105" href={`/client/lawyers/${id}`}>
+     <div className="w-full">
       <img
         src="https://img.freepik.com/free-photo/portrait-expressive-young-man-wearing-formal-suit_273609-6942.jpg?size=626&ext=jpg&ga=GA1.1.735520172.1710288000&semt=ais"
         alt="Mountain"
@@ -32,7 +35,8 @@ const LawyersCard: React.FC<Props> = ({ id, name, imageUrl, des, rate }) => {
         </div>
       </div>
     </div>
+   </Link>
   );
-};
+}; 
 
 export default LawyersCard;

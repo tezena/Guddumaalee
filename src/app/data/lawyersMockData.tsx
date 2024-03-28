@@ -1,7 +1,16 @@
 const data = [
   {
-    id: "1234",
-    name: "Mezgebu Dubale",
+    id: "1",
+    name: "Mezgebu Dubale1",
+    imageUrl:
+      "https://img.freepik.com/free-photo/portrait-expressive-young-man-wearing-formal-suit_273609-6942.jpg?size=626&ext=jpg&ga=GA1.1.735520172.1710288000&semt=ais",
+    des: "  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eu sapien porttitor, blandit velit acvehicula elit. Nunc et ex at turpis rutrum viverra.",
+    rate: 5,
+    type:"family"
+  }, 
+  {
+    id: "2",
+    name: "Mezgebu Dubale2",
     imageUrl:
       "https://img.freepik.com/free-photo/portrait-expressive-young-man-wearing-formal-suit_273609-6942.jpg?size=626&ext=jpg&ga=GA1.1.735520172.1710288000&semt=ais",
     des: "  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eu sapien porttitor, blandit velit acvehicula elit. Nunc et ex at turpis rutrum viverra.",
@@ -9,17 +18,8 @@ const data = [
     type:"family"
   },
   {
-    id: "1234",
-    name: "Mezgebu Dubale",
-    imageUrl:
-      "https://img.freepik.com/free-photo/portrait-expressive-young-man-wearing-formal-suit_273609-6942.jpg?size=626&ext=jpg&ga=GA1.1.735520172.1710288000&semt=ais",
-    des: "  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eu sapien porttitor, blandit velit acvehicula elit. Nunc et ex at turpis rutrum viverra.",
-    rate: 5,
-    type:"family"
-  },
-  {
-    id: "1234",
-    name: "Mezgebu Dubale",
+    id: "3",
+    name: "Mezgebu Dubale3",
     imageUrl:
       "https://img.freepik.com/free-photo/portrait-expressive-young-man-wearing-formal-suit_273609-6942.jpg?size=626&ext=jpg&ga=GA1.1.735520172.1710288000&semt=ais",
     des: "  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eu sapien porttitor, blandit velit acvehicula elit. Nunc et ex at turpis rutrum viverra.",
@@ -27,8 +27,8 @@ const data = [
     type:"business"
   },
   {
-    id: "1234",
-    name: "Mezgebu Dubale",
+    id: "4",
+    name: "Mezgebu Dubale4",
     imageUrl:
       "https://img.freepik.com/free-photo/portrait-expressive-young-man-wearing-formal-suit_273609-6942.jpg?size=626&ext=jpg&ga=GA1.1.735520172.1710288000&semt=ais",
     des: "  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eu sapien porttitor, blandit velit acvehicula elit. Nunc et ex at turpis rutrum viverra.",
@@ -36,8 +36,8 @@ const data = [
     type:"criminal"
   },
   {
-    id: "1234",
-    name: "Mezgebu Dubale",
+    id: "5",
+    name: "Mezgebu Dubale5",
     imageUrl:
       "https://img.freepik.com/free-photo/portrait-expressive-young-man-wearing-formal-suit_273609-6942.jpg?size=626&ext=jpg&ga=GA1.1.735520172.1710288000&semt=ais",
     des: "  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eu sapien porttitor, blandit velit acvehicula elit. Nunc et ex at turpis rutrum viverra.",
@@ -45,8 +45,8 @@ const data = [
     type:"adoption"
   },
   {
-    id: "1234",
-    name: "Mezgebu Dubale",
+    id: "6",
+    name: "Mezgebu Dubale6",
     imageUrl:
       "https://img.freepik.com/free-photo/portrait-expressive-young-man-wearing-formal-suit_273609-6942.jpg?size=626&ext=jpg&ga=GA1.1.735520172.1710288000&semt=ais",
     des: "  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eu sapien porttitor, blandit velit acvehicula elit. Nunc et ex at turpis rutrum viverra.",
@@ -54,8 +54,8 @@ const data = [
     type:"adoption"
   },
   {
-    id: "1234",
-    name: "Mezgebu Dubale",
+    id: "7",
+    name: "Mezgebu Dubale7",
     imageUrl:
       "https://img.freepik.com/free-photo/portrait-expressive-young-man-wearing-formal-suit_273609-6942.jpg?size=626&ext=jpg&ga=GA1.1.735520172.1710288000&semt=ais",
     des: "  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eu sapien porttitor, blandit velit acvehicula elit. Nunc et ex at turpis rutrum viverra.",
@@ -63,8 +63,8 @@ const data = [
     type:"personal"
   },
   {
-    id: "1234",
-    name: "Mezgebu Dubale",
+    id: "8",
+    name: "Mezgebu Dubale8",
     imageUrl:
       "https://img.freepik.com/free-photo/portrait-expressive-young-man-wearing-formal-suit_273609-6942.jpg?size=626&ext=jpg&ga=GA1.1.735520172.1710288000&semt=ais",
     des: "  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eu sapien porttitor, blandit velit acvehicula elit. Nunc et ex at turpis rutrum viverra.",
@@ -74,3 +74,8 @@ const data = [
 ];
 
 export { data };
+
+
+
+
+export type Lawyer  =  typeof data

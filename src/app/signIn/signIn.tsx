@@ -102,7 +102,8 @@ const SignInForm = () => {
                 )}
               />
             </div>
-            <Button className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 rounded-md text-white text-sm" type="submit">
+            <Link href={'/forgotpassword'} >Forgot Password?</Link>
+            <Button /*className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 rounded-md text-white text-sm"*/ className="w-full bg-[#7B3B99] hover:bg-purple-700" type="submit"> 
               Sign in
             </Button>
           </form>
