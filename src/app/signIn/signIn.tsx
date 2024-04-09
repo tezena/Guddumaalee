@@ -69,8 +69,8 @@ const SignInForm = () => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-50">
       <Card className="w-full sm:w-[70%] md:w-[50] lg:w-[40%] sm:p-8 p-4">
-        <Form {...form} className="space-y-4">
-          <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
+        <Form {...form} >
+          <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-4">
             <div className="max-w-md w-full mx-auto">
               <div className="text-3xl font-bold text-gray-900 mt-2 text-center">Log Into Gudumaalee</div>
             </div>

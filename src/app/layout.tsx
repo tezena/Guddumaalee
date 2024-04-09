@@ -33,7 +33,9 @@ export default function RootLayout({
               disableTransitionOnChange
             >
               <Toaster />
+              <ContextProvider>
               {children}
+              </ContextProvider>
             </ThemeProvider>
           </AuthSessionProvider>
         </ReactQueryProvider>
