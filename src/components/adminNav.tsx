@@ -1,6 +1,10 @@
 "use client";
 
+import { useEffect } from "react";
+
 export function AdminNavbar() {
+
+  useEffect(()=>{},[])
   return (
     <>
       {/* <div className="w-[96vw] lg:w-[70vw] h-20  fixed z-50 mt-4 ml-64 rounded-lg bg-gostwhite shadow-sm border-2 border-gray-200"> */}
@@ -61,6 +65,7 @@ export function AdminNavbar() {
 
 
           <div className="flex gap-4  items-center ">
+           
             <img
               className="w-20 rounded-full"
               src="https://img.freepik.com/free-photo/portrait-expressive-young-man-wearing-formal-suit_273609-6942.jpg?size=626&ext=jpg&ga=GA1.1.735520172.1710288000&semt=ais"
