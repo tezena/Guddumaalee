@@ -28,7 +28,7 @@ export function chart() {
         options: {
             plugins: {
             legend:{
-                position:"left"
+                position:"bottom"
             }
         }
           }
@@ -37,8 +37,9 @@ export function chart() {
   }, []);
 
   return (
+    // className="w-full px-4" 
     <>
-      <div className="w-full px-4" >
+      <div >
         <canvas id="chart2"></canvas>
       </div>
     </>

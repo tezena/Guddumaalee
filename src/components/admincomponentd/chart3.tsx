@@ -28,7 +28,7 @@ export function chart() {
         options: {
             plugins: {
             legend:{
-                position:"right"
+                position:"top"
             }
         }
           }
