@@ -1,12 +1,16 @@
 import { db } from "@/lib/db";
 import bcrypt from "bcrypt";
 import { NextRequest, NextResponse } from "next/server";
+
+
 export async function POST(req: Request, res: Response) {
   try {
     const userInput = await req.json();
     if (!userInput.email || !userInput.password) {
       throw new Error("Please provide all the necessary information.");
     }
+    console.log(userInput);
+    
     const hashedPassword = await bcrypt.hash(userInput.password, 10);
     const newUser = await db.user.create({
       //@ts-ignore
@@ -32,7 +36,17 @@ export async function POST(req: Request, res: Response) {
   }
 }
 
+
+// export async function GET(req: Request, res: Response) {
+//   const users = await db.user.findMany()
+//   if(users){
+//     return NextResponse.json(users);
+//   } return NextResponse.json({ "message":"users not found " }, { status: 500 });
+// }
+
 export async function GET(req: Request, res: Response) {
+  console.log("this is from jo get");
+  
   const userInput = await req.json();
 
   try {
