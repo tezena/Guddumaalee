@@ -1,11 +1,12 @@
 
 import React from "react";
+import LandingPage from "../landingPage/page";
 
 export function Client(){
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-between p-24 mx-auto">
-      <h1 className="text-4xl">Landing page.</h1>
+    <div className="relative min-h-screen   w-full">
+      <LandingPage/>
     </div>
   )
   
