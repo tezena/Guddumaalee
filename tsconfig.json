@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/client/chat/directChat.jsx", "src/app/client/chat/page.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/client/chat/directChat.jsx", "src/app/client/chat/page.jsx", "src/app/api/chapa/route.ts"],
   "exclude": ["node_modules"]
 }

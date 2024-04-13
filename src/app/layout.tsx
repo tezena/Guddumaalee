@@ -21,10 +21,12 @@ export default function RootLayout({
   children: React.ReactNode;
   session: any;
 }>) {
+
+
   return (
     <html lang="en">
       <body className={` ${inter.className}`}>
-        <ReactQueryProvider>
+        <ReactQueryProvider >
           <AuthSessionProvider session={session}>
             <ThemeProvider
               attribute="class"
@@ -40,11 +42,6 @@ export default function RootLayout({
           </AuthSessionProvider>
         </ReactQueryProvider>
       </body>
-      <body className={` ${inter.className}`}>
-        <ContextProvider>
-        {children}
-        </ContextProvider>
-        </body>
     </html>
   );
 }
