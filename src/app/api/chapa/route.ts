@@ -5,7 +5,7 @@ import { json } from 'stream/consumers';
  
 
 
-const CHAPA_AUTH_KEY="CHASECK_TEST-7l9kRRN26RO31Kdt8klmRM7Yzfet2EZ3"
+const CHAPA_AUTH_KEY=process.env.NEXT_PUBLIC_CHAPA_AUTH_KEY
 
 
 export  async function POST(
@@ -29,11 +29,11 @@ export  async function POST(
       tx_ref,
     } = paymentInput;
 
-     console.log(`amount: ${amount}`)
+     
    
     const header = {
       headers: {
-        "Authorization": "Bearer CHASECK_TEST-7l9kRRN26RO31Kdt8klmRM7Yzfet2EZ3",
+        "Authorization": `Bearer ${CHAPA_AUTH_KEY}`,
         "Content-Type": "application/json",
       },
     };
