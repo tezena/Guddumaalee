@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export function AdminNavbar() {
+
+  const [showDropdoun,setShowDropdoun] =useState(true)
 
   useEffect(()=>{},[])
   return (
@@ -65,6 +67,20 @@ export function AdminNavbar() {
 
 
           <div className="flex gap-4  items-center ">
+          {/* {
+              showDropdoun ? ( <div
+                className="absolute right-0 top-4 mt-2 w- bg-white border border-gray-200 rounded shadow-md"
+              >
+                <p className="block w-full px-4 py-2 text-left hover:bg-gray-100 cursor-pointer">
+                  Logout
+                </p>
+                
+                  <p className="block w-full px-4 py-2 text-left hover:bg-gray-100 cursor-pointer">
+                    Profile
+                  </p>
+               
+              </div>) : ''
+            } */}
            
             <img
               className="w-20 rounded-full"
