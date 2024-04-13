@@ -77,6 +77,7 @@ const Payment = () => {
     mutationFn: (value: any) => {
         const tx_ref:string = `${value.first_name}-${Date.now()}`;
         const paymentInfo={...value,tx_ref:tx_ref}
+        console.log(paymentInfo)
         return axios.post("/api/chapa", paymentInfo);
     },
   });
@@ -92,8 +93,11 @@ const Payment = () => {
       ,
       {
         onSuccess: async (res) => {
-
-            window.location.href = res.data.data.checkout_url;
+          
+          if(res.data.data !== null){
+         
+           window.location.href = res.data.data.data.checkout_url;
+          }
          
         },
         onError: async (e) => {
