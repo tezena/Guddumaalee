@@ -8,7 +8,6 @@ import {
 } from "@videosdk.live/react-sdk";
 import Controls from "./controls";
 import ReactPlayer from "react-player";
-import "../globals.css";
 import { Button } from "@/components/ui/button";
 import {
   Card,

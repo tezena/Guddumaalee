@@ -44,7 +44,7 @@ const Page=()=> {
   };
 
   return authToken && meetingId ? (
-    <div className="h-screen flex items-center justify-center px-2">
+    <div className="h-auto flex items-center justify-center px-2">
     <h1> Meeting Room</h1>
    
     <MeetingProvider
@@ -61,7 +61,7 @@ const Page=()=> {
     </MeetingProvider>
     </div>
   ) : (
-    <div className="h-screen flex items-center justify-center px-2">
+    <div className=" flex items-center justify-center px-2 h-screen">
        
     <JoinScreen getMeetingAndToken={getMeetingAndToken}  />
     </div>

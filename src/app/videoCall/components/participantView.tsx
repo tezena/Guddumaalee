@@ -7,7 +7,6 @@ import {
   useParticipant,
 } from "@videosdk.live/react-sdk";
 import ReactPlayer from "react-player";
-import "../globals.css";
 import { Button } from "@/components/ui/button";
 import {
   Card,
