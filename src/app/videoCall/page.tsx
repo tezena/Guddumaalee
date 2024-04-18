@@ -27,7 +27,7 @@ import MeetingView from "./components/meetingView";
 
 
 
-const Page=()=> {
+const VideoCall=()=> {
   const [meetingId, setMeetingId] = useState < string>()
 
   //Getting the meeting id by calling the api we just wrote
@@ -61,7 +61,7 @@ const Page=()=> {
     </MeetingProvider>
     </div>
   ) : (
-    <div className=" flex items-center justify-center px-2 h-screen">
+    <div className="  px-2 h-full w-full min-h-screen flex justify-center ">
        
     <JoinScreen getMeetingAndToken={getMeetingAndToken}  />
     </div>
@@ -69,6 +69,6 @@ const Page=()=> {
   )
 }
 
-export default Page;
+export default VideoCall;
 
 

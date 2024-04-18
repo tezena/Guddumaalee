@@ -25,9 +25,9 @@ export default function JoinScreen({
     };
     return (
      
-        <Card className=" flex flex-row items-center  p-4 my-4 w-1/2 h-1/2 ">
-        <div className="w-1/2 px-2 flex flex-col gap-y-5 ">
-        <h1 className="text-3xl font-bold text-black ">Meeting</h1>
+        <Card className=" flex md:flex-row flex-col md:items-center    p-4 my-4 w-1/2 h-1/2 min-h-96 mt-24  shadow-lg">
+        <div className="md:w-1/2 w-full px-2 flex flex-col gap-y-5 md:pl-4 mx-auto">
+        <h1 className="text-4xl font-bold text-black ">Meeting</h1>
       <h5 className="text-lg font-semibold text-black/75">you can create or start meeting</h5>
       <Input type="text" placeholder="Enter meeting id to join" onChange={(e) => {
             setMeetingId(e.target.value);
@@ -36,9 +36,9 @@ export default function JoinScreen({
            />
         </div>
        
-        <div className="w-1/2 px-2 flex flex-col gap-y-10 items-center"> 
-        <Button onClick={()=>onClick()} className="w-3/4 ">Join</Button>
-        <Button onClick={()=>onClick()} className="w-3/4">Create Meeting</Button>
+        <div className="md:w-1/2 w-full px-2 flex flex-col md:gap-y-10 gap-y-5 items-center my-auto"> 
+        <Button onClick={()=>onClick()} className="md:w-3/4 w-full shadow-xl bg-[#7B3B99] ">Join</Button>
+        <Button onClick={()=>onClick()} className="md:w-3/4 w-full  shadow-xl bg-[#7B3B99]">Create Meeting</Button>
     </div>
   </Card>
         
