@@ -45,8 +45,6 @@ const VideoCall=()=> {
 
   return authToken && meetingId ? (
     <div className="h-auto flex items-center justify-center px-2">
-    <h1> Meeting Room</h1>
-   
     <MeetingProvider
       config={{
         meetingId,

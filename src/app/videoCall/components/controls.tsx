@@ -16,12 +16,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-
+import {Camera,CameraOff,VideoOff,Video,Mic,MicOff} from "lucide-react"
+ 
 
 export default function Controls() {
     const { leave, toggleMic, toggleWebcam } = useMeeting();
     return (
-      <div>
+      <div className="flex flex-row min-w-96 rounded-lg py-2 px-4 mx-auto ">
         <button onClick={() => leave()}>Leave</button>
         <button onClick={() => toggleMic()}>toggleMic</button>
         <button onClick={() => toggleWebcam()}>toggleWebcam</button>
