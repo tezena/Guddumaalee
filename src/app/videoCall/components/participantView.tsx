@@ -69,8 +69,8 @@ export default function ParticipantView({ participantId }: { participantId: stri
             //
             url={videoStream}
             //
-            height={"200px"}
-            width={"300px"}
+            height={"80%"}
+            width={"50%"}
             onError={(err) => {
               console.log(err, "participant video error");
             }}

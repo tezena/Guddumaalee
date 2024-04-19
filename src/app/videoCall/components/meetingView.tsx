@@ -41,16 +41,19 @@ export default function MeetingView({
   return (
     <div className="container w-full">
       {joined && joined == "JOINED" ? (
-        <div className="relative ">
-      
-          //For rendering all the participants in the meeting
-          {[...participants.keys()].map((participantId) => (
+        <div className=" w-full relative  ">
+               <div className="flex flex-row w-full ">
+               {[...participants.keys()].map((participantId) => (
             <ParticipantView
               participantId={participantId}
               key={participantId}
             />
           ))}
+               </div>
+              <div className="absolute bottom-10"> 
               <Controls />
+
+                </div>
         </div>
       ) : (
         <Card className="flex flex-row    my-4 w-1/2 h-1/2 min-h-96 mt-24 shadow-xl mx-auto lg:w-3/4 ">
