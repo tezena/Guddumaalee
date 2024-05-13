@@ -16,7 +16,7 @@ export function Admin() {
   // const [count, setCount] = useState(0);
   return (
     <div className="min-w-max min-h-screen pt-24 pl-20 lg:pl-72 bg-[#f2f6fa]        ">
-      <div className="w-full h-fit p-4">
+      <div className="w-full h-fit text-black p-4">
         <h1 className="font-bold text-3xl ">Dashboard</h1>
       </div>
 
@@ -26,7 +26,7 @@ export function Admin() {
         </div>
 
         <div className="flex flex-col gap-4 w-1/2 px-10">
-          <div className="bg-white w-1/2 h-20 flex gap-4 items-center px-10 m-auto">
+          <div className="bg-white w-1/2 h-20 text-black flex gap-4 items-center px-10 m-auto">
             <svg
               className="w-8 h-8 text-red-400 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
               aria-hidden="true"
@@ -40,7 +40,7 @@ export function Admin() {
             <p>530</p>
           </div>
 
-          <div className="bg-white w-1/2 h-20 flex gap-4 items-center px-10 m-auto">
+          <div className="bg-white w-1/2 h-20 flex gap-4 text-black items-center px-10 m-auto">
             <svg
               className="w-8 h-8 text-blue-300 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
               aria-hidden="true"
@@ -54,7 +54,7 @@ export function Admin() {
             <p>530</p>
           </div>
 
-          <div className="bg-white w-1/2 h-20 flex gap-4 items-center px-10 m-auto">
+          <div className="bg-white w-1/2 h-20 flex text-black gap-4 items-center px-10 m-auto">
             <svg
               className="w-8 h-8 text-green-400 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
               aria-hidden="true"

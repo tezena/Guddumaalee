@@ -9,7 +9,7 @@ export function AdminNavbar() {
   return (
     <>
       {/* <div className="w-[96vw] lg:w-[70vw] h-20  fixed z-50 mt-4 ml-64 rounded-lg bg-gostwhite shadow-sm border-2 border-gray-200"> */}
-      <nav className="fixed top-4 left-10 lg:left-72 right-10 lg:mx-auto rounded-xl shadow-lg z-40 p-2 w-[95vw] lg:w-[80vw] h-fit bg-white border-gray-200 dark:bg-gray-900">
+      <nav className="fixed top-4 left-10 lg:left-72 right-10 lg:mx-auto rounded-xl shadow-lg z-40 p-2 w-[95vw] lg:w-[80vw] h-fit bg-white border-gray-200">
         <div className="min-w-screen flex gap-2 items-center justify-between mx-auto">
           <div className="flex gap-4 items-center h-fit">
             <svg
@@ -64,7 +64,7 @@ export function AdminNavbar() {
               src="https://img.freepik.com/free-photo/portrait-expressive-young-man-wearing-formal-suit_273609-6942.jpg?size=626&ext=jpg&ga=GA1.1.735520172.1710288000&semt=ais"
               alt="lawyer image"
             />
-            <div className="flex flex-col gap-1 ">
+            <div className="flex flex-col gap-1 text-black ">
               <p>Ugullu Banga</p>
               <p>uglu21@gmail.com</p>
             </div>

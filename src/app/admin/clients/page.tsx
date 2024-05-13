@@ -83,15 +83,15 @@ export function Clients() {
   return (
     <div className="w-full font-sans min-h-screen pt-24 pl-72 bg-[#f2f6fa]">
       <div className="w-full p-4">
-        <h1 className="font-bold text-3xl">Clients</h1>
+        <h1 className="font-bold text-3xl  text-black">Clients</h1>
       </div>
       <div className="w-full flex gap-20">
-        <div className="w-3/4 lg:w-1/4 h-20 flex gap-3 shadow-md rounded-lg p-4 bg-white items-center justify-center">
+        <div className="w-3/4 lg:w-1/4 h-20 flex gap-3 shadow-md rounded-lg p-4 bg-white text-black items-center justify-center">
         <Icon icon="icon-park-solid:peoples"  width={30} height={30} color='#634670'/>
           <p>320</p>
           <p>Active Clients</p>
         </div>
-        <div className="w-3/4 lg:w-1/4 h-20 flex gap-3 shadow-md rounded-lg p-4 bg-white items-center justify-center">
+        <div className="w-3/4 lg:w-1/4 h-20 flex gap-3 shadow-md rounded-lg p-4 bg-white text-black items-center justify-center">
         <Icon icon="icon-park-solid:peoples" width={30} height={30} color='#be75e0'/>
           <p>320</p>
           <p>Not Active Clients</p>
@@ -110,14 +110,14 @@ export function Clients() {
           <tbody>
             {paginatedClients.map((client, index) => (
               <tr className={index % 2 === 0 ?'relative bg-[#F4F4F4]': 'relative bg-white'  } key={index} >
-                <td className="py-3 px-6">{client.name}</td>
-                <td className="py-3 px-6">{client.phone}</td>
-                <td className="py-3 px-6">{client.email}</td>
+                <td className="py-3 px-6 text-black">{client.name}</td>
+                <td className="py-3 px-6 text-black">{client.phone}</td>
+                <td className="py-3 px-6 text-black">{client.email}</td>
               </tr>
             ))}
           </tbody>
         </table>
-        <div className="flex justify-between w-full bg-white p-3">
+        <div className="flex justify-between w-full text-black bg-white p-3">
           <div className="flex items-center gap-4">
             <p>Showing Page</p>
             <div className="px-2 h-fit text-[#7B3B99] border-2">
@@ -125,13 +125,13 @@ export function Clients() {
             </div>
             <p>Out of { totalPages }</p>
           </div>
-          <div className="flex items-center gap-2">
-            <div onClick={prevPage} className='cursor-pointer'>
+          <div className="flex items-center gap-2 text-black">
+            <div onClick={prevPage} className='cursor-pointer text-black'>
               <Icon icon="ep:arrow-left-bold" />
             </div>
             {
               pages.map((page, index) => (
-                <div key={index} className={currentPage === page ?'px-1 bg-[#7B3B99]  border-2 rounded-lg text-white':'px-1' }>
+                <div key={index} className={currentPage === page ?'px-1 bg-[#7B3B99]  border-2 rounded-lg text-white':'px-1 text-black' }>
                   { page }
                 </div>
               ))
