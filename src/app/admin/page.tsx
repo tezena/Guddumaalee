@@ -10,7 +10,6 @@ import { useState } from "react";
 
 export function Admin() {
   useEffect(() => {}, []);
-  console.log("two.......");
 
   const data =[200,300,400]
 
