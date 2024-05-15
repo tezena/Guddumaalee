@@ -1,9 +1,18 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export function AdminNavbar() {
-  // const [showDropdoun,setShowDropdoun] =useState(true)
+  const [showDropdoun, setShowDropdoun] = useState(false);
+  const [showProfileDrop, setShowProfileDrop] = useState(false);
+
+  const toggleDropDown = () => {
+    setShowDropdoun((prev) => !prev);
+  };
+  const toggleProfDropDown = () => {
+    setShowProfileDrop((prev) => !prev);
+  };
 
   useEffect(() => {}, []);
   return (
@@ -58,7 +67,55 @@ export function AdminNavbar() {
             </div>
           </div>
 
-          <div className="flex gap-4  items-center ">
+          <div className="flex gap-4  items-center cursor-pointer ">
+            <div className="mr-4 relative" onClick={toggleDropDown}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="1.8em"
+                height="1.8em"
+                viewBox="0 0 24 24"
+              >
+                <g fill="none" stroke="black" stroke-width="2">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6 19v-9a6 6 0 0 1 6-6v0a6 6 0 0 1 6 6v9M6 19h12M6 19H4m14 0h2m-9 3h2"
+                  />
+                  <circle cx="12" cy="3" r="1" />
+                </g>
+              </svg>
+
+              {showDropdoun ? (
+                <div className="absolute top-6 right-0 mt-2 w-32 bg-white rounded-lg shadow-md transform translate-x-3/4 z-10">
+                  <div className="flex flex-col gap-2 px-4 py-2 text-black">
+                    <Link
+                      href="/admin/FAQ"
+                      className="block py-1 text-gray-700 hover:text-blue-600 hover:bg-gray-100 rounded-md"
+                    >
+                      FAQ
+                    </Link>
+                    <hr className="border-gray-200" />
+                    <Link
+                      href="/admin/manage"
+                      className="block py-1 text-gray-700 hover:text-blue-600 hover:bg-gray-100 rounded-md"
+                    >
+                      LAWYER
+                    </Link>
+                    <hr className="border-gray-200" />
+                    <Link
+                      href="/admin/dispute"
+                      className="block py-1 text-gray-700 hover:text-blue-600 hover:bg-gray-100 rounded-md"
+                    >
+                      DISPUTE
+                    </Link>
+                    <hr className="border-gray-200" />
+                  </div>
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+
             <img
               className="w-20 rounded-full"
               src="https://img.freepik.com/free-photo/portrait-expressive-young-man-wearing-formal-suit_273609-6942.jpg?size=626&ext=jpg&ga=GA1.1.735520172.1710288000&semt=ais"
@@ -68,22 +125,47 @@ export function AdminNavbar() {
               <p>Ugullu Banga</p>
               <p>uglu21@gmail.com</p>
             </div>
-            <svg
-              width="18"
-              height="9"
-              viewBox="0 0 18 9"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M16.9201 0.950195L10.4001 7.4702C9.63008 8.2402 8.37008 8.2402 7.60008 7.4702L1.08008 0.950195"
-                stroke="#171625"
-                strokeWidth="1.5"
-                strokeMiterlimit="10"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <div className="relative" onClick={toggleProfDropDown}>
+              <svg
+                width="18"
+                height="9"
+                viewBox="0 0 18 9"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M16.9201 0.950195L10.4001 7.4702C9.63008 8.2402 8.37008 8.2402 7.60008 7.4702L1.08008 0.950195"
+                  stroke="#171625"
+                  strokeWidth="1.5"
+                  strokeMiterlimit="10"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+
+              {showProfileDrop ? (
+                <div className="absolute top-6 right-16 mt-2 w-28 bg-white rounded-lg shadow-md transform translate-x-3/4 z-10">
+                  <div className="flex flex-col gap-2 px-4 py-2 text-black">
+                    <Link
+                      href="/admin/profile"
+                      className="block py-1 text-gray-700 hover:text-blue-600 hover:bg-gray-100 rounded-md"
+                    >
+                      PROFILE
+                    </Link>
+                    <hr className="border-gray-200" />
+                    <Link
+                      href="/admin/manage"
+                      className="block py-1 text-gray-700 hover:text-blue-600 hover:bg-gray-100 rounded-md"
+                    >
+                      SIGNOUT
+                    </Link>
+                    <hr className="border-gray-200" />
+                  </div>
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
           </div>
         </div>
       </nav>
@@ -93,19 +175,3 @@ export function AdminNavbar() {
 }
 
 export default AdminNavbar;
-{
-  /* {
-              showDropdoun ? ( <div
-                className="absolute right-0 top-4 mt-2 w- bg-white border border-gray-200 rounded shadow-md"
-              >
-                <p className="block w-full px-4 py-2 text-left hover:bg-gray-100 cursor-pointer">
-                  Logout
-                </p>
-                
-                  <p className="block w-full px-4 py-2 text-left hover:bg-gray-100 cursor-pointer">
-                    Profile
-                  </p>
-               
-              </div>) : ''
-            } */
-}
