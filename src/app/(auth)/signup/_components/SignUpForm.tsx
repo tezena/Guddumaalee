@@ -65,9 +65,15 @@ const SignUpForm = () => {
       type: "",
     },
   });
-  const createUser = useMutation({
+  const createLawyer = useMutation({
     mutationFn: (user: any) => {
-      return axios.post("/api/user", user);
+      return axios.post("/api/lawyers", user);
+    },
+  });
+
+  const createClient = useMutation({
+    mutationFn: (user: any) => {
+      return axios.post("/api/clients", user);
     },
   });
 
@@ -78,43 +84,82 @@ const SignUpForm = () => {
       });
       return;
     }
-    console.log(id, qualification, cv, resume);
+    // console.log(id, qualification, cv, resume);
     // console.log(values);
 
-    // setRegisteringUser(true);
+    setRegisteringUser(true);
 
-    // createUser.mutate(
-    //   {
-    //     email: values.email,
-    //     password: values.password,
-    //     type: values.type,
-    //   },
-    //   {
-    //     onSuccess: async () => {
-    //       const res = await signIn("credentials", {
-    //         redirect: false,
-    //         email: values.email,
-    //         password: values.password,
-    //       });
-    //       console.log(res);
-    //       if (!res?.ok) {
-    //         {
-    //           throw new Error("");
-    //         }
-    //       }
-    //       router.push("/");
-    //       router.refresh();
-    //       setRegisteringUser(false);
-    //     },
-    //     onError: async (e) => {
-    //       toast({
-    //         title: "Couldn't create account",
-    //         description: e.message,
-    //       });
-    //       setRegisteringUser(false);
-    //     },
-    //   }
-    // );
+    if (values.type == "CLIENT") {
+      createClient.mutate(
+        {
+          email: values.email,
+          password: values.password,
+        },
+        {
+          onSuccess: async () => {
+            const res = await signIn("credentials", {
+              redirect: false,
+              email: values.email,
+              password: values.password,
+            });
+            console.log(res);
+            if (!res?.ok) {
+              {
+                console.log(res?.error);
+                throw new Error("Error signing you in.");
+              }
+            }
+            router.push("/");
+            router.refresh();
+            setRegisteringUser(false);
+          },
+          onError: async (e) => {
+            toast({
+              title: "Couldn't create account",
+              description: e.message,
+            });
+            setRegisteringUser(false);
+          },
+        }
+      );
+    }
+    if (values.type == "LAWYER") {
+      createLawyer.mutate(
+        {
+          email: values.email,
+          password: values.password,
+          id,
+          qualification,
+          cv,
+          resume,
+        },
+        {
+          onSuccess: async () => {
+            const res = await signIn("credentials", {
+              redirect: false,
+              email: values.email,
+              password: values.password,
+            });
+            console.log(res);
+            if (!res?.ok) {
+              {
+                throw new Error("");
+              }
+            }
+            router.push("/");
+            router.refresh();
+            setRegisteringUser(false);
+          },
+          onError: async (e) => {
+            toast({
+              title: "Couldn't create account",
+              description: e.message,
+            });
+            setRegisteringUser(false);
+          },
+        }
+      );
+    }
   }
   return (
     <div className="lg:h-screen flex items-center lg:mt-0 mt-16 justify-center px-2">
