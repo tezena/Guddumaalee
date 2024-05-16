@@ -2,32 +2,33 @@ import { db } from "@/lib/db";
 import bcrypt from "bcrypt";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(
+export async function POST(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   if (!params.id) {
     throw new Error("Provide the lawyer id");
   }
-  const user = await db.lawyer.findUnique({
-    where: {
-      id: parseInt(params.id),
-    },
-    select: {
-      created_at: true,
-      cv: true,
-      email: true,
-      id: true,
-      identification_card: true,
-      isVerified: true,
-      qualification: true,
-      resume: true,
-      updatedAt: true,
-    },
-  });
-  if (user != null) {
-    return NextResponse.json({ user }, { status: 200 });
-  } else return NextResponse.json({ message: "error on fetching user" });
+  try {
+    const user = await db.lawyer.update({
+      where: {
+        id: parseInt(params.id),
+      },
+      data: {
+        isVerified: true,
+      },
+    });
+    return NextResponse.json({ message: "Lawyer verified", lawyer: user.id });
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log(`${error.message}`);
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+    return NextResponse.json(
+      { error: "Couldn't verify lawyer" },
+      { status: 500 }
+    );
+  }
 }
 
 // export async function PUT(
