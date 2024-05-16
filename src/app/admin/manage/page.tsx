@@ -13,11 +13,11 @@ export function Manage() {
     { id: 8, name: "kidus", date: "1/12/2012" },
   ];
   return (
-    <div className="w-full font-sans min-h-screen pt-28 pl-72 bg-[#f2f6fa] text-black grid grid-cols-2 gap-2 overflow-auto">
+    <div className="w-full  font-sans min-h-screen pt-28 pl-6 lg:pl-72 bg-[#f2f6fa] text-black grid grid-cols-2 gap-2 overflow-auto">
       {lawyers.map((lawyer) => (
         <Link href={`/admin/manage/${lawyer.id}`}   key={lawyer.id}>
           <div
-            className="w-3/4 h-30 bg-white border-2 border-gray-300 rounded-lg flex items-center justify-between p-10 "
+            className=" w-[90%] lg:w-3/4 h-30 bg-white border-2 border-gray-300 rounded-lg flex items-center justify-between p-10 "
           
           >
             <div className="flex  gap-5 items-center">
