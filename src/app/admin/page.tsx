@@ -11,22 +11,22 @@ import { useState } from "react";
 export function Admin() {
   useEffect(() => {}, []);
 
-  const data =[200,300,400]
+  const data = [200, 300, 400];
 
   // const [count, setCount] = useState(0);
   return (
-    <div className="min-w-max min-h-screen pt-24 pl-20 lg:pl-72 bg-[#f2f6fa]        ">
+    <div className="min-w-max min-h-screen pt-24 pl-10 lg:pl-72 bg-[#f2f6fa]        ">
       <div className="w-full h-fit text-black p-4">
         <h1 className="font-bold text-3xl ">Dashboard</h1>
       </div>
 
-      <div className="w-full h-72 flex justify-between">
-        <div className="w-1/2 h-full border-2 px-10 p-2 bg-white" >
+      <div className="w-full h-[400px] lg:h-72 flex  flex-col lg:flex-row gap-4 justify-between">
+        <div className="w-3/4 lg:w-1/2 h-full border-2 border-gray-300 px-10 p-2 bg-white">
           <BarChart data={data} />
         </div>
 
-        <div className="flex flex-col gap-4 w-1/2 px-10">
-          <div className="bg-white w-1/2 h-20 text-black flex gap-4 items-center px-10 m-auto">
+        <div className="flex flex-col gap-4 w-full lg:w-1/2 lg:px-10">
+          <div className="bg-white  w-3/4  lg:w-1/2 h-20 text-black flex gap-4 items-center px-10 lg:m-auto">
             <svg
               className="w-8 h-8 text-red-400 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
               aria-hidden="true"
@@ -40,7 +40,7 @@ export function Admin() {
             <p>530</p>
           </div>
 
-          <div className="bg-white w-1/2 h-20 flex gap-4 text-black items-center px-10 m-auto">
+          <div className="bg-white w-3/4 lg:w-1/2 h-20 flex gap-4 text-black items-center px-10 lg:m-auto">
             <svg
               className="w-8 h-8 text-blue-300 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
               aria-hidden="true"
@@ -54,7 +54,7 @@ export function Admin() {
             <p>530</p>
           </div>
 
-          <div className="bg-white w-1/2 h-20 flex text-black gap-4 items-center px-10 m-auto">
+          <div className="bg-white  w-3/4 lg:w-1/2 h-20 flex text-black gap-4 items-center px-10 lg:m-auto">
             <svg
               className="w-8 h-8 text-green-400 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
               aria-hidden="true"
