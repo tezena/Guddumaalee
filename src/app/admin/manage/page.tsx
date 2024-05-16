@@ -17,7 +17,7 @@ export function Manage() {
       {lawyers.map((lawyer) => (
         <Link href={`/admin/manage/${lawyer.id}`}   key={lawyer.id}>
           <div
-            className=" w-[90%] lg:w-3/4 h-30 bg-white border-2 border-gray-300 rounded-lg flex items-center justify-between p-10 "
+            className=" w-[90%] lg:w-3/4 h-30 bg-white border-2 border-gray-300 rounded-lg flex items-center justify-between p-10 transform transition duration-500 hover:scale-105  "
           
           >
             <div className="flex  gap-5 items-center">

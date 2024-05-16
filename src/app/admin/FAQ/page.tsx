@@ -44,7 +44,7 @@ export function FAQ() {
     <div className="w-full font-sans min-h-screen pt-28 pl-10 lg:pl-72 bg-[#f2f6fa] text-black overflow-auto flex flex-col gap-4">
       {FAQS.map((FAQ) => (
         <div
-          className="w-full max-w-2xl lg:max-w-4xl p-8 bg-white border border-gray-300 rounded-xl shadow-md m-auto relative"
+          className="w-full max-w-2xl lg:max-w-4xl p-8 bg-white border border-gray-300 rounded-xl shadow-md m-auto relative transform transition duration-500 hover:scale-105 "
           key={FAQ.id}
         >
           <p className="absolute left-4 top-4 text-gray-500 font-semibold">
