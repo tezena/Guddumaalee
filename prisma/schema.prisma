@@ -19,19 +19,31 @@ enum user_type {
   ADMIN
 }
 
-model user {
+model client {
   id             Int       @id @default(autoincrement())
   email          String    @unique
   password       String
   created_at     DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
-  type           user_type
+}
+
+model lawyer {
+  id             Int       @id @default(autoincrement())
+  email          String    @unique
+  password       String
+  identification_card String
+  qualification String
+  cv String?
+  resume String?
+  isVerified Boolean @default(false)
+  created_at     DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
 }
 
 // firstName      String?
 //   lastName       String?
 //   phone          String
-//   experience     Int?      @map("experience_years") 
-//   workingArea    String?   @map("working_area") 
-//   specialization String?   @map("specialization") 
-//   languages      String[]  @map("working_languages") 
+//   experience     Int?      @map("experience_years")
+//   workingArea    String?   @map("working_area")
+//   specialization String?   @map("specialization")
+//   languages      String[]  @map("working_languages")

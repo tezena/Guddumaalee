@@ -50,7 +50,7 @@ export const authOptions: NextAuthOptions = {
         if (!credentials?.email || !credentials?.password) {
           throw new Error("Please enter an email and password");
         }
-        const user = await db.user.findUnique({
+        const client = await db.client.findUnique({
           where: {
             email: credentials?.email,
           },
@@ -58,9 +58,21 @@ export const authOptions: NextAuthOptions = {
             password: true,
             email: true,
             id: true,
-            type: true,
           },
         });
+        const lawyer = await db.lawyer.findUnique({
+          where: {
+            email: credentials?.email,
+          },
+          select: {
+            password: true,
+            email: true,
+            id: true,
+          },
+        });
+        const user = client
+          ? { ...client, type: "client" }
+          : { ...lawyer, type: "lawyer" };
 
         if (!user || !user.password) {
           throw new Error("No user found");
