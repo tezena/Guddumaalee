@@ -2,6 +2,7 @@
 import React from "react";
 import { useState, useEffect, useMemo } from "react";
 import { Icon } from "@iconify/react";
+// import getLawyers from "./api/lawyers"
 export function Lawyers() {
   const Lawyers = [
     { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" ,status:'ACTIVE'},

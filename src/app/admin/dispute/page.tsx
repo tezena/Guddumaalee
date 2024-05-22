@@ -1,19 +1,97 @@
 "use client";
 import { useState, useEffect, useMemo } from "react";
 import { Icon } from "@iconify/react";
+import Link from "next/link";
 export function Dispute() {
   const disputes = [
-    { from: "Client",on:'Lawyer', type: "Money", date: "3/16/2023",status:'New' ,desc:'American Main Chain Shot bowsprit to go on account.'},
-    { from: "Client",on:'Lawyer', type: "Money", date: "3/16/2023",status:'New' ,desc:'American Main Chain Shot bowsprit to go on account.'},
-    { from: "Client",on:'Lawyer', type: "Money", date: "3/16/2023",status:'New' ,desc:'American Main Chain Shot bowsprit to go on account.'},
-    { from: "Client",on:'Lawyer', type: "Money", date: "3/16/2023",status:'New' ,desc:'American Main Chain Shot bowsprit to go on account.'},
-    { from: "Client",on:'Lawyer', type: "Money", date: "3/16/2023",status:'New' ,desc:'American Main Chain Shot bowsprit to go on account.'},
-    { from: "Client",on:'Lawyer', type: "Money", date: "3/16/2023",status:'New' ,desc:'American Main Chain Shot bowsprit to go on account.'},
-    { from: "Client",on:'Lawyer', type: "Money", date: "3/16/2023",status:'New' ,desc:'American Main Chain Shot bowsprit to go on account.'},
-    { from: "Client",on:'Lawyer', type: "Money", date: "3/16/2023",status:'New' ,desc:'American Main Chain Shot bowsprit to go on account.'},
-    { from: "Client",on:'Lawyer', type: "Money", date: "3/16/2023",status:'New' ,desc:'American Main Chain Shot bowsprit to go on account.'},
-    { from: "Client",on:'Lawyer', type: "Money", date: "3/16/2023",status:'New' ,desc:'American Main Chain Shot bowsprit to go on account.'},
-    { from: "Client",on:'Lawyer', type: "Money", date: "3/16/2023",status:'New' ,desc:'American Main Chain Shot bowsprit to go on account.'},
+    {
+      from: "Client",
+      on: "Lawyer",
+      type: "Money",
+      date: "3/16/2023",
+      status: "New",
+      desc: "American Main Chain Shot bowsprit to go on account.",
+    },
+    {
+      from: "Client",
+      on: "Lawyer",
+      type: "Money",
+      date: "3/16/2023",
+      status: "New",
+      desc: "American Main Chain Shot bowsprit to go on account.",
+    },
+    {
+      from: "Client",
+      on: "Lawyer",
+      type: "Money",
+      date: "3/16/2023",
+      status: "New",
+      desc: "American Main Chain Shot bowsprit to go on account.",
+    },
+    {
+      from: "Client",
+      on: "Lawyer",
+      type: "Money",
+      date: "3/16/2023",
+      status: "New",
+      desc: "American Main Chain Shot bowsprit to go on account.",
+    },
+    {
+      from: "Client",
+      on: "Lawyer",
+      type: "Money",
+      date: "3/16/2023",
+      status: "New",
+      desc: "American Main Chain Shot bowsprit to go on account.",
+    },
+    {
+      from: "Client",
+      on: "Lawyer",
+      type: "Money",
+      date: "3/16/2023",
+      status: "New",
+      desc: "American Main Chain Shot bowsprit to go on account.",
+    },
+    {
+      from: "Client",
+      on: "Lawyer",
+      type: "Money",
+      date: "3/16/2023",
+      status: "New",
+      desc: "American Main Chain Shot bowsprit to go on account.",
+    },
+    {
+      from: "Client",
+      on: "Lawyer",
+      type: "Money",
+      date: "3/16/2023",
+      status: "New",
+      desc: "American Main Chain Shot bowsprit to go on account.",
+    },
+    {
+      from: "Client",
+      on: "Lawyer",
+      type: "Money",
+      date: "3/16/2023",
+      status: "New",
+      desc: "American Main Chain Shot bowsprit to go on account.",
+    },
+    {
+      from: "Client",
+      on: "Lawyer",
+      type: "Money",
+      date: "3/16/2023",
+      status: "New",
+      desc: "American Main Chain Shot bowsprit to go on account.",
+    },
+    {
+      from: "Client",
+      on: "Lawyer",
+      type: "Money",
+      date: "3/16/2023",
+      status: "New",
+      desc: "American Main Chain Shot bowsprit to go on account.",
+    },
   ];
 
   const pageSize = 5;
@@ -108,7 +186,9 @@ export function Dispute() {
                 <td className="py-3 px-6 text-black">{dispute.from}</td>
                 <td className="py-3 px-6 text-black">{dispute.on}</td>
                 <td className="py-3 px-6 text-black">{dispute.type}</td>
-                <td className="py-3 px-6 text-black max-w-28">{dispute.desc}</td>
+                <td className="py-3 px-6 text-black max-w-28">
+                  {dispute.desc}
+                </td>
                 <td className="py-3 px-6 text-black">{dispute.date}</td>
                 <td className="py-3 px-6 text-black">{dispute.status}</td>
               </tr>

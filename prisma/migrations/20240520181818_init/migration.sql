@@ -9,12 +9,6 @@ CREATE TABLE "user" (
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "type" "user_type" NOT NULL,
-    "firstName" TEXT,
-    "lastName" TEXT,
-    "phone" TEXT NOT NULL,
-    "experience_years" INTEGER,
-    "working_area" TEXT,
-    "specialization" TEXT,
 
     CONSTRAINT "user_pkey" PRIMARY KEY ("id")
 );
