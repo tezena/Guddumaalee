@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { MainNav } from "./main-nav";
 import { ModeToggle } from "../theme/ThemeToggle";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 export async function SiteHeader() {
   const session: any = await getServerSession(authOptions);
 
@@ -17,9 +18,26 @@ export async function SiteHeader() {
         {/* <MobileNav mainNavItems={siteConfig.mainNav} session={session} /> */}
         <div className="flex flex-1 items-center justify-end space-x-4">
           <nav className="flex items-center space-x-2">
+            <ModeToggle />
             {session?.user ? (
               <div className="flex gap-2">
-                <Logout />
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <div className="flex p-3 bg-green-500 cursor-pointer items-center justify-center h-[40px] w-[40px] rounded-full">
+                      {session.user.email.slice(0, 1)}
+                    </div>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[250px]">
+                    <div className="flex flex-col gap-3">
+                      <p className="text-center text-muted-foreground">
+                        {" "}
+                        {session.user.email}
+                      </p>
+                      <Logout />
+                    </div>
+                  </PopoverContent>
+                </Popover>
+
                 {/* <Avatar>
                   <AvatarImage src="" />
                   <AvatarFallback>
@@ -32,7 +50,6 @@ export async function SiteHeader() {
                 <Link href="/signin">Sign in</Link>
               </Button>
             )}
-            <ModeToggle />
           </nav>
         </div>
       </div>
