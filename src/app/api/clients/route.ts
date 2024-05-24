@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: Request, res: Response) {
   try {
+  
     const userInput = await req.json();
     if (!userInput.email || !userInput.password) {
       throw new Error("Please provide all the necessary information.");
