@@ -32,6 +32,15 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({ data }) => {
           },
         ],
       },
+      options:{
+        
+        radius:120,
+        plugins: {
+          legend:{
+              position:"top",
+          }
+      }
+      }
     });
     return () => {
       if (chartRef.current) {
@@ -42,7 +51,7 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({ data }) => {
 
   return (
     <div>
-      <canvas ref={canvasRef}  width={50}></canvas>
+      <canvas ref={canvasRef} ></canvas>
     </div>
   );
 };
