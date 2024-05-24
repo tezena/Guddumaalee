@@ -29,7 +29,7 @@
     "@types/bcrypt": "^5.0.2",
     "@uploadthing/react": "^6.4.1",
     "@videosdk.live/react-sdk": "^0.1.86",
-    "axios": "^1.6.8",
+    "axios": "^1.7.2",
     "bcrypt": "^5.1.1",
     "chapa": "^1.0.5",
     "chart.js": "^4.4.2",
