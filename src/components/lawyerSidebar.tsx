@@ -59,6 +59,10 @@ const LawyerSideBar = () => {
 
             <li className="flex flex-col items-center py-4 text-gray-900 rounded-lg   dark:hover:bg-[#d9a1f3] group">
               <div className="w-full px-4 flex items-center justify-between  text-gray-900 rounded-lg  ">
+                  <Link
+                  href="/lawyer/cases"
+                  className="flex gap-4 items-center p-2 rounded-lg hover:bg-[#672f81] hover:text-white group"
+                >
                 <div className="flex items-center gap-4">
                   <svg
                     className={
@@ -84,9 +88,12 @@ const LawyerSideBar = () => {
                         : "flex-1  whitespace-nowrap"
                     }
                   >
-                    Cases
+                       
+                       Cases
                   </span>
                 </div>
+                    </Link>
+                   
                 {showCase ? (
                   <div onClick={toggleShowCase} className="cursor-pointer">
                     <Icon icon="mingcute:up-line" style={{ color: "black" }} />

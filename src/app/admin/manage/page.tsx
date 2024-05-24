@@ -45,14 +45,7 @@ export function Manage() {
         <Link
           href={{
             pathname: `/admin/manage/${lawyer.id}`,
-            query: {
-              resume: lawyer.resume,
-              qualification: lawyer.qualification,
-              identification_card: lawyer.identification_card,
-              id: lawyer.id,
-              email: lawyer.email,
-              cv: lawyer.cv,
-            },
+           
           }}
           key={lawyer.id}
         >

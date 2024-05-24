@@ -22,7 +22,7 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({ data }) => {
         datasets: [
           {
             label: "My First Dataset",
-            data: [300, 50, 100],
+            data: [150, 100, 50],
             backgroundColor: [
               "Gray",
               "Green",
