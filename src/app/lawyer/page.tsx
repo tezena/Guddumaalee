@@ -47,7 +47,7 @@ export function Lawyer() {
   return (
     <div className="w-full font-sans min-h-screen  px-10 lg:pl-64 bg-[#f2f6fa]">
       <div className="w-full h-1/2 flex gap-4 justify-between items-center pt-6">
-        <div className="w-2/5  flex flex-col gap-4">
+        <div className="w-1/3  flex flex-col gap-4">
           <div className="w-full lg:w-3/4 h-20 flex gap-3 shadow-md rounded-lg p-4 bg-white text-black items-center justify-center">
             <Icon
               icon="material-symbols:cases"
@@ -76,11 +76,11 @@ export function Lawyer() {
               color="#678C08"
             />
             <p>320</p>
-            <p>InProgress Cases</p>
+            <p>Pending case</p>
           </div>
         </div>
 
-        <div className="w-3/5 flex flex-col items-center gap-4 p-4 bg-white h-72">
+        <div className="w-2/3 flex flex-col items-center gap-4 p-4 bg-white h-72">
           <h1 className="font-bold text-xl text-gray-700">Next Apointments</h1>
 
           <div className="w-full h-4/5 overflow-auto">
