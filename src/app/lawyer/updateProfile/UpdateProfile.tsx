@@ -17,7 +17,8 @@ interface ProfileFormProps {
   onUpdateLanguage: (index: number, language: Language) => void;
 }
 
-const MAX_PHOTO_SIZE_MB = 2; // Maximum file size in MB
+const MAX_PHOTO_SIZE_MB = 2; 
+const PROFICIENCY_OPTIONS = ["Conversational", "native", "bilinguial", "Fluent"];
 
 const ProfileForm: React.FC<ProfileFormProps> = ({
   languages,
@@ -100,7 +101,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
       </div>
 
       <div className="mb-4">
-        <label className="block text-gray-700">Languages</label>
+        <label className="block text-gray-700 font-semibold">Languages</label>
         <ul>
           {languages.map((language, index) => (
             <li key={index} className="flex justify-between items-center mb-2">
@@ -127,13 +128,15 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
               placeholder="Language"
               className="border p-2 w-full mb-2"
             />
-            <input
-              type="text"
+            <select
               value={newLanguage.proficiency}
               onChange={(e) => setNewLanguage({ ...newLanguage, proficiency: e.target.value })}
-              placeholder="Proficiency"
               className="border p-2 w-full mb-2"
-            />
+            >
+              {PROFICIENCY_OPTIONS.map(option => (
+                <option key={option} value={option}>{option}</option>
+              ))}
+            </select>
             <button
               onClick={handleUpdateLanguage}
               className="bg-[#7B3B99] hover:bg-purple-700 text-white font-bold py-2 px-4 rounded w-full"
@@ -145,7 +148,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
       </div>
 
       <div className="mb-4">
-        <label className="block text-gray-700">Court Worked</label>
+        <label className="block text-gray-700 font-semibold">Court Worked</label>
         <ul>
           {courtWorked.map((court, index) => (
             <li key={index} className="mb-2">{court}</li>
@@ -153,7 +156,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
         </ul>
       </div>
       <div className="mb-4">
-        <label className="block text-gray-700">Experience</label>
+        <label className="block text-gray-700 font-semibold">Experience</label>
         <ul>
           {experience.map((exp, index) => (
             <li key={index} className="mb-2">{exp}</li>
@@ -161,7 +164,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
         </ul>
       </div>
       <div className="mb-4">
-        <label className="block text-gray-700">Bio</label>
+        <label className="block text-gray-700 font-semibold">Bio</label>
         {isEditingBio ? (
           <div className="flex gap-4">
             <textarea

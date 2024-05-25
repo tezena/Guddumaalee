@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react';
 import Sidebar from './Sidebar';
-import ProfileForm from './UpdateProfile';
+import ProfileForm from './UpdateProfile'; // Correct import
 
 const Home: React.FC = () => {
   const [activeItem, setActiveItem] = useState<string | null>(null);
@@ -36,6 +36,12 @@ const Home: React.FC = () => {
     setBio(bio);
   };
 
+  const handleUpdateLanguage = (index: number, language: { name: string; proficiency: string }) => {
+    const updatedLanguages = [...languages];
+    updatedLanguages[index] = language;
+    setLanguages(updatedLanguages);
+  };
+
   const initialData = {
     language: languages.length > 0 ? languages[languages.length - 1] : null,
     courtWorked: courtWorked.length > 0 ? courtWorked[courtWorked.length - 1] : null,
@@ -60,6 +66,7 @@ const Home: React.FC = () => {
           bio={bio}
           onUpdatePhoto={handleUpdatePhoto}
           onUpdateBio={handleUpdateBio}
+          onUpdateLanguage={handleUpdateLanguage} // Pass the handleUpdateLanguage function
         />
       </div>
     </div>
