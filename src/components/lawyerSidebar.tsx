@@ -18,7 +18,7 @@ const LawyerSideBar = () => {
         className="fixed  left-0 z-40 w-56 p-2 h-screen  mt-4 ml-4   bg-white border-r border-gray-200 "
         aria-label="Sidebar"
       > */}
-      <div className="fixed  left-0  w-56 p-2 h-screen  z-10   bg-white border-r border-gray-200  ">
+      <div className="fixed  left-0  w-56 p-2 h-screen  z-10   bg-white border-r border-gray-200   transition-transform -translate-x-full  lg:translate-x-0 ">
         <div className="h-full px-3 pb-4 overflow-y-auto bg-white ">
           <ul className="space-y-2 font-medium mt-10">
             <li
@@ -57,7 +57,7 @@ const LawyerSideBar = () => {
               <hr />
             </li>
 
-            <li className="flex flex-col items-center py-4 text-gray-900 rounded-lg   dark:hover:bg-[#d9a1f3] group">
+            <li className="flex flex-col items-center py-4 text-gray-900 rounded-lg   dark:hover:bg-[#d9a1f3] group ">
               <div className="w-full px-4 flex items-center justify-between  text-gray-900 rounded-lg  ">
                   <Link
                   href="/lawyer/cases"

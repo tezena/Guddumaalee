@@ -1,8 +1,5 @@
 "use client";
 import React, { useEffect } from "react";
-import Chart1 from "@/components/admincomponentd/bar";
-import Chart2 from "@/components/admincomponentd/LineChart";
-import Chart3 from "@/components/admincomponentd/DoughnutChart";
 
 import BarChart from "@/components/admincomponentd/BarChart";
 

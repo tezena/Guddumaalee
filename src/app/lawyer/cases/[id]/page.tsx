@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { Icon } from "@iconify/react";
+import Link from "next/link";
 
 function CaseDetail() {
   const [date, setDate] = useState("");
@@ -43,15 +44,15 @@ function CaseDetail() {
     ],
   };
   return (
-    <div className="container  mx-auto p-4 relative">
-      <div className="fixed top-30 left-4  cursor-pointer">
+    <div className="container  mx-auto px-4 pt-10 relative">
+      <Link href={"/lawyer"} className="fixed top-28  left-4 bg-white  cursor-pointer">
         <Icon
           icon="grommet-icons:link-previous"
           style={{ color: "gray" }}
           width={30}
           height={30}
         />
-      </div>
+      </Link>
       <div className="mb-4 p-4 border rounded shadow-md">
         <h1 className="text-2xl font-bold mb-2">{caseData.caseName}</h1>
         <p className="text-lg mb-1">
@@ -66,8 +67,8 @@ function CaseDetail() {
         {/* Add more case details as needed */}
       </div>
 
-      <div className="mb-4 p-4 border rounded shadow-md">
-        <h2 className="text-xl font-bold mb-2">Previous Trials</h2>
+      <div className="mb-4 px-4 border h-[200px] rounded shadow-md overflow-auto">
+        <h2 className="text-xl font-bold mb-2 sticky top-0 bg-white ">Previous Trials</h2>
         {caseData.trials.length === 0 ? (
           <p>No trials added yet.</p>
         ) : (
@@ -101,7 +102,7 @@ function CaseDetail() {
               id="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#7B3B99] focus:ring-[#7B3B99] sm:text-sm"
               required
             />
           </div>
@@ -116,13 +117,13 @@ function CaseDetail() {
               id="note"
               value={note}
               onChange={(e) => setNote(e.target.value)}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#7B3B99] focus:ring-[#7B3B99 ]sm:text-sm"
               required
             />
           </div>
           <button
             type="submit"
-            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#7B3B99] hover:bg-[#59286f] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Add Trial
           </button>
