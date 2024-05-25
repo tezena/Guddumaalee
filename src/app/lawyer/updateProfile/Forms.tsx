@@ -69,7 +69,7 @@ export const CourtForm: React.FC<FormsProps> = ({ type, initialData, onSubmit })
       />
       <button
         onClick={handleSubmit}
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
+        className="bg-[#7B3B99] hover:bg-purple-700 text-white font-bold py-2 px-4 rounded w-full"
       >
         Submit
       </button>
@@ -96,7 +96,7 @@ export const ExperienceForm: React.FC<FormsProps> = ({ type, initialData, onSubm
       />
       <button
         onClick={handleSubmit}
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
+        className="bg-[#7B3B99] hover:bg-purple-700 text-white font-bold py-2 px-4 rounded w-full"
       >
         Submit
       </button>
