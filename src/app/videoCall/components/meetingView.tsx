@@ -39,10 +39,11 @@ export default function MeetingView({
   };
 
   return (
-    <div className="container w-full">
+    <div style={{ height: 'calc(100vh - 80px)' }}  className="container w-full relative ">
       {joined && joined == "JOINED" ? (
-        <div className=" w-full relative  ">
-               <div className="flex flex-row w-full ">
+        <div className=" w-full   h-full flex flex-col justify-between pb-10  ">
+         
+          <div className="flex flex-row w-full  ">
                {[...participants.keys()].map((participantId) => (
             <ParticipantView
               participantId={participantId}
@@ -50,10 +51,10 @@ export default function MeetingView({
             />
           ))}
                </div>
-              <div className="absolute bottom-10"> 
-              <Controls />
-
-                </div>
+             
+              <Controls /> 
+     
+                      
         </div>
       ) : (
         <Card className="flex flex-row    my-4 w-1/2 h-1/2 min-h-96 mt-24 shadow-xl mx-auto lg:w-3/4 ">

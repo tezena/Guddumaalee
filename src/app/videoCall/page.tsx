@@ -1,72 +1,37 @@
-"use client"
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import {
-  MeetingProvider,
-  MeetingConsumer,
-  useMeeting,
-  useParticipant,
-} from "@videosdk.live/react-sdk";
+"use client";
+import React, { useState } from "react";
+import dynamic from 'next/dynamic';
 import { authToken, createMeeting } from "./api";
-import ReactPlayer from "react-player";
 import "../globals.css";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
 import JoinScreen from "./components/joinScreen";
-import ParticipantView from "./components/joinScreen"
-import Controls from "./components/controls";
-import MeetingView from "./components/meetingView";
 
+// Dynamically import MeetingProviderWrapper
+const DynamicMeetingProviderWrapper = dynamic(() => import('./components/MeetingProviderWrapper'), { ssr: false });
+const DynamicJoinScreen = dynamic(() => import('./components/joinScreen'), { ssr: false });
 
+const VideoCall = () => {
+  const [meetingId, setMeetingId] = useState<string | null>(null);
 
-
-
-const VideoCall=()=> {
-  const [meetingId, setMeetingId] = useState < string>()
-
-  //Getting the meeting id by calling the api we just wrote
+  // Getting the meeting id by calling the API we just wrote
   const getMeetingAndToken = async (id?: string) => {
-    console.log("here")
-    const meetingId =
-      id == null ? await createMeeting({ token: authToken  }) : id;
+    const meetingId = id == null ? await createMeeting({ token: authToken }) : id;
     setMeetingId(meetingId);
   };
 
-  //This will set Meeting Id to null when meeting is left or ended
+  // This will set Meeting Id to null when meeting is left or ended
   const onMeetingLeave = () => {
-    setMeetingId("");
+    setMeetingId(null);
   };
 
   return authToken && meetingId ? (
     <div className="h-auto flex items-center justify-center px-2">
-    <MeetingProvider
-      config={{
-        meetingId,
-        micEnabled: true,
-        webcamEnabled: true,
-        name: "Guddumalle",
-        debugMode:false,
-      }}
-      token={authToken}
-    >
-      <MeetingView meetingId={meetingId} onMeetingLeave={onMeetingLeave} />
-    </MeetingProvider>
+      <DynamicMeetingProviderWrapper meetingId={meetingId} authToken={authToken} onMeetingLeave={onMeetingLeave} />
     </div>
   ) : (
-    <div className="  px-2 h-full w-full min-h-screen flex justify-center ">
-       
-    <JoinScreen getMeetingAndToken={getMeetingAndToken}  />
+    <div className="px-2 h-full w-full min-h-screen flex justify-center">
+      <DynamicJoinScreen getMeetingAndToken={getMeetingAndToken} />
     </div>
-   
-  )
-}
+  );
+};
 
 export default VideoCall;
-
-
