@@ -1,3 +1,9 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,11 +13,37 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
-
-model user {
-  id           Int         @id @default(autoincrement())
-  email String @unique
-  password String
-  created_at DateTime @default(now())
+enum user_type {
+  CLIENT
+  LAWYER
+  ADMIN
 }
+
+model client {
+  id             Int       @id @default(autoincrement())
+  email          String    @unique
+  password       String
+  created_at     DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+model lawyer {
+  id             Int       @id @default(autoincrement())
+  email          String    @unique
+  password       String
+  identification_card String
+  qualification String
+  cv String?
+  resume String?
+  isVerified Boolean @default(false)
+  created_at     DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+// firstName      String?
+//   lastName       String?
+//   phone          String
+//   experience     Int?      @map("experience_years")
+//   workingArea    String?   @map("working_area")
+//   specialization String?   @map("specialization")
+//   languages      String[]  @map("working_languages")

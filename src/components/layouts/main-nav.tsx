@@ -22,7 +22,7 @@ export function MainNav({ items, session }: MainNavProps) {
     <div className="gap-6  hidden lg:flex">
       <Link aria-label="Home" href="/" className="items-center space-x-2 flex">
         <span className="font-bold inline-block">
-          GUDDUUMALEE{" "}
+          GUDDUUMALEE
           {session?.user
             ? session.user.image.type == "lawyer"
               ? "- LAWYER"
