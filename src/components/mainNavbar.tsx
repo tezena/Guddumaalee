@@ -54,7 +54,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="sticky top-0 bg-background/95 md:backdrop-blur md:text-black z-50 flex justify-between items-center h-24 min-w-screen mx-auto px-4 text-white border ">
+    <div className="absolute sticky top-0 bg-background/95 md:backdrop-blur md:text-black z-50 flex justify-between items-center h-20 min-w-screen mx-auto px-4 text-white border ">
       {/* Logo */}
       <div className="w-[25%] lg:pl-12">
         <Link href={'/client'} > <h1 className="w-full text-3xl font-bold text-black ">Guddumalee</h1> </Link>
