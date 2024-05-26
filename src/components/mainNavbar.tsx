@@ -9,20 +9,20 @@ import { IoPersonCircleSharp } from "react-icons/io5";
 import SearchInput from "./searchInput";
 import { Context } from "@/app/context/userContext";
 import {useRouter} from "next/navigation";
-import axios from "axios";
+
+import { useSession } from "next-auth/react";
+import { HandleChat } from "@/app/chat/handleChat";
+
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
+  const {data:session}=useSession()
+  const userType = session?.user?.image?.type;
 
   const handleNav = () => {
     setNav(!nav);
   };
 
-  const navItems = [
-    { id: 1, text: "Message" },
-    { id: 2, text: "Lawyers" },
-    { id: 3, text: "Profile" },
-  ];
 
   const context = useContext(Context);
   const router=useRouter();
@@ -30,61 +30,57 @@ const Navbar = () => {
     return null;
   }
 
-  const { userName, secret } = context;
-
-  const handleChat = async () => {
-    if (userName.length == 0 || secret.length == 0) {
-      router.push("/signIn");
-    }
-
-    await axios.put(
-      "https://api.chatengine.io/users/",
-      {
-        username: userName,
-        secret: secret,
-      },
-      { headers: { "PRIVATE-KEY": "a555c019-7fc0-483f-8750-7f545b753544" } }
-    ).then((res)=>{
-      console.log(res.data)
-
-      router.push("/client/chat")
-    }).catch((e)=>{
-      console.log(e.message)
-    });
-  };
+  
 
   return (
-    <div className="absolute sticky top-0 bg-background/95 md:backdrop-blur md:text-black z-50 flex justify-between items-center h-24 min-w-screen mx-auto px-4 text-white border ">
+    <div className="absolute sticky top-0 bg-background/95 md:backdrop-blur md:text-black z-50 flex justify-between items-center h-20 min-w-screen mx-auto px-4 text-white border ">
       {/* Logo */}
-      <div className="w-[25%] lg:pl-12">
-        <Link href={'/client'} > <h1 className="w-full text-3xl font-bold text-black ">Guddumalee</h1> </Link>
+      <div className="w-[15%] lg:pl-12">
+        <Link href={'/client'} > <h1 className="w-full text-3xl font-bold text-black "> <span className="text-[#7B3B99]">Gudu</span>maalee</h1> </Link>
       </div>
-
+      <>
+      {
+        session && (
+          <> 
       <div className="w-[30%]  md:flex hidden">
         <SearchInput />
       </div>
 
       <ul className="hidden md:flex items-center ">
         <li className="py-4 px-2 rounded-xl m-1 cursor-pointer duration-300 hover:text-black hover:scale-110 ">
+          
           <MdOutlineLocalPostOffice
-            onClick={handleChat}
-            className="w-16 h-12 text-gray-400 hover:text-[#7B3B99]"
+          onClick={HandleChat}
+            className="w-12 h-10 text-gray-400 hover:text-[#7B3B99]"
           />
+         
+         
         </li>
-        <li className="py-4 px-2 rounded-xl m-1 cursor-pointer duration-300 hover:text-black hover:scale-110  ">
-          <h3 className="text-2xl group-hover:font-bolder hover:text-[#7B3B99]">
-            Lawyers
-          </h3>
+        <li className="py-4 px-2 rounded-xl m-1 cursor-pointer duration-300 hover:text-black hover:scale-110  text-slate-500  ">
+          
+          {session.user.image?.type == "client"
+              ?   <Link href="/client/lawyers"><h3 className="text-2xl group-hover:font-bolder hover:text-[#7B3B99]">Lawyer</h3></Link>
+              : <Link href="/lawyers"><h3 className="text-2xl group-hover:font-bolder hover:text-[#7B3B99]">My Page</h3></Link>}
+       
         </li>
-        <li className="py-4 px-2 rounded-xl m-1 cursor-pointer duration-300 hover:text-black hover:scale-110">
-          <IoPersonCircleSharp className="text-[#7B3B99] w-16 h-16" />
+        <li className="py-4 px-2 rounded-xl m-1 duration-300 hover:scale-110">
+          {/* <IoPersonCircleSharp className="text-[#7B3B99] w-16 h-12" /> */}
+          <div className="flex p-1 bg-[#7B3B99] cursor-pointer items-center justify-center h-[40px] w-[40px] rounded-full ">
+                      <span className="text-xl text-white font-semibold capitalize ">
+                      {session?.user?.email?.slice(0, 1)}
+                        </span> 
+                    </div>
         </li>
       </ul>
 
       <div onClick={handleNav} className="block md:hidden text-black">
         {nav ? <AiOutlineClose size={20} /> : <AiOutlineMenu size={20} />}
       </div>
-
+      </>
+         )
+        }
+      </>
+ 
       <ul
         className={
           nav
@@ -94,14 +90,35 @@ const Navbar = () => {
       >
         <h1 className="w-full text-3xl font-bold text-white m-4">Guddumalee</h1>
 
-        {navItems.map((item) => (
+   
           <li
-            key={item.id}
+         
             className="p-4 border-b rounded-xl hover:bg-[#00df9a] duration-300 hover:text-black cursor-pointer border-gray-600"
           >
-            {item.text}
+             <span onClick={HandleChat}>
+              Chat
+             </span>
           </li>
-        ))}
+
+          <li
+         
+         className="p-4 border-b rounded-xl hover:bg-[#00df9a] duration-300 hover:text-black cursor-pointer border-gray-600"
+       >
+           {userType == "client"
+              ?   <Link href="/client/lawyers">Lawyer</Link>
+              : <Link href="/lawyers">My Page</Link>}
+        
+       </li>
+
+       <li
+         
+         className="p-4 border-b rounded-xl hover:bg-[#00df9a] duration-300 hover:text-black cursor-pointer border-gray-600"
+       >
+      
+           Profile
+        
+       </li>
+        
       </ul>
     </div>
   );
