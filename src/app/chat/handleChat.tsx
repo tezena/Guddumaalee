@@ -1,6 +1,8 @@
 import { useSession } from "next-auth/react";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { Context } from "@/app/context/userContext";
+import { useContext } from 'react';
 
 
 
@@ -9,12 +11,13 @@ import { useRouter } from "next/router";
 
   const HandleChat = async () => {
 
- const {data:session}=useSession()
+ const context=useContext(Context)
+ 
+ const {userName,secret}={context}
+
  const router=useRouter()
 
-const userName=session?.user?.email
-  const secret=session?.user?.id
-   
+
     await axios.put(
       "https://api.chatengine.io/users/",
       {
