@@ -31,11 +31,13 @@ import {
   } from "@/components/ui/dropdown-menu"
   import { useSession } from "next-auth/react"
   import { signOut } from "next-auth/react";
+  import Link from "next/link";
   
   export function ProfileDropdown() {
 
     const {data:session}=useSession()
-    
+    const userType=session?.user?.image?.type
+
     const handleLogOut=() => {
         signOut({
           redirect: true,
@@ -59,7 +61,7 @@ import {
           <DropdownMenuGroup>
             <DropdownMenuItem>
               <User className="mr-2 h-4 w-4" />
-              <span>Profile</span>
+              <Link href={userType == "client"? "":"/lawyer/updateProfile"}> Profile</Link>
             </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
