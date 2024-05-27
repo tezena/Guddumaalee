@@ -53,7 +53,7 @@ export function Lawyer() {
               icon="material-symbols:cases"
               width={30}
               height={30}
-              color="#B2C129"
+              color="#C075E3"
             />
             <p>320</p>
             <p>Total cases</p>
@@ -63,7 +63,7 @@ export function Lawyer() {
               icon="material-symbols:cases"
               width={30}
               height={30}
-              color="#0E9A2F"
+              color="#C6EF67"
             />
             <p>320</p>
             <p>Complated Cases</p>
@@ -73,7 +73,7 @@ export function Lawyer() {
               icon="material-symbols:cases"
               width={30}
               height={30}
-              color="#678C08"
+              color="#69BEF0"
             />
             <p>320</p>
             <p>Pending case</p>

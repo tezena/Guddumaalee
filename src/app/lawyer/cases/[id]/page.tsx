@@ -45,7 +45,7 @@ function CaseDetail() {
   };
   return (
     <div className="container  mx-auto px-4 pt-10 relative">
-      <Link href={"/lawyer"} className="fixed top-28  left-4 bg-white  cursor-pointer">
+      <Link href={"/lawyer/inprogres"} className="fixed top-28  left-4 bg-white  cursor-pointer">
         <Icon
           icon="grommet-icons:link-previous"
           style={{ color: "gray" }}
