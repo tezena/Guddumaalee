@@ -1,63 +1,24 @@
 "use client";
 
 import React, { useState, useEffect, useContext } from "react";
-import dynamic from "next/dynamic";
-import { useRouter } from "next/navigation";
-import { Context } from "@/app/context/userContext";
-import {
-  ChatEngine,
-  ChatList,
-  ChatCard,
-  NewChatForm,
-  ChatFeed,
-  ChatHeader,
-  IceBreaker,
-  MessageBubble,
-  IsTyping,
-  ConnectionBar,
-  NewMessageForm,
-  ChatSettings,
-  PeopleSettings,
-  PhotosSettings,
-  OptionsSettings,
-  ChatEngineWrapper,
-  ChatSocket,
-  Socket,
-} from "@/components/dynamickImportsModule";
+
+
 import { PrettyChatWindow } from "../../../react-chat-engine-pretty/src";
-// import { PrettyChatWindow } from "@/react-chat-engine";
+import { useSession } from "next-auth/react";
+
 
 const Chat = () => {
-  const context = useContext(Context);
+ 
 
-  if (!context) {
-    console.log("no context");
-    return null;
-  }
-  const { userName, secret } = context;
-  const [showChat, setShowChat] = useState(false);
-  const router = useRouter();
+  const {data:session}=useSession()
 
-  useEffect(() => {
-    if (typeof document !== undefined) {
-      setShowChat(true);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (userName == "" || secret == "") {
-      router.push("/signIn");
-    }
-  }, [userName, secret]);
-
-  if (!showChat) return <div />;
 
   return (
     <div className="" style={{ height: "90vh", backgroundColor: "blue" }}>
       <PrettyChatWindow
         projectId="c079bdc9-9902-4ca4-b75c-a6b6d0b4f356"
-        username={userName}
-        secret={secret}
+        username={session?.user?.email}
+        secret={session?.user?.id}
         style={{ height: "100%" }}
       />
     </div>

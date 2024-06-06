@@ -11,7 +11,6 @@ import { Context } from "@/app/context/userContext";
 import { useRouter,usePathname} from "next/navigation";
 
 import { useSession } from "next-auth/react";
-import { HandleChat } from "@/app/chat/handleChat";
 import { ProfileDropdown } from "./profileDropDown";
 import { ChatDropdown } from "./chatDropDown";
 
@@ -113,7 +112,7 @@ const Navbar = () => {
         <h1 className="w-full text-3xl font-bold text-white m-4">Guddumalee</h1>
 
         <li className="p-4 border-b rounded-xl hover:bg-[#00df9a] duration-300 hover:text-black cursor-pointer border-gray-600">
-          <span onClick={HandleChat}>Chat</span>
+          <span >Chat</span>
         </li>
 
         <li className="p-4 border-b rounded-xl hover:bg-[#00df9a] duration-300 hover:text-black cursor-pointer border-gray-600">
