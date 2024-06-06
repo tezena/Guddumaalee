@@ -1,5 +1,6 @@
 
 import React from "react";
+
 import LandingPage from "../(home)/page";
 
 export function Client(){
