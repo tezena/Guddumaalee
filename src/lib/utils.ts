@@ -115,3 +115,98 @@ export function reformatObject(data: any) {
 
   return reformattedArray;
 }
+
+export const lawyerSpecialties = [
+  {
+    id: "1",
+    specialty: "Corporate Law",
+  },
+  {
+    id: "2",
+    specialty: "Criminal Law",
+  },
+  {
+    id: "3",
+    specialty: "Family Law",
+  },
+  {
+    id: "4",
+    specialty: "Intellectual Property Law",
+  },
+  {
+    id: "5",
+    specialty: "Employment Law",
+  },
+  {
+    id: "6",
+    specialty: "Immigration Law",
+  },
+  {
+    id: "7",
+    specialty: "Real Estate Law",
+  },
+  {
+    id: "8",
+    specialty: "Environmental Law",
+  },
+  {
+    id: "9",
+    specialty: "Tax Law",
+  },
+  {
+    id: "10",
+    specialty: "Bankruptcy Law",
+  },
+];
+
+export const languages = [
+  {
+    id: "1",
+    language: "Amharic",
+  },
+  {
+    id: "2",
+    language: "Oromo",
+  },
+  {
+    id: "3",
+    language: "Tigrinya",
+  },
+  {
+    id: "4",
+    language: "Somali",
+  },
+  {
+    id: "5",
+    language: "Sidamo",
+  },
+  {
+    id: "6",
+    language: "Wolaytta",
+  },
+  {
+    id: "7",
+    language: "Gurage",
+  },
+  {
+    id: "8",
+    language: "Afar",
+  },
+  {
+    id: "9",
+    language: "Hadiyya",
+  },
+  {
+    id: "10",
+    language: "Gamo",
+  },
+];
+
+export const courts = [
+  { id: "1", label: "Supreme Court" },
+  { id: "2", label: "Appellate Court" },
+  { id: "3", label: "High Court" },
+  { id: "4", label: "District Court" },
+  { id: "9", label: "Small Claims Court" },
+  { id: "10", label: "Administrative Court" },
+];
