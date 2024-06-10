@@ -78,9 +78,9 @@ const SignUpForm = () => {
       email: "",
       password: "",
       type: "",
-      languages: ["Amharic"],
-      specialties: ["Criminal Law"],
-      courts: ["Administrative Court"],
+      languages: ["AMHARIC"],
+      specialties: ["CRIMINAL_LAW"],
+      courts: ["ADMINISTRATIVE_COURT"],
     },
   });
   const createLawyer = useMutation({
@@ -102,9 +102,6 @@ const SignUpForm = () => {
       });
       return;
     }
-
-    console.log(values);
-    return;
 
     setRegisteringUser(true);
 
@@ -151,6 +148,9 @@ const SignUpForm = () => {
           qualification,
           cv,
           resume,
+          courts: values.courts,
+          languages: values.languages,
+          specialties: values.specialties,
         },
         {
           onSuccess: async () => {
@@ -369,18 +369,18 @@ const SignUpForm = () => {
                                     <FormControl>
                                       <Checkbox
                                         checked={field.value?.includes(
-                                          language.language
+                                          language.value
                                         )}
                                         onCheckedChange={(checked: any) => {
                                           return checked
                                             ? field.onChange([
                                                 ...field.value,
-                                                language.language,
+                                                language.value,
                                               ])
                                             : field.onChange(
                                                 field.value?.filter(
                                                   (value) =>
-                                                    value !== language.language
+                                                    value !== language.value
                                                 )
                                               );
                                         }}
@@ -425,19 +425,18 @@ const SignUpForm = () => {
                                     <FormControl>
                                       <Checkbox
                                         checked={field.value?.includes(
-                                          specialty.specialty
+                                          specialty.value
                                         )}
                                         onCheckedChange={(checked: any) => {
                                           return checked
                                             ? field.onChange([
                                                 ...field.value,
-                                                specialty.specialty,
+                                                specialty.value,
                                               ])
                                             : field.onChange(
                                                 field.value?.filter(
                                                   (value) =>
-                                                    value !==
-                                                    specialty.specialty
+                                                    value !== specialty.value
                                                 )
                                               );
                                         }}
@@ -470,7 +469,7 @@ const SignUpForm = () => {
                             <FormField
                               key={court.id}
                               control={form.control}
-                              name="languages"
+                              name="courts"
                               render={({ field }) => {
                                 return (
                                   <FormItem
@@ -480,18 +479,18 @@ const SignUpForm = () => {
                                     <FormControl>
                                       <Checkbox
                                         checked={field.value?.includes(
-                                          court.label
+                                          court.value
                                         )}
                                         onCheckedChange={(checked: any) => {
                                           return checked
                                             ? field.onChange([
                                                 ...field.value,
-                                                court.label,
+                                                court.value,
                                               ])
                                             : field.onChange(
                                                 field.value?.filter(
                                                   (value) =>
-                                                    value !== court.label
+                                                    value !== court.value
                                                 )
                                               );
                                         }}
