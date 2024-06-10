@@ -30,24 +30,27 @@ interface PrettyChatWindowProps extends MultiChatWindowProps {
   secret: string;
   httpUrl?: string;
   height?: string;
+  username2?:string;
 }
 
 export const PrettyChatWindow = (props: PrettyChatWindowProps) => {
   const [isChatFormActive, setIsChatFormActive] = useState(false);
   const [chatFormUsers, setChatFromUsers] = useState<PersonObject[]>([]);
   const isMobile: boolean = useIsMobile();
+  const username2=props.username2
 
   const chatProps = useMultiChatLogic(
     props.projectId,
     props.username,
     props.secret,
-    props.httpUrl
+    props.httpUrl,
   );
 
   async function getOrCreateChat() {
     const usernames = chatFormUsers.map(user => user.username);
+   
     const data = {
-      usernames: usernames,
+      usernames: username2,
     };
     const headers = {
       'Project-ID': chatProps.projectId,
