@@ -21,6 +21,9 @@ export async function POST(req: Request, res: Response) {
         password: hashedPassword,
         identification_card: userInput.id,
         qualification: userInput.qualification,
+        languages: userInput.languages,
+        specialties: userInput.userInput,
+        courts: userInput.courts,
         ...(userInput.cv && { cv: userInput.cv }),
         ...(userInput.resume && { resume: userInput.resume }),
       },
@@ -53,7 +56,13 @@ export async function GET(req: Request, res: Response) {
         isVerified: true,
         qualification: true,
         resume: true,
+        courts: true,
+        languages: true,
+        specialties: true,
         updatedAt: true,
+      },
+      where: {
+        isVerified: false,
       },
     });
     return NextResponse.json({ id: "GET", lawyers: lawyers });

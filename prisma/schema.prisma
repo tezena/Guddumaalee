@@ -19,6 +19,40 @@ enum user_type {
   ADMIN
 }
 
+enum Specialty {
+  CORPORATE_LAW
+  CRIMINAL_LAW
+  FAMILY_LAW
+  INTELLECTUAL_PROPERTY_LAW
+  EMPLOYMENT_LAW
+  IMMIGRATION_LAW
+  REAL_ESTATE_LAW
+  ENVIRONMENTAL_LAW
+  TAX_LAW
+  BANKRUPTCY_LAW
+}
+enum Language {
+  AMHARIC
+  OROMO
+  TIGRINYA
+  SOMALI
+  SIDAMO
+  WOLAYTTA
+  GURAGE
+  AFAR
+  HADIYYA
+  GAMO
+}
+
+enum Court {
+  SUPREME_COURT
+  APPELLATE_COURT
+  HIGH_COURT
+  DISTRICT_COURT
+  SMALL_CLAIMS_COURT
+  ADMINISTRATIVE_COURT
+}
+
 model client {
   id             Int       @id @default(autoincrement())
   email          String    @unique
@@ -35,15 +69,10 @@ model lawyer {
   qualification String
   cv String?
   resume String?
+  languages Language[] @default([])
+  specialties Specialty[] @default([])
+  courts Court[] @default([])
   isVerified Boolean @default(false)
   created_at     DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 }
-
-// firstName      String?
-//   lastName       String?
-//   phone          String
-//   experience     Int?      @map("experience_years")
-//   workingArea    String?   @map("working_area")
-//   specialization String?   @map("specialization")
-//   languages      String[]  @map("working_languages")
