@@ -56,6 +56,9 @@ export async function GET(req: Request, res: Response) {
         isVerified: true,
         qualification: true,
         resume: true,
+        courts: true,
+        languages: true,
+        specialties: true,
         updatedAt: true,
       },
       where: {
