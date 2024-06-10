@@ -1,13 +1,19 @@
 import LawyersCard from "@/components/lawyersCard";
 import { data } from "@/app/data/lawyersMockData";
 
-interface Props {
-  selectedType: string;
+interface Props { 
+  selectedSpecialization: string;
+  selectedCourt:string;
+  selectedLanguage: string;
 }
-const LawyersList: React.FC<Props> = ({ selectedType }) => {
-  const filteredLawyers = selectedType
-    ? data.filter((lawyer) => lawyer.type == selectedType)
-    : data;
+const LawyersList: React.FC<Props> = ({ selectedSpecialization,selectedCourt,selectedLanguage }) => {
+  const filteredLawyers = data.filter((lawyer) => {
+    return (
+      (!selectedLanguage || lawyer.language === selectedLanguage) &&
+      (!selectedSpecialization || lawyer.specialization === selectedSpecialization) &&
+      (!selectedCourt || lawyer.court === selectedCourt)
+    );
+  });
 
   return (
     <div className="container px-5 py-5 mx-auto mt-4">
@@ -28,7 +34,7 @@ const LawyersList: React.FC<Props> = ({ selectedType }) => {
         ) : (
           <div className="mx-auto  items-center">
             <h1 className="text-2xl text-black">
-              No lawyers on {selectedType} yet.
+              No lawyers on {selectedSpecialization} yet.
             </h1>
           </div>
         )}

@@ -1,20 +1,27 @@
-"use client"
-import { useState, useEffect, useMemo } from 'react';
-import { Icon } from '@iconify/react';
+"use client";
+import { useState, useEffect, useMemo } from "react";
+import { Icon } from "@iconify/react";
+import { getClients } from "../api/clients";
+import { useQuery } from "@tanstack/react-query";
 export function Clients() {
-  const clients = [
-    { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" },
-    { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" },
-    { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" },
-    { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" },
-    { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" },
-    { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" },
-    { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" },
-    { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" },
-    { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" },
-    { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" },
-    { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" },
-  ];
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["client"],
+    queryFn: getClients,
+  });
+
+  // const clients = [
+  //   { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" },
+  //   { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" },
+  //   { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" },
+  //   { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" },
+  //   { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" },
+  //   { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" },
+  //   { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" },
+  //   { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" },
+  //   { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" },
+  //   { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" },
+  //   { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" },
+  // ];
 
   const pageSize = 5;
   const visiblePages = 3;
@@ -22,8 +29,8 @@ export function Clients() {
   const [currentPage, setCurrentPage] = useState(1);
 
   const totalPages = useMemo(() => {
-    return Math.ceil(clients.length / pageSize);
-  }, [clients]);
+    return Math.ceil(data?.clients.length / pageSize);
+  }, [data?.clients]);
 
   const startPage = useMemo(() => {
     let start = 1;
@@ -45,7 +52,7 @@ export function Clients() {
     if (startPage > 1) {
       array.push(1);
       if (startPage > 2) {
-        array.push('...');
+        array.push("...");
       }
     }
 
@@ -55,7 +62,7 @@ export function Clients() {
 
     if (endPage < totalPages) {
       if (endPage < totalPages - 1) {
-        array.push('...');
+        array.push("...");
       }
       array.push(totalPages);
     }
@@ -65,8 +72,8 @@ export function Clients() {
   const paginatedClients = useMemo(() => {
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = startIndex + pageSize;
-    return clients.slice(startIndex, endIndex);
-  }, [currentPage, clients, pageSize]);
+    return data?.clients?.slice(startIndex, endIndex);
+  }, [currentPage, data?.clients, pageSize]);
 
   const nextPage = () => {
     if (currentPage < totalPages) {
@@ -79,7 +86,16 @@ export function Clients() {
       setCurrentPage((prevPage) => prevPage - 1);
     }
   };
-
+  if (isLoading) return <div className="w-full font-sans min-h-screen pt-24 pl-10 lg:pl-72 bg-[#f2f6fa]">
+     <div
+      
+          className="w-full h-full pt-28 flex gap-5 items-center justify-center m-auto"
+        >
+          <Icon icon="eos-icons:loading" width="80" height="80" color="green" />
+          <p className="text-2xl text-green-500">...Loading</p>
+        </div>
+  </div>;
+  if (error) return <div>Error loading data</div>;
   return (
     <div className="w-full font-sans min-h-screen pt-24 pl-10 lg:pl-72 bg-[#f2f6fa]">
       <div className="w-full p-4">
@@ -87,18 +103,28 @@ export function Clients() {
       </div>
       <div className="w-full flex gap-20">
         <div className="w-3/4 lg:w-1/4 h-20 flex gap-3 shadow-md rounded-lg p-4 bg-white text-black items-center justify-center">
-        <Icon icon="icon-park-solid:peoples"  width={30} height={30} color='#634670'/>
+          <Icon
+            icon="icon-park-solid:peoples"
+            width={30}
+            height={30}
+            color="#634670"
+          />
           <p>320</p>
           <p>Active Clients</p>
         </div>
         <div className="w-3/4 lg:w-1/4 h-20 flex gap-3 shadow-md rounded-lg p-4 bg-white text-black items-center justify-center">
-        <Icon icon="icon-park-solid:peoples" width={30} height={30} color='#be75e0'/>
+          <Icon
+            icon="icon-park-solid:peoples"
+            width={30}
+            height={30}
+            color="#be75e0"
+          />
           <p>320</p>
           <p>Not Active Clients</p>
         </div>
       </div>
 
-      <div className="rounded-2xl overflow-auto py-10 pr-10" >
+      <div className="rounded-2xl overflow-auto py-10 pr-10">
         <table className="w-full text-left rounded-xl">
           <thead>
             <tr className="bg-white text-gray-600 rounded-xl">
@@ -108,8 +134,15 @@ export function Clients() {
             </tr>
           </thead>
           <tbody>
-            {paginatedClients.map((client, index) => (
-              <tr className={index % 2 === 0 ?'relative bg-[#F4F4F4]': 'relative bg-white'  } key={index} >
+            {paginatedClients.map((client:any, index:any) => (
+              <tr
+                className={
+                  index % 2 === 0
+                    ? "relative bg-[#F4F4F4]"
+                    : "relative bg-white"
+                }
+                key={index}
+              >
                 <td className="py-3 px-6 text-black">{client.name}</td>
                 <td className="py-3 px-6 text-black">{client.phone}</td>
                 <td className="py-3 px-6 text-black">{client.email}</td>
@@ -121,22 +154,27 @@ export function Clients() {
           <div className="flex items-center gap-4">
             <p>Showing Page</p>
             <div className="px-2 h-fit text-[#7B3B99] border-2">
-              { currentPage }
+              {currentPage}
             </div>
-            <p>Out of { totalPages }</p>
+            <p>Out of {totalPages}</p>
           </div>
           <div className="flex items-center gap-2 text-black">
-            <div onClick={prevPage} className='cursor-pointer text-black'>
+            <div onClick={prevPage} className="cursor-pointer text-black">
               <Icon icon="ep:arrow-left-bold" />
             </div>
-            {
-              pages.map((page, index) => (
-                <div key={index} className={currentPage === page ?'px-1 bg-[#7B3B99]  border-2 rounded-lg text-white':'px-1 text-black' }>
-                  { page }
-                </div>
-              ))
-            }
-            <div onClick={nextPage} className='cursor-pointer'>
+            {pages.map((page, index) => (
+              <div
+                key={index}
+                className={
+                  currentPage === page
+                    ? "px-1 bg-[#7B3B99]  border-2 rounded-lg text-white"
+                    : "px-1 text-black"
+                }
+              >
+                {page}
+              </div>
+            ))}
+            <div onClick={nextPage} className="cursor-pointer">
               <Icon icon="ep:arrow-right-bold" />
             </div>
           </div>

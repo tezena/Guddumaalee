@@ -24,7 +24,7 @@ import {
   ChatSocket,
   Socket,
 } from "@/components/dynamickImportsModule";
-import { PrettyChatWindow } from "../../../../react-chat-engine-pretty/src";
+import { PrettyChatWindow } from "../../../react-chat-engine-pretty/src";
 // import { PrettyChatWindow } from "@/react-chat-engine";
 
 const Chat = () => {

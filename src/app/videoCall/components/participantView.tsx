@@ -1,21 +1,11 @@
 "use client"
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
-  MeetingProvider,
-  MeetingConsumer,
-  useMeeting,
   useParticipant,
 } from "@videosdk.live/react-sdk";
 import ReactPlayer from "react-player";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+
+
 
 
 export default function ParticipantView({ participantId }: { participantId: string }) {
@@ -52,9 +42,8 @@ export default function ParticipantView({ participantId }: { participantId: stri
   
     return (
       <div key={participantId}>
-        <p>
-          Participant: {displayName} | Webcam: {webcamOn ? "ON" : "OFF"} | Mic:{" "}
-          {micOn ? "ON" : "OFF"}
+        <p className="mt-6">
+         <span className="text-xl font-semibold font-mono text-[#7B3B99]"> {displayName}</span> 
         </p>
         <audio ref={micRef} autoPlay muted={isLocal} />
         {webcamOn && (
@@ -69,11 +58,14 @@ export default function ParticipantView({ participantId }: { participantId: stri
             //
             url={videoStream}
             //
-            height={"80%"}
-            width={"50%"}
+            height={"95%"}
+            width={"95%"}
             onError={(err) => {
               console.log(err, "participant video error");
             }}
+            
+            style={{borderRadius:"40px"}}
+         
           />
         )}
       </div>

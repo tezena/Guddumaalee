@@ -28,17 +28,17 @@ export default function RootLayout({
       <body className={` ${inter.className}`}>
         <ReactQueryProvider >
           <AuthSessionProvider session={session}>
-            <ThemeProvider
+            {/* <ThemeProvider
               attribute="class"
               defaultTheme="system"
               enableSystem
               disableTransitionOnChange
-            >
+            > */}
               <Toaster />
               <ContextProvider>
               {children}
               </ContextProvider>
-            </ThemeProvider>
+            {/* </ThemeProvider> */}
           </AuthSessionProvider>
         </ReactQueryProvider>
       </body>

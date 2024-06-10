@@ -2,6 +2,7 @@
 import { deflate } from "zlib";
 import LawyersList from "./lawyersList";
 import { useState } from "react";
+import FilteringOptions from "./moreFilterOptions";
 
 const Lawyers = () => {
   const MenuItems = [
@@ -13,9 +14,13 @@ const Lawyers = () => {
     { id: 3, text: "Assult", type: "assult" },
     { id: 3, text: "Housing", type: "housing" },
     { id: 10, text: "Criminal", type: "criminal" },
+   
   ];
 
   const [selectedType, setSelectedType] = useState("");
+  const [selectedLanguage, setSelectedLanguage] = useState<string>("");
+  const [selectedSpecialization, setSelectedSpecialization] = useState<string>("");
+  const [selectedCourt, setSelectedCourt] = useState<string>("");
 
   return (
     <div className=" min-w-full relative text-center">
@@ -25,18 +30,21 @@ const Lawyers = () => {
             <li
               key={index}
               className="p-2 md:p-4 text-sm md:text-xl  rounded-xl md:m-2 cursor-pointer duration-300 hover:text-black  relative inline-flex items-center justify-start overflow-hidden transition-all bg-white rounded hover:bg-white group"
-              onClick={() => setSelectedType(item.type)}
+              onClick={() => setSelectedSpecialization(item.type)}
             >
-              <span className={selectedType==item.type?`w-full h-full rounded bg-purple-600 absolute  left-0 ease-out duration-200 transition-all text-white`:`w-0 h-0 rounded bg-purple-600 absolute  left-0 ease-out duration-200 transition-all group-hover:w-full group-hover:h-full -z-1`}></span>
-              <span className={ selectedType==item.type?`text-white w-full transition-colors duration-100 ease-in-out group-hover:text-white z-10`: `w-full text-black transition-colors duration-100 ease-in-out group-hover:text-white z-10`}>
+              <span className={selectedSpecialization==item.type?`w-full h-full rounded bg-purple-600 absolute  left-0 ease-out duration-200 transition-all text-white`:`w-0 h-0 rounded bg-purple-600 absolute  left-0 ease-out duration-200 transition-all group-hover:w-full group-hover:h-full -z-1`}></span>
+              <span className={ selectedSpecialization==item.type?`text-white w-full transition-colors duration-100 ease-in-out group-hover:text-white z-10`: `w-full text-black transition-colors duration-100 ease-in-out group-hover:text-white z-10`}>
                 {item.text}
               </span>
             </li>
           );
         })}
+        <li className="p-2 md:p-4 text-sm md:text-xl  rounded-xl md:m-2 cursor-pointer duration-300 hover:text-black  relative inline-flex items-center justify-start overflow-hidden transition-all bg-white rounded hover:bg-white group">
+           <FilteringOptions setSelectedCourt={setSelectedCourt} setSelectedLanguage={setSelectedLanguage} setSelectedSpecialization={setSelectedSpecialization} selectedSpecialization={selectedSpecialization}/>
+        </li>
       </ul>
 
-      <LawyersList selectedType={selectedType} />
+      <LawyersList selectedSpecialization={selectedSpecialization} selectedLanguage={selectedLanguage} selectedCourt={selectedCourt} />
     </div>
   );
 };
