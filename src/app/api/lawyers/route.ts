@@ -58,6 +58,9 @@ export async function GET(req: Request, res: Response) {
         resume: true,
         updatedAt: true,
       },
+      where: {
+        isVerified: false,
+      },
     });
     return NextResponse.json({ id: "GET", lawyers: lawyers });
   } catch (error) {
