@@ -8,19 +8,21 @@ import { MdOutlineLocalPostOffice } from "react-icons/md";
 import { IoPersonCircleSharp } from "react-icons/io5";
 import SearchInput from "./searchInput";
 import { Context } from "@/app/context/userContext";
-import { useRouter,usePathname} from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 import { useSession } from "next-auth/react";
 import { HandleChat } from "@/app/chat/handleChat";
 import { ProfileDropdown } from "./profileDropDown";
 import { ChatDropdown } from "./chatDropDown";
+import { Icon } from "@iconify/react";
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
   const { data: session } = useSession();
   const userType = session?.user?.image?.type;
   const [visted, setVisted] = useState(false);
- 
+
+  const trialNotifications = 3;
 
   const handleNav = () => {
     setNav(!nav);
@@ -28,8 +30,7 @@ const Navbar = () => {
 
   const context = useContext(Context);
   const router = useRouter();
-  const currentRoute = usePathname()
-
+  const currentRoute = usePathname();
 
   if (!context) {
     return null;
@@ -47,6 +48,7 @@ const Navbar = () => {
           </h1>{" "}
         </Link>
       </div>
+
       <>
         {session ? (
           <>
@@ -54,37 +56,57 @@ const Navbar = () => {
               <SearchInput />
             </div>
 
+
+            <div className="relative p-2 ">
+              <Link href={'/lawyer/notification'}>
+              <div className="  hover:text-white rounded-full p-1   hover:bg-black hover:bg-opacity-50 hover:opacity-100 transition-opacity duration-300">
+                <Icon
+                  icon="iconamoon:notification-bold"
+                  className="text-black hover:text-white"
+                  width={30}
+                  height={30}
+                />
+
+                {trialNotifications > 0 && (
+                  <span className="ml-2 bg-red-500 text-white text-xs rounded-full px-2 py-1 absolute top-0 right-0">
+                    1
+                  </span>
+                )}
+              </div>
+              
+              </Link>
+            </div>
+
+
             <ul className="hidden md:flex items-center ">
               <li className="py-4 px-2 rounded-xl m-1 cursor-pointer duration-300 hover:text-black hover:scale-110 ">
-                 <ChatDropdown/>
+                <ChatDropdown />
               </li>
               <li className="py-4 px-2 rounded-xl m-1 cursor-pointer duration-300 hover:text-black hover:scale-110  text-slate-500  ">
-               
-                  {currentRoute == "/" ? (
-                    <>
-                      {" "}
-                      {userType == "client" ? (
-                        <Link href="/client/lawyers">
-                          <h3 className="text-2xl group-hover:font-bolder hover:text-[#7B3B99]">
-                            Lawyer
-                          </h3>
-                        </Link>
-                      ) : (
-                        <Link href="/lawyer">
-                          <h3 className="text-xl group-hover:font-bolder hover:text-[#7B3B99]">
-                            MyPage
-                          </h3>
-                        </Link>
-                      )}
-                    </>
-                  ) : (
-                    <Link href="/">
-                      <h3 className="text-xl group-hover:font-bolder hover:text-[#7B3B99]">
-                        Home
-                      </h3>
-                    </Link>
-                  )}
-             
+                {currentRoute == "/" ? (
+                  <>
+                    {" "}
+                    {userType == "client" ? (
+                      <Link href="/client/lawyers">
+                        <h3 className="text-2xl group-hover:font-bolder hover:text-[#7B3B99]">
+                          Lawyer
+                        </h3>
+                      </Link>
+                    ) : (
+                      <Link href="/lawyer">
+                        <h3 className="text-xl group-hover:font-bolder hover:text-[#7B3B99]">
+                          MyPage
+                        </h3>
+                      </Link>
+                    )}
+                  </>
+                ) : (
+                  <Link href="/">
+                    <h3 className="text-xl group-hover:font-bolder hover:text-[#7B3B99]">
+                      Home
+                    </h3>
+                  </Link>
+                )}
               </li>
               <li className="py-4 px-2 rounded-xl m-1 duration-300 hover:scale-110">
                 {/* <IoPersonCircleSharp className="text-[#7B3B99] w-16 h-12" /> */}
