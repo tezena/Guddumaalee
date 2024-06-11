@@ -1,5 +1,6 @@
 import LawyersCard from "@/components/lawyersCard";
 import { data } from "@/app/data/lawyersMockData";
+import { useQuery } from "@tanstack/react-query";
 
 interface Props { 
   selectedSpecialization: string;
@@ -14,6 +15,21 @@ const LawyersList: React.FC<Props> = ({ selectedSpecialization,selectedCourt,sel
       (!selectedCourt || lawyer.court === selectedCourt)
     );
   });
+
+  //   const { isPending, error, data } = useQuery({
+  //     queryKey: ['repoData'],
+  //     queryFn: () =>
+  //       fetch('http://localhost:3000/api/lawyers/verified').then((res) =>
+  //         res.json(),
+  //       ),
+  //   })
+
+  //   console.log(data)
+  
+  //   if (isPending) return 'Loading...'
+  
+  //   if (error) return 'An error has occurred: ' + error.message
+  
 
   return (
     <div className="container px-5 py-5 mx-auto mt-4">

@@ -122,7 +122,7 @@ const ChatHeader = (props: CustomChatHeaderProps) => {
           <input
             multiple
             id="ce-files-picker"
-            style={{ visibility: 'hidden', height: '0px', width: '0px' }}
+            style={{ visibility: 'hidden', height: '0px', width: '0px',color:"black !important" }}
             type="file"
             onChange={onFilesSelect}
           />
