@@ -5,25 +5,84 @@ import React, { useState, useEffect, useContext } from "react";
 
 import { PrettyChatWindow } from "../../../react-chat-engine-pretty/src";
 import { useSession } from "next-auth/react";
+import { Context } from "@/app/context/userContext";
+import { ChatEngine, getOrCreateChat } from 'react-chat-engine'
+
+
+
+
+
+
 
 
 const Chat = () => {
- 
+
+  const myContext=useContext(Context)
+  const {username2,setUsername2}=myContext
+  const projectID=process.env.NEXT_PUBLIC_PROJECT_ID
 
   const {data:session}=useSession()
 
+ 
 
+
+  // console.log(`user name is ${username2}`)
+		
+	// function createDirectChat(creds) {
+	// 	getOrCreateChat(
+	// 		creds,
+	// 		{ is_direct_chat: true, usernames: [username2] },
+	// 		() => setUsername('')
+	// 	)
+	// }
+
+	// function renderChatForm(creds) {
+	// 	return (
+	// 		<div>
+	// 			<input 
+	// 				placeholder='Username' 
+	// 				value={username} 
+	// 				onChange={(e) => setUsername2(e.target.value)} 
+	// 			/>
+	// 			<button onClick={() => createDirectChat(creds)}>
+	// 				Create
+	// 			</button>
+	// 		</div>
+	// 	)
+	// }
+   
+  // return (
+    
+
+  // <ChatEngine
+	// 		height='100%'
+	// 		userName={session?.user?.email}
+	// 		userSecret={session?.user?.id}
+	// 		projectID={projectID}
+  //     renderNewChatForm={(creds) => renderChatForm(creds)}
+
+	// 	/>
+  
+
+  //   )
+
+  
   return (
-    <div className="" style={{ height: "90vh", backgroundColor: "blue" }}>
+    <div className="" style={{ height: "80vh", backgroundColor: "blue" }}>
       <PrettyChatWindow
-        projectId="c079bdc9-9902-4ca4-b75c-a6b6d0b4f356"
+        projectId={projectID}
         username={session?.user?.email}
         secret={session?.user?.id}
         style={{ height: "100%" }}
+        username2={username2}
       />
     </div>
-  );
-};
+  )
+  
+  
+  }
+
+
 
 export default Chat;
 

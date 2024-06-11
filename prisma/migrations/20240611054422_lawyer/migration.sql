@@ -1,9 +1,6 @@
-/*
-  Warnings:
+-- CreateEnum
+CREATE TYPE "user_type" AS ENUM ('CLIENT', 'LAWYER', 'ADMIN');
 
-  - You are about to drop the `user` table. If the table is not empty, all the data it contains will be lost.
-
-*/
 -- CreateEnum
 CREATE TYPE "Specialty" AS ENUM ('CORPORATE_LAW', 'CRIMINAL_LAW', 'FAMILY_LAW', 'INTELLECTUAL_PROPERTY_LAW', 'EMPLOYMENT_LAW', 'IMMIGRATION_LAW', 'REAL_ESTATE_LAW', 'ENVIRONMENTAL_LAW', 'TAX_LAW', 'BANKRUPTCY_LAW');
 
@@ -12,9 +9,6 @@ CREATE TYPE "Language" AS ENUM ('AMHARIC', 'OROMO', 'TIGRINYA', 'SOMALI', 'SIDAM
 
 -- CreateEnum
 CREATE TYPE "Court" AS ENUM ('SUPREME_COURT', 'APPELLATE_COURT', 'HIGH_COURT', 'DISTRICT_COURT', 'SMALL_CLAIMS_COURT', 'ADMINISTRATIVE_COURT');
-
--- DropTable
-DROP TABLE "user";
 
 -- CreateTable
 CREATE TABLE "client" (

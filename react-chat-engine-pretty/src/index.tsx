@@ -47,10 +47,13 @@ export const PrettyChatWindow = (props: PrettyChatWindowProps) => {
   );
 
   async function getOrCreateChat() {
-    const usernames = chatFormUsers.map(user => user.username);
+    console.log(`in preety usename${ username2}`)
+    // const usernames = chatFormUsers.map(user => user.username);/
    
     const data = {
+      is_direct_chat:true,
       usernames: username2,
+
     };
     const headers = {
       'Project-ID': chatProps.projectId,
@@ -71,6 +74,8 @@ export const PrettyChatWindow = (props: PrettyChatWindowProps) => {
     );
     setChatFromUsers(users);
   };
+
+  getOrCreateChat();
 
   return (
     <div
@@ -126,6 +131,7 @@ export const PrettyChatWindow = (props: PrettyChatWindowProps) => {
                   secret={chatProps.secret}
                   onChange={onChatFormChange}
                   onCancel={getOrCreateChat}
+                
                 />
               );
             } else {
@@ -159,7 +165,7 @@ export const PrettyChatWindow = (props: PrettyChatWindowProps) => {
       </div>
 
       <style>{`
-      .ce-chat-list { background-color: white !important;border: .5px solid black !important; margin-top: 4vh !important; !important; margin-right: 2vw !important; margin-left: 2vw !important;border-radius: 40px !important ; padding:25px !important; box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px; !important; }
+      .ce-chat-list { background-color: white !important;border: .5px solid black !important; margin-top: 4vh !important; !important; margin-right: 2vw !important; margin-left: 1vw !important;border-radius: 40px !important ; padding:25px !important; box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px; !important; }
       .ce-chat-form { background-color: white !important; padding-bottom: 14px !important;  }
       .ce-chat-form-title { color: black !important; }
 
@@ -207,7 +213,7 @@ const styles = {
   col8: {
     display: 'block',
     flex: '0 0 28.33333%',
-    maxWidth: '28.3333%',
+    maxWidth: '25.3333%',
     backgroundColor: 'white',
   } as React.CSSProperties,
   col9: {

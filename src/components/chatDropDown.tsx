@@ -20,9 +20,12 @@ export function ChatDropdown() {
   const userType = session?.user?.image?.type;
   const privateKey =process.env.NEXT_PUBLIC_CHAT_KEY
 
+ 
+
   const router = useRouter();
 
   const HandleChat = async () => {
+    console.log("handle clicked")
     
     await axios
       .put(
