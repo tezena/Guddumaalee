@@ -5,51 +5,54 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { Icon } from "@iconify/react";
 import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
-import { verifyLawyer, fetchLawyerById, getLawyers } from "../../api/lawyers";
+import { verifyLawyer, fetchLawyerById } from "../../api/lawyers";
+import { useRouter } from "next/navigation";
 
-async function fetchLawyer(id: any) {
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization: "Bearer ....",
-    },
-  };
+// async function fetchLawyer(id: any) {
+//   const options = {
+//     method: "GET",
+//     headers: {
+//       accept: "application/json",
+//       Authorization: "Bearer ....",
+//     },
+//   };
 
-  const response = await fetch(
-    `http://localhost:3000/api/lawyers/${id}`,
-    options
-  );
-  if (!response.ok) {
-    throw new Error("Network response was not ok");
-  }
-  return response.json();
-}
+//   const response = await fetch(
+//     `http://localhost:3000/api/lawyers/${id}`,
+//     options
+//   );
+//   if (!response.ok) {
+//     throw new Error("Network response was not ok");
+//   }
+//   return response.json();
+// }
 
-async function AcceptLawyer(id: string) {
-  console.log("clecked");
+// async function AcceptLawyer(id: string) {
+//   console.log("clecked");
 
-  const options = {
-    method: "POST",
-    headers: {
-      accept: "application/json",
-      Authorization: "Bearer ....",
-    },
-  };
+//   const options = {
+//     method: "POST",
+//     headers: {
+//       accept: "application/json",
+//       Authorization: "Bearer ....",
+//     },
+//   };
 
-  const response = await fetch(
-    `http://localhost:3000/api/lawyers/${id}/verify`,
-    options
-  );
-  if (!response.ok) {
-    throw new Error("Network response was not ok");
-  }
-  return response.json();
-}
+//   const response = await fetch(
+//     `http://localhost:3000/api/lawyers/${id}/verify`,
+//     options
+//   );
+//   if (!response.ok) {
+//     throw new Error("Network response was not ok");
+//   }
+//   return response.json();
+// }
 
 const queryClient = new QueryClient();
 
 export function Detail() {
+  const router = useRouter();
+
   const param = useParams();
   const { id } = param;
   const { data, isLoading, error } = useQuery({
@@ -61,6 +64,7 @@ export function Detail() {
     mutationFn: () => verifyLawyer(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["lawyer"] });
+      router.back()
     },
   });
 
@@ -148,6 +152,7 @@ export function Detail() {
             onClick={async () => {
               try {
                 mutateAsync();
+
               } catch (e) {
                 console.log(e);
               }
