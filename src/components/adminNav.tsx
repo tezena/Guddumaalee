@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useEffect ,useState} from 'react';
-import Link from 'next/link';
-import { Icon } from '@iconify/react';
-import { useNotifications } from '@/app/context/NotificationContext';
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { Icon } from "@iconify/react";
+import { useNotifications } from "@/app/context/NotificationContext";
 
 export function AdminNavbar() {
   const [isClient, setIsClient] = useState(false);
@@ -19,8 +19,8 @@ export function AdminNavbar() {
 
   useEffect(() => {
     setIsClient(true);
-    console.log('fetching....');
-    
+    console.log("fetching....");
+
     fetchNotifications(); // Fetch notifications when the component mounts
   }, [fetchNotifications]);
 
@@ -38,7 +38,7 @@ export function AdminNavbar() {
   }
 
   return (
-        <div className="fixed top-4 left-10 lg:left-72 right-10 lg:mx-auto rounded-xl shadow-lg z-40 p-2 w-[95vw] lg:w-[80vw] h-fit bg-white border-gray-200">
+    <div className="fixed top-4 left-10 lg:left-72 right-10 lg:mx-auto rounded-xl shadow-lg z-40 p-2 w-[95vw] lg:w-[80vw] h-fit bg-white border-gray-200">
       <div className="min-w-screen flex gap-2 items-center justify-between mx-auto">
         <div className="flex gap-4 items-center h-fit">
           <svg
@@ -88,23 +88,32 @@ export function AdminNavbar() {
         </div>
 
         <div className="flex gap-4 items-center cursor-pointer ">
-          <div className="mr-4 relative transform transition duration-500 hover:scale-105" onClick={toggleDropDown}>
-            <div className='relative p-2'>
-            <div className="hover:bg-gray-600 hover:opacity-50 hover:text-white rounded-full p-1 ">
-              <Icon
-                icon="iconamoon:notification-bold"
-                className="text-black hover:text-white"
-                width={30}
-                height={30}
-              />
-              {lawyerNotifications > 0 || faqNotifications > 0 || disputeNotifications >0 ? (
-                      <span className="ml-2 bg-red-500 text-white text-xs rounded-full px-2 py-1 absolute top-0 right-0">
-                        {lawyerNotifications + faqNotifications + disputeNotifications}
-                      </span>
-                    ):''}
+          <div
+            className="mr-4 relative transform transition duration-500 hover:scale-105"
+            onClick={toggleDropDown}
+          >
+            <div className="relative p-2 ">
+              <div className="  hover:text-white rounded-full p-1   hover:bg-black hover:bg-opacity-50 hover:opacity-100 transition-opacity duration-300">
+                <Icon
+                  icon="iconamoon:notification-bold"
+                  className="text-black hover:text-white"
+                  width={30}
+                  height={30}
+                />
+                {/* <div className="w-8 h-8 rounded-full absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div> */}
+                {lawyerNotifications > 0 ||
+                faqNotifications > 0 ||
+                disputeNotifications > 0 ? (
+                  <span className="ml-2 bg-red-500 text-white text-xs rounded-full px-2 py-1 absolute top-0 right-0">
+                    {lawyerNotifications +
+                      faqNotifications +
+                      disputeNotifications}
+                  </span>
+                ) : (
+                  ""
+                )}
+              </div>
             </div>
-            </div>
-           
 
             {showDropdown && (
               <div className="absolute top-6 right-0 mt-2 w-32 bg-white rounded-lg shadow-md transform translate-x-3/4 z-10">
@@ -158,8 +167,16 @@ export function AdminNavbar() {
             <p>Ugullu Banga</p>
             <p>uglu21@gmail.com</p>
           </div>
-          <div className="relative transform transition duration-500 hover:scale-105" onClick={toggleProfDropDown}>
-            <Icon icon="ic:baseline-keyboard-arrow-down" style={{ color: 'black' }} width={30} height={30} />
+          <div
+            className="relative transform transition duration-500 hover:scale-105"
+            onClick={toggleProfDropDown}
+          >
+            <Icon
+              icon="ic:baseline-keyboard-arrow-down"
+              style={{ color: "black" }}
+              width={30}
+              height={30}
+            />
 
             {showProfileDrop && (
               <div className="absolute top-6 right-16 mt-2 w-28 bg-white rounded-lg shadow-md transform translate-x-3/4 z-10">
@@ -189,18 +206,6 @@ export function AdminNavbar() {
 }
 
 export default AdminNavbar;
-
-
-
-
-
-
-
-
-
-
-
-
 
 // 'use client'
 // import { useEffect, useState } from "react";
@@ -378,27 +383,6 @@ export default AdminNavbar;
 
 // export default AdminNavbar;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // // 'use client'
 // // import { useEffect, useState } from "react";
 // // import Link from "next/link";
@@ -479,12 +463,11 @@ export default AdminNavbar;
 // //         <div className="flex gap-4 items-center cursor-pointer ">
 // //           <div className="mr-4 relative  transform transition duration-500 hover:scale-105 " onClick={toggleDropDown}>
 // //             <div className="hover:bg-gray-600 hover:opacity-50 hover:text-white rounded-full p-1">
-// //             <Icon icon="iconamoon:notification-bold" 
-// //           //  style={{color: 'black',}} 
+// //             <Icon icon="iconamoon:notification-bold"
+// //           //  style={{color: 'black',}}
 // //           className="text-black hover:text-white"
 // //            width={30} height={30}   />
 // //             </div>
-         
 
 // //             {showDropdoun ? (
 // //               <div className="absolute top-6 right-0 mt-2 w-32 bg-white rounded-lg shadow-md transform translate-x-3/4 z-10">
@@ -558,28 +541,3 @@ export default AdminNavbar;
 // // }
 
 // // export default AdminNavbar;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -63,7 +63,7 @@ export function Detail() {
   const { mutateAsync } = useMutation({
     mutationFn: () => verifyLawyer(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["lawyer"] });
+      queryClient.invalidateQueries({ queryKey: ["lawyers"] });
       router.back()
     },
   });
