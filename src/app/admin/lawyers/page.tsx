@@ -2,14 +2,14 @@
 import React from "react";
 import { useState, useEffect, useMemo } from "react";
 import { Icon } from "@iconify/react";
-import { getLawyers } from "../api/lawyers";
+import { getVerifiedLawyers } from "../api/lawyers";
 import { useQuery } from "@tanstack/react-query";
 // import getLawyers from "./api/lawyers"
 export function Lawyers() {
 
   const {data,error,isLoading}= useQuery({
     queryKey:['lawyers'],
-    queryFn:getLawyers
+    queryFn:getVerifiedLawyers
   })
 
   // const Lawyers = [

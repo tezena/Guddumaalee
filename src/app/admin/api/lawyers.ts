@@ -33,7 +33,7 @@ async function getData() {
     },
   };
 
-  const response = fetch("http://localhost:3000/api/lawyers", options)
+  const response = fetch("http://localhost:3000/api/lawyers/verified", options)
     .then((response) => {
       console.log(response);
 
@@ -44,7 +44,7 @@ async function getData() {
   return response;
 }
 
-export async function getLawyers() {
+export async function getNewLawyers() {
 
   try {
     const response = await axios.get("http://localhost:3000/api/lawyers");
@@ -59,20 +59,27 @@ export async function getLawyers() {
     console.error(err);
     throw err; // Ensure errors are propagated correctly
   }
-
-  // axios
-  //   .get("http://localhost:3000/api/lawyers")
-  //   .then((res: any) => {
-  //     console.log(res);
-
-  //     return res;
-  //   })
-  //   .catch((err: any) => {
-  //     console.log(err);
-
-  //     return err;
-  //   });
 }
+
+
+export async function getVerifiedLawyers() {
+
+  try {
+    const response = await axios.get("http://localhost:3000/api/lawyers/verified");
+    if (response.status !== 200) {
+      throw new Error(`Error: ${response.statusText}`);
+    }
+    const data = response;
+    console.log(data);
+
+    return data.data;
+  } catch (err) {
+    console.error(err);
+    throw err; // Ensure errors are propagated correctly
+  }
+}
+
+
 export async function fetchLawyerById(id: any) {
   // const options = {
   //   method: "GET",
