@@ -16,7 +16,7 @@ export default function RootLayout({
 }>) {
   const pathname = usePathname();
 
-  const noSidebarRoutes = ["/lawyer/updateProfile", /^\/lawyer\/cases\/\d+$/,/^\/lawyer\/cases\/\d\/dispute+$/];
+  const noSidebarRoutes = ["/lawyer/updateProfile", /^\/lawyer\/cases\/\d+$/,/^\/lawyer\/cases\/\d\/dispute+$/,'/lawyer/notification'];
   const shouldHideSidebar = (path: string) => {
     return noSidebarRoutes.some((route) =>
       route instanceof RegExp ? route.test(path) : route === path

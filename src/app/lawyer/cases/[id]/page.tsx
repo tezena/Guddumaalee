@@ -78,7 +78,7 @@ function CaseDetail() {
 
         </div>
 
-        <button className="px-6 py-2 rounded-2xl text-lg font-semibold text-white bg-[#ab51d5] absolute top-10 right-4"
+        <button className="px-6 py-2 rounded-2xl text-lg font-semibold text-white bg-[#7e31a2] absolute top-10 right-4"
          onClick={ ()=> router.push(`${path}/dispute`)}
         >DISPUTE</button>
         
