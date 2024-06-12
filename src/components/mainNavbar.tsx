@@ -55,32 +55,30 @@ const Navbar = () => {
               <SearchInput />
             </div>
 
-
-            <div className="relative p-2 ">
-              <Link href={'/lawyer/notification'}>
-              <div className="  hover:text-white rounded-full p-1   hover:bg-black hover:bg-opacity-50 hover:opacity-100 transition-opacity duration-300">
-                <Icon
-                  icon="iconamoon:notification-bold"
-                  className="text-black hover:text-white"
-                  width={30}
-                  height={30}
-                />
-
-                {trialNotifications > 0 && (
-                  <span className="ml-2 bg-red-500 text-white text-xs rounded-full px-2 py-1 absolute top-0 right-0">
-                    1
-                  </span>
-                )}
-              </div>
-              
-              </Link>
-            </div>
-
-
             <ul className="hidden md:flex items-center ">
+
+              
+              <div className="relative p-2 ">
+                <div className="  hover:text-white rounded-full p-1   hover:bg-black hover:bg-opacity-50 hover:opacity-100 transition-opacity duration-300">
+                  <Icon
+                    icon="iconamoon:notification-bold"
+                    className="text-black hover:text-white"
+                    width={30}
+                    height={30}
+                  />
+
+                  {trialNotifications > 0 && (
+                    <span className="ml-2 bg-red-500 text-white text-xs rounded-full px-2 py-1 absolute top-0 right-0">
+                      1
+                    </span>
+                  )}
+                </div>
+              </div>
+
               <li className="py-4 px-2 rounded-xl m-1 cursor-pointer duration-300 hover:text-black hover:scale-110 ">
                 <ChatDropdown />
               </li>
+
               <li className="py-4 px-2 rounded-xl m-1 cursor-pointer duration-300 hover:text-black hover:scale-110  text-slate-500  ">
                 {currentRoute == "/" ? (
                   <>
@@ -134,7 +132,7 @@ const Navbar = () => {
         <h1 className="w-full text-3xl font-bold text-white m-4">Guddumalee</h1>
 
         <li className="p-4 border-b rounded-xl hover:bg-[#00df9a] duration-300 hover:text-black cursor-pointer border-gray-600">
-          <span >Chat</span>
+          <span>Chat</span>
         </li>
 
         <li className="p-4 border-b rounded-xl hover:bg-[#00df9a] duration-300 hover:text-black cursor-pointer border-gray-600">
