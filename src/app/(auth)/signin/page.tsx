@@ -25,6 +25,9 @@ import {
 } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { SetUserContext } from "@/app/context/setUserContext";
+import { useSession } from "next-auth/react";
+
 // import { ModeToggle } from "@/components/theme/ThemeToggle";
 
 const formSchema = z.object({
@@ -34,15 +37,22 @@ const formSchema = z.object({
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
+
+
+
 const RegistrationUserForm = () => {
+  
+
   const { toast } = useToast();
   const router = useRouter();
+  const {data:session}=useSession();
+
   let tempUserInfo: any;
   const [registeringUser, setRegisteringUser] = useState<boolean>(false);
   if (typeof window !== "undefined") {
     tempUserInfo = JSON.parse(localStorage.getItem("tempUserInfo") || "{}");
   }
-
+   
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -59,6 +69,8 @@ const RegistrationUserForm = () => {
         email: values.email,
         password: values.password,
       });
+
+      setRegisteringUser(session?.user?.email,session?.user?.email)
       router.push("/");
       router.refresh();
     } catch (e: any) {

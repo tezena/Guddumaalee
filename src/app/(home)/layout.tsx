@@ -18,10 +18,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn("min-h-screen ")}>
+      <body>
         <div vaul-drawer-wrapper="" className="relative">
           <Navbar />
-          <div className="relative max-w-screen-2xl  min-h-screen ">
+          <div className="relative max-w-screen-2xl  h-[calc(100vh-30px)]">
             {children}
           </div>
         </div>
