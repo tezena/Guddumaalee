@@ -1,4 +1,3 @@
-
 import React from "react";
 import Link from "next/link";
 
@@ -105,25 +104,6 @@ function Inprogres() {
 }
 
 export default Inprogres;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import React from 'react';
 // import Link from "next/link";
@@ -264,4 +244,3 @@ export default Inprogres;
 // }
 
 // export default Inprogres;
-
