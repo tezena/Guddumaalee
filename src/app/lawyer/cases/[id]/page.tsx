@@ -52,14 +52,14 @@ function CaseDetail() {
     <div className="container  mx-auto px-4 pt-10 relative">
 
 
-      <Link href={"/lawyer/inprogres"} className="fixed top-28  left-4 bg-white  cursor-pointer">
+      <div onClick={()=>router.back()} className="fixed top-28  left-4 bg-white  cursor-pointer">
         <Icon
           icon="grommet-icons:link-previous"
-          style={{ color: "gray" }}
+          style={{ color: "#7B3B99" }}
           width={30}
           height={30}
         />
-      </Link>
+      </div>
 
 
       <div className="mb-4 p-10 border rounded shadow-md relative">
@@ -78,7 +78,7 @@ function CaseDetail() {
 
         </div>
 
-        <button className="px-6 py-2 rounded-2xl text-lg font-semibold text-white bg-[#7e31a2] absolute top-10 right-4"
+        <button className="px-6 py-2 rounded-md text-lg font-semibold text-white bg-[#7e31a2] absolute top-10 right-4"
          onClick={ ()=> router.push(`${path}/dispute`)}
         >DISPUTE</button>
         
