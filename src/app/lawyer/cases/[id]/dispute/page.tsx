@@ -11,7 +11,7 @@ const disputes = [
     id: 1,
     clientName: "John Doe",
     clientId: "C123",
-    summary:
+    Description:
       "Deadlights jack lad schooner scallywag dance the hempen jig carouser broadside cable strike colors. Bring a spring upon her cable holystone blow the man down spanker Shiver me timbers to go on account lookout wherry doubloon chase. Belay yo-ho-ho keelhaul squiffy black spot yardarm spyglass sheet transom heave to.",
     submissionDate: "2023-01-01",
     response:
@@ -23,7 +23,7 @@ const disputes = [
     id: 2,
     clientName: "Jane Smith",
     clientId: "C124",
-    summary:
+    Description:
       "Deadlights jack lad schooner scallywag dance the hempen jig carouser broadside cable strike colors. Bring a spring upon her cable holystone blow the man down spanker Shiver me timbers to go on account lookout wherry doubloon chase. Belay yo-ho-ho keelhaul squiffy black spot yardarm spyglass sheet transom heave to.",
     submissionDate: "2023-02-15",
     response:
@@ -99,8 +99,8 @@ const Disputes = () => {
               className=" p-10  mb-4  flex flex-col gap-4 relative"
             >
               <div className="flex flex-col gap-4">
-                <p className="text-2xl font-bold text-[#602979]">Summary:</p>{" "}
-                {dispute.summary}
+                <p className="text-2xl font-bold text-[#602979]">Description:</p>{" "}
+                {dispute.Description}
               </div>
               <div className="flex gap-2 items-center absolute right-12 top-12 text-sm">
                 <p className=" font-bold text-[#60277b]">Submission Date:</p>
@@ -155,7 +155,7 @@ const Disputes = () => {
                   />
                 </div>
                 <div className="mb-4">
-                  <label className="block text-gray-700">Summary</label>
+                  <label className="block text-gray-700">Description</label>
                   <textarea
                     name="summary"
                     value={newDispute.summary}

@@ -41,6 +41,7 @@ import Image from "next/image";
 import { cn, courts, languages, lawyerSpecialties } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Textarea } from "@/components/ui/textarea";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -48,6 +49,7 @@ const formSchema = z.object({
   }),
   password: z.string().min(6, "Password must be at least 6 characters"),
   confirm: z.string().min(6, "Repeat the password"),
+  description: z.string(),
   type: z.string().min(2, "Required"),
   languages: z.array(z.string()).refine((value) => value.some((item) => item), {
     message: "You have to select at least one language.",
@@ -71,12 +73,14 @@ const SignUpForm = () => {
   const [qualification, setQualification] = useState("");
   const [cv, setCv] = useState("");
   const [resume, setResume] = useState("");
+  const [photo, setPhoto] = useState("");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
       password: "",
+      description: "",
       type: "",
       languages: ["AMHARIC"],
       specialties: ["CRIMINAL_LAW"],
@@ -151,6 +155,8 @@ const SignUpForm = () => {
           courts: values.courts,
           languages: values.languages,
           specialties: values.specialties,
+          photo,
+          description: values.description,
         },
         {
           onSuccess: async () => {
@@ -341,7 +347,56 @@ const SignUpForm = () => {
                           )}
                         </div>
                       </div>
+                      <div className="flex gap-3 lg:flex-row flex-col">
+                        <div className="space-y-2 lg:w-[300px]">
+                          <Label>Photo</Label>
+                          {!cv ? (
+                            <UploadDropzone
+                              className="p-2 border border-gray-600"
+                              endpoint="fileUploader"
+                              onClientUploadComplete={(res) => {
+                                setPhoto(res[0].url);
+                              }}
+                              onUploadError={(error: Error) => {
+                                toast({ title: `ERROR! ${error.message}` });
+                              }}
+                            />
+                          ) : (
+                            <div className="flex flex-col">
+                              <Image
+                                src={photo}
+                                width={200}
+                                height={200}
+                                alt="cover image"
+                                className="w-[200px] h-[80px] object-cover"
+                              />
+                              <Button
+                                onClick={() => {
+                                  setPhoto("");
+                                }}
+                                className="w-[200px]"
+                                variant="outline"
+                              >
+                                Choose Another Photo
+                              </Button>
+                            </div>
+                          )}
+                        </div>
+                      </div>
                     </div>
+                    <FormField
+                      control={form.control}
+                      name="description"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="mt-3">About Me</FormLabel>
+                          <FormControl>
+                            <Textarea {...field} className="mt-3" />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
                     <FormField
                       control={form.control}
                       name="languages"
@@ -577,7 +632,7 @@ const SignUpForm = () => {
                     disabled={
                       registeringUser ||
                       (form.watch("type") == "LAWYER" &&
-                        (!id || !qualification))
+                        (!id || !qualification || !photo))
                     }
                     type="submit"
                     className="w-full"

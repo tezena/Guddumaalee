@@ -56,8 +56,8 @@ function Inprogres() {
   ];
 
   return (
-    <div className="w-full font-sans min-h-screen pt-8 pl-10 lg:pl-60 bg-gray-100 flex flex-col gap-6">
-      <div className="w-4/5 m-auto mb-8 p-6 bg-white rounded-lg shadow-lg border border-gray-200">
+    <div className="w-full font-sans min-h-screen pt-8 pl-10 lg:pl-60 bg-gray-100 flex flex-col gap-2">
+      <div className="w-4/5 m-auto mb-4 p-6 bg-white rounded-lg shadow-lg border border-gray-200">
         <h2 className="text-2xl font-bold text-gray-800 mb-4">Summary</h2>
         <p className="text-gray-600">Total Cases: {cases.length}</p>
         <p className="text-gray-600">

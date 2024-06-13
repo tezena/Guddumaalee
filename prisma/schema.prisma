@@ -75,4 +75,6 @@ model lawyer {
   isVerified Boolean @default(false)
   created_at     DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
+  photo String
+  description String
 }

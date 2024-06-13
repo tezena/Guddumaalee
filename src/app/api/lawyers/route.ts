@@ -24,6 +24,8 @@ export async function POST(req: Request, res: Response) {
         languages: userInput.languages,
         specialties: userInput.userInput,
         courts: userInput.courts,
+        photo: userInput.photo,
+        description: userInput.description,
         ...(userInput.cv && { cv: userInput.cv }),
         ...(userInput.resume && { resume: userInput.resume }),
       },
