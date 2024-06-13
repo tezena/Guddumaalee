@@ -26,15 +26,20 @@ export function ChatDropdown() {
 
   const HandleChat = async () => {
     console.log("handle clicked")
+    console.log(privateKey)
+    console.log(session?.user)
     
     await axios
-      .put(
+      .post(
         "https://api.chatengine.io/users/",
         {
-          username: session?.user?.email,
-          secret: session?.user?.email,
-        },
-        { headers: { "PRIVATE-KEY": `${privateKey}` } }
+          "username": "adam_la_morre",
+          "first_name": "Adam",
+          "last_name": "La Morre",
+          "secret": "pass1234",
+          "custom_json": {"high_score": 2000}
+      },
+        { headers: { "PRIVATE-KEY": `fd952a71-8ae3-4a5b-a090-d59b25f7e04a` } }
       )
       .then((res) => {
         console.log(res.data);
@@ -42,7 +47,7 @@ export function ChatDropdown() {
         router.push("/chat");
       })
       .catch((e) => {
-        console.log(e.message);
+        console.log(e);
       });
   };
 
@@ -57,7 +62,7 @@ export function ChatDropdown() {
         <DropdownMenuGroup>
           <DropdownMenuItem>
             <MessageSquareText className="mr-2 h-4 w-4" />
-            <span onClick={HandleChat}> Chat </span>
+            <span onClick={()=>HandleChat()}> Chat </span>
           </DropdownMenuItem>
           <DropdownMenuItem>
             <Video className="mr-2 h-4 w-4" />
