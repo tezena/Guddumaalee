@@ -12,6 +12,7 @@ import {
     User,
     UserPlus,
     Users,
+    HandHelping
   } from "lucide-react"
   
   import { Button } from "@/components/ui/button"
@@ -63,6 +64,14 @@ import {
               <User className="mr-2 h-4 w-4" />
               <Link href={userType == "client"? "":"/lawyer/updateProfile"}> Profile</Link>
             </DropdownMenuItem>
+          </DropdownMenuGroup>
+          <DropdownMenuGroup>
+            {
+              userType=="client"?<DropdownMenuItem>
+              <HandHelping className="mr-2 h-4 w-4" />
+              <Link href="/client/dispute"> Dispute</Link>
+            </DropdownMenuItem>:""
+            } 
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuItem >

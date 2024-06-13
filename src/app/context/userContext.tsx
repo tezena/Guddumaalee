@@ -6,6 +6,9 @@ interface ContextProps {
   setUsername: React.Dispatch<React.SetStateAction<string>>;
   secret: string;
   setSecret: React.Dispatch<React.SetStateAction<string>>;
+  username2: string;
+  setUsername2: React.Dispatch<React.SetStateAction<string>>;
+
 }
 
 export const Context = createContext<ContextProps | undefined>(undefined);
@@ -17,12 +20,15 @@ interface ContextProviderProps {
 export const ContextProvider = ({ children }: ContextProviderProps) => {
   const [userName, setUsername] = useState<string>("");
   const [secret, setSecret] = useState<string>("");
+  const [username2,setUsername2]=useState<string>('');
 
   const value = {
     userName,
     setUsername,
     secret,
     setSecret,
+    username2,
+    setUsername2
   };
 
   return <Context.Provider value={value}>{children}</Context.Provider>;

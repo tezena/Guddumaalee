@@ -1,68 +1,88 @@
 "use client";
 
 import React, { useState, useEffect, useContext } from "react";
-import dynamic from "next/dynamic";
-import { useRouter } from "next/navigation";
-import { Context } from "@/app/context/userContext";
-import {
-  ChatEngine,
-  ChatList,
-  ChatCard,
-  NewChatForm,
-  ChatFeed,
-  ChatHeader,
-  IceBreaker,
-  MessageBubble,
-  IsTyping,
-  ConnectionBar,
-  NewMessageForm,
-  ChatSettings,
-  PeopleSettings,
-  PhotosSettings,
-  OptionsSettings,
-  ChatEngineWrapper,
-  ChatSocket,
-  Socket,
-} from "@/components/dynamickImportsModule";
+
+
 import { PrettyChatWindow } from "../../../react-chat-engine-pretty/src";
-// import { PrettyChatWindow } from "@/react-chat-engine";
+import { useSession } from "next-auth/react";
+import { Context } from "@/app/context/userContext";
+import { ChatEngine, getOrCreateChat } from 'react-chat-engine'
+
+
+
+
+
+
+
 
 const Chat = () => {
-  const context = useContext(Context);
 
-  if (!context) {
-    console.log("no context");
-    return null;
-  }
-  const { userName, secret } = context;
-  const [showChat, setShowChat] = useState(false);
-  const router = useRouter();
+  const myContext=useContext(Context)
+  const {username2,setUsername2}=myContext
+  const projectID=process.env.NEXT_PUBLIC_PROJECT_ID
 
-  useEffect(() => {
-    if (typeof document !== undefined) {
-      setShowChat(true);
-    }
-  }, []);
+  const {data:session}=useSession()
 
-  useEffect(() => {
-    if (userName == "" || secret == "") {
-      router.push("/signIn");
-    }
-  }, [userName, secret]);
+ 
 
-  if (!showChat) return <div />;
 
+  // console.log(`user name is ${username2}`)
+		
+	// function createDirectChat(creds) {
+	// 	getOrCreateChat(
+	// 		creds,
+	// 		{ is_direct_chat: true, usernames: [username2] },
+	// 		() => setUsername('')
+	// 	)
+	// }
+
+	// function renderChatForm(creds) {
+	// 	return (
+	// 		<div>
+	// 			<input 
+	// 				placeholder='Username' 
+	// 				value={username} 
+	// 				onChange={(e) => setUsername2(e.target.value)} 
+	// 			/>
+	// 			<button onClick={() => createDirectChat(creds)}>
+	// 				Create
+	// 			</button>
+	// 		</div>
+	// 	)
+	// }
+   
+  // return (
+    
+
+  // <ChatEngine
+	// 		height='100%'
+	// 		userName={session?.user?.email}
+	// 		userSecret={session?.user?.id}
+	// 		projectID={projectID}
+  //     renderNewChatForm={(creds) => renderChatForm(creds)}
+
+	// 	/>
+  
+
+  //   )
+
+  
   return (
-    <div className="" style={{ height: "90vh", backgroundColor: "blue" }}>
+    <div className="" style={{ height: "80vh", backgroundColor: "blue" }}>
       <PrettyChatWindow
-        projectId="c079bdc9-9902-4ca4-b75c-a6b6d0b4f356"
-        username={userName}
-        secret={secret}
+        projectId={projectID}
+        username={session?.user?.email}
+        secret={session?.user?.id}
         style={{ height: "100%" }}
+        username2={username2}
       />
     </div>
-  );
-};
+  )
+  
+  
+  }
+
+
 
 export default Chat;
 
