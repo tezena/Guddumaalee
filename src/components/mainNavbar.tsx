@@ -11,9 +11,9 @@ import { Context } from "@/app/context/userContext";
 import { useRouter, usePathname } from "next/navigation";
 
 import { useSession } from "next-auth/react";
-import { HandleChat } from "@/app/chat/handleChat";
 import { ProfileDropdown } from "./profileDropDown";
 import { ChatDropdown } from "./chatDropDown";
+import { Icon } from "@iconify/react";
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
@@ -21,6 +21,8 @@ const Navbar = () => {
   //@ts-ignore
   const userType = session?.user?.image?.type;
   const [visted, setVisted] = useState(false);
+
+  const trialNotifications = 3;
 
   const handleNav = () => {
     setNav(!nav);
@@ -46,6 +48,7 @@ const Navbar = () => {
           </h1>{" "}
         </Link>
       </div>
+
       <>
         {session ? (
           <>
@@ -54,9 +57,28 @@ const Navbar = () => {
             </div>
 
             <ul className="hidden md:flex items-center ">
+              <div className="relative p-2 ">
+                <Link href={"/lawyer/notification"}>
+                  <div className="  hover:text-white rounded-full p-1  hover:opacity-100 transition-opacity duration-300">
+                    <Icon
+                      icon="iconamoon:notification-bold"
+                      className="text-gray-400  hover:text-[#7B3B99]"
+                      width={30}
+                      height={30}
+                    />
+
+                    {trialNotifications > 0 && (
+                      <span className="ml-2 bg-red-500 text-white text-xs rounded-full px-2 py-1 absolute top-0 right-0">
+                        1
+                      </span>
+                    )}
+                  </div>
+                </Link>
+              </div>
               <li className="py-4 px-2 rounded-xl m-1 cursor-pointer duration-300 hover:text-black hover:scale-110 ">
                 <ChatDropdown />
               </li>
+
               <li className="py-4 px-2 rounded-xl m-1 cursor-pointer duration-300 hover:text-black hover:scale-110  text-slate-500  ">
                 {currentRoute == "/" ? (
                   <>
@@ -110,7 +132,7 @@ const Navbar = () => {
         <h1 className="w-full text-3xl font-bold text-white m-4">Guddumalee</h1>
 
         <li className="p-4 border-b rounded-xl hover:bg-[#00df9a] duration-300 hover:text-black cursor-pointer border-gray-600">
-          <span onClick={HandleChat}>Chat</span>
+          <span>Chat</span>
         </li>
 
         <li className="p-4 border-b rounded-xl hover:bg-[#00df9a] duration-300 hover:text-black cursor-pointer border-gray-600">
