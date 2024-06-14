@@ -1,22 +1,18 @@
 import { db } from "@/lib/db";
 import { Client } from "@/server/user-management/Client";
+import { Faq } from "@/server/user-management/Faq";
 import bcrypt from "bcrypt";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: Request, res: Response) {
   try {
     const userInput = await req.json();
-    if (!userInput.email || !userInput.password) {
+    if (!userInput.question) {
       throw new Error("Please provide all the necessary information.");
     }
-    const newUser = await Client.add(
-      userInput.email,
-      userInput.password,
-      userInput.full_name,
-      userInput.phone_number
-    );
+    const newFaq = await Faq.add(userInput.question);
     return NextResponse.json(
-      { message: "New user account created", userId: newUser.id },
+      { message: "New Faq account created", faqId: newFaq.id },
       { status: 201 }
     );
   } catch (error) {
@@ -24,17 +20,14 @@ export async function POST(req: Request, res: Response) {
       console.log(`${error.message}`);
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
-    return NextResponse.json(
-      { error: "Couldn't create user account" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Couldn't add faq" }, { status: 500 });
   }
 }
 
 export async function GET(req: Request, res: Response) {
   try {
-    const clients = await Client.getAll();
-    return NextResponse.json({ id: "GET", clients });
+    const faqs = await Faq.getAll();
+    return NextResponse.json({ id: "GET", faqs });
   } catch (error) {
     if (error instanceof Error) {
       console.log(`${error.message}`);
@@ -46,18 +39,3 @@ export async function GET(req: Request, res: Response) {
     );
   }
 }
-
-// export async function PUT(req: Request, res: Response) {
-//   try {
-//     return NextResponse.json({ id: "PUT" });
-//   } catch (error) {
-//     if (error instanceof Error) {
-//       console.log(`${error.message}`);
-//       return NextResponse.json({ error: error.message }, { status: 500 });
-//     }
-//     return NextResponse.json(
-//       { error: "Couldn't update user account" },
-//       { status: 500 }
-//     );
-//   }
-// }

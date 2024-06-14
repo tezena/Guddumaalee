@@ -1,4 +1,5 @@
 import { db } from "@/lib/db";
+import { Lawyer } from "@/server/user-management/Lawyer";
 import bcrypt from "bcrypt";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -13,21 +14,21 @@ export async function POST(req: Request, res: Response) {
     ) {
       throw new Error("Please provide all the necessary information.");
     }
-
-    const hashedPassword = await bcrypt.hash(userInput.password, 10);
-    const newUser = await db.lawyer.create({
-      data: {
-        email: userInput.email,
-        password: hashedPassword,
-        identification_card: userInput.id,
-        qualification: userInput.qualification,
-        languages: userInput.languages,
-        specialties: userInput.userInput,
-        courts: userInput.courts,
-        ...(userInput.cv && { cv: userInput.cv }),
-        ...(userInput.resume && { resume: userInput.resume }),
-      },
-    });
+    const newUser = await Lawyer.add(
+      userInput.email,
+      userInput.password,
+      userInput.id,
+      userInput.qualification,
+      userInput.languages,
+      userInput.specialties,
+      userInput.courts,
+      userInput.photo,
+      userInput.description,
+      userInput.full_name,
+      userInput.phone_number,
+      userInput.cv,
+      userInput.resume
+    );
     return NextResponse.json(
       { message: "New user account created", userId: newUser.id },
       { status: 201 }
@@ -46,26 +47,8 @@ export async function POST(req: Request, res: Response) {
 
 export async function GET(req: Request, res: Response) {
   try {
-    const lawyers = await db.lawyer.findMany({
-      select: {
-        created_at: true,
-        cv: true,
-        email: true,
-        id: true,
-        identification_card: true,
-        isVerified: true,
-        qualification: true,
-        resume: true,
-        courts: true,
-        languages: true,
-        specialties: true,
-        updatedAt: true,
-      },
-      where: {
-        isVerified: false,
-      },
-    });
-    return NextResponse.json({ id: "GET", lawyers: lawyers });
+    const lawyers = await Lawyer.getUnverified();
+    return NextResponse.json({ id: "GET", lawyers });
   } catch (error) {
     if (error instanceof Error) {
       console.log(`${error.message}`);

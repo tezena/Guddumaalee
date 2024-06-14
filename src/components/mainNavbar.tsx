@@ -20,6 +20,7 @@ import { useNotifications } from "@/app/context/NotificationContext";
 const Navbar = () => {
   const [nav, setNav] = useState(false);
   const { data: session } = useSession();
+  //@ts-ignore
   const userType = session?.user?.image?.type;
   const [visted, setVisted] = useState(false);
 

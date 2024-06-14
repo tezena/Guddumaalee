@@ -41,6 +41,8 @@ import Image from "next/image";
 import { cn, courts, languages, lawyerSpecialties } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Textarea } from "@/components/ui/textarea";
+import { Account } from "@/server/user-management/Account";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -48,6 +50,9 @@ const formSchema = z.object({
   }),
   password: z.string().min(6, "Password must be at least 6 characters"),
   confirm: z.string().min(6, "Repeat the password"),
+  phoneNumber: z.string().min(8, "Phone number is required"),
+  fullName: z.string().min(2, "Full Name must at least be 2 characters"),
+  description: z.string(),
   type: z.string().min(2, "Required"),
   languages: z.array(z.string()).refine((value) => value.some((item) => item), {
     message: "You have to select at least one language.",
@@ -71,12 +76,16 @@ const SignUpForm = () => {
   const [qualification, setQualification] = useState("");
   const [cv, setCv] = useState("");
   const [resume, setResume] = useState("");
+  const [photo, setPhoto] = useState("");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
+      phoneNumber: "",
+      fullName: "",
       password: "",
+      description: "",
       type: "",
       languages: ["AMHARIC"],
       specialties: ["CRIMINAL_LAW"],
@@ -105,34 +114,35 @@ const SignUpForm = () => {
 
     setRegisteringUser(true);
 
+    console.log(values);
+
     if (values.type == "CLIENT") {
       createClient.mutate(
         {
           email: values.email,
           password: values.password,
+          phone_number: values.phoneNumber,
+          full_name: values.fullName,
         },
         {
           onSuccess: async () => {
-            const res = await signIn("credentials", {
-              redirect: false,
-              email: values.email,
-              password: values.password,
-            });
-            console.log(res);
-            if (!res?.ok) {
-              {
-                console.log(res?.error);
-                throw new Error("Error signing you in.");
-              }
-            }
+            const res = await Account.login(values.email, values.password);
             router.push("/");
             router.refresh();
             setRegisteringUser(false);
           },
           onError: async (e) => {
+            console.log(e);
+
             toast({
               title: "Couldn't create account",
-              description: e.message,
+              description:
+                //@ts-ignore
+                e.response && e.response.data.error
+                  ? //@ts-ignore
+                    e.response.data.error
+                  : e.message,
+              variant: "destructive",
             });
             setRegisteringUser(false);
           },
@@ -151,6 +161,10 @@ const SignUpForm = () => {
           courts: values.courts,
           languages: values.languages,
           specialties: values.specialties,
+          photo,
+          description: values.description,
+          phone_number: values.phoneNumber,
+          full_name: values.fullName,
         },
         {
           onSuccess: async () => {
@@ -196,10 +210,10 @@ const SignUpForm = () => {
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-3 lg:flex gap-3 items-end"
+                className="space-y-3 lg:flex gap-3 items-start"
               >
                 {form.watch("type") == "LAWYER" && (
-                  <ScrollArea className="h-[60vh] p-3 rounded-md border">
+                  <ScrollArea className="h-[80vh] p-3 rounded-md border">
                     <div className="flex flex-col gap-8">
                       <div className="flex gap-3 lg:flex-row flex-col">
                         <div className="space-y-2 lg:w-[300px]">
@@ -341,7 +355,56 @@ const SignUpForm = () => {
                           )}
                         </div>
                       </div>
+                      <div className="flex gap-3 lg:flex-row flex-col">
+                        <div className="space-y-2 lg:w-[300px]">
+                          <Label>Photo</Label>
+                          {!photo ? (
+                            <UploadDropzone
+                              className="p-2 border border-gray-600"
+                              endpoint="fileUploader"
+                              onClientUploadComplete={(res) => {
+                                setPhoto(res[0].url);
+                              }}
+                              onUploadError={(error: Error) => {
+                                toast({ title: `ERROR! ${error.message}` });
+                              }}
+                            />
+                          ) : (
+                            <div className="flex flex-col">
+                              <Image
+                                src={photo}
+                                width={200}
+                                height={200}
+                                alt="cover image"
+                                className="w-[200px] h-[80px] object-cover"
+                              />
+                              <Button
+                                onClick={() => {
+                                  setPhoto("");
+                                }}
+                                className="w-[200px]"
+                                variant="outline"
+                              >
+                                Choose Another Photo
+                              </Button>
+                            </div>
+                          )}
+                        </div>
+                      </div>
                     </div>
+                    <FormField
+                      control={form.control}
+                      name="description"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="mt-3">About Me</FormLabel>
+                          <FormControl>
+                            <Textarea {...field} className="mt-3" />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
                     <FormField
                       control={form.control}
                       name="languages"
@@ -526,6 +589,32 @@ const SignUpForm = () => {
                   />
                   <FormField
                     control={form.control}
+                    name="fullName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Full Name</FormLabel>
+                        <FormControl>
+                          <Input {...field} className="lg:w-[400px]" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="phoneNumber"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Phone Number</FormLabel>
+                        <FormControl>
+                          <Input {...field} className="lg:w-[400px]" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
                     name="type"
                     render={({ field }) => (
                       <FormItem>
@@ -577,7 +666,7 @@ const SignUpForm = () => {
                     disabled={
                       registeringUser ||
                       (form.watch("type") == "LAWYER" &&
-                        (!id || !qualification))
+                        (!id || !qualification || !photo))
                     }
                     type="submit"
                     className="w-full"
