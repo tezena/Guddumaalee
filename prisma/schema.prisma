@@ -68,6 +68,9 @@ enum LawyerStatus {
 enum CaseStatus {
   PENDING
   ACCEPTED
+  REJECTED
+  FINISHED
+  WITHDRAWN
  }
 
 model client {
