@@ -63,6 +63,13 @@ model client {
   phone_number   String @unique
 }
 
+model faq{
+    id             Int       @id @default(autoincrement())
+    question String
+    reply String?
+}
+
+
 model lawyer {
   id             Int       @id @default(autoincrement())
   email          String    @unique
