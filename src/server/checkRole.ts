@@ -20,6 +20,7 @@ export async function isLawyer() {
   if (session.user.image.type !== "lawyer") {
     throw new Error("You're not authorized!");
   }
+  return session;
 }
 
 export async function isClient() {
@@ -31,6 +32,7 @@ export async function isClient() {
   if (session.user.image.type !== "client") {
     throw new Error("You're not authorized!");
   }
+  return session;
 }
 
 export async function isAdmin() {

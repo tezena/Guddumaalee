@@ -83,10 +83,10 @@ export const authOptions: NextAuthOptions = {
         });
 
         const user = client
-          ? { ...client, type: "client" }
+          ? { ...client, type: "client", id: client.id }
           : admin
-          ? { ...admin, type: "admin" }
-          : { ...lawyer, type: "lawyer" };
+          ? { ...admin, type: "admin", id: admin.id }
+          : { ...lawyer, type: "lawyer", id: lawyer?.id };
 
         if (!user || !user.password) {
           throw new Error("No user found");
@@ -106,6 +106,7 @@ export const authOptions: NextAuthOptions = {
           id: user.id,
           image: {
             type: user.type,
+            id: user.id,
           },
         };
       },
