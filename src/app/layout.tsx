@@ -5,6 +5,7 @@ import { ContextProvider } from "./context/userContext";
 import AuthSessionProvider from "./context/AuthSessionProvider";
 import { ReactQueryProvider } from "./context/ReactQueryProvider";
 import { Toaster } from "@/components/ui/toaster";
+import { NotificationProvider } from "./context/NotificationContext";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -21,26 +22,24 @@ export default function RootLayout({
   children: React.ReactNode;
   session: any;
 }>) {
-
-
   return (
     <html lang="en">
       <body className={` ${inter.className}`}>
-        <ReactQueryProvider >
-          <AuthSessionProvider session={session}>
-            {/* <ThemeProvider
+        <NotificationProvider>
+          <ReactQueryProvider>
+            <AuthSessionProvider session={session}>
+              {/* <ThemeProvider
               attribute="class"
               defaultTheme="system"
               enableSystem
               disableTransitionOnChange
             > */}
               <Toaster />
-              <ContextProvider>
-              {children}
-              </ContextProvider>
-            {/* </ThemeProvider> */}
-          </AuthSessionProvider>
-        </ReactQueryProvider>
+              <ContextProvider>{children}</ContextProvider>
+              {/* </ThemeProvider> */}
+            </AuthSessionProvider>
+          </ReactQueryProvider>
+        </NotificationProvider>
       </body>
     </html>
   );

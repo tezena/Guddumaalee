@@ -6,6 +6,7 @@ import Navbar from "@/components/mainNavbar";
 import LawyerSideBar from "@/components/lawyerSidebar";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
+import { NotificationProvider } from "../context/NotificationContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +17,12 @@ export default function RootLayout({
 }>) {
   const pathname = usePathname();
 
-  const noSidebarRoutes = ["/lawyer/updateProfile", /^\/lawyer\/cases\/\d+$/,/^\/lawyer\/cases\/\d\/dispute+$/,'/lawyer/notification'];
+  const noSidebarRoutes = [
+    "/lawyer/updateProfile",
+    /^\/lawyer\/cases\/\d+$/,
+    /^\/lawyer\/cases\/\d\/dispute+$/,
+    "/lawyer/notification",
+  ];
   const shouldHideSidebar = (path: string) => {
     return noSidebarRoutes.some((route) =>
       route instanceof RegExp ? route.test(path) : route === path
@@ -25,13 +31,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn("min-h-screen bg-background font-sans antialiased")}>
-        <div vaul-drawer-wrapper="">
-          <Navbar />
-          {!shouldHideSidebar(pathname) && <LawyerSideBar />}
-          <div className="relative max-w-screen-2xl flex min-h-screen  flex-col bg-background">
-            {children}
+        <NotificationProvider>
+          <div vaul-drawer-wrapper="" className="relative">
+            <Navbar />
+            {!shouldHideSidebar(pathname) && <LawyerSideBar />}
+
+            <div className="relative max-w-screen-2xl flex min-h-screen  flex-col bg-background">
+              {children}
+            </div>
           </div>
-        </div>
+        </NotificationProvider>
       </body>
     </html>
   );
