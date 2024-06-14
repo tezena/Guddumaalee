@@ -36,6 +36,8 @@ CREATE TABLE "lawyer" (
     "isVerified" BOOLEAN NOT NULL DEFAULT false,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "photo" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
 
     CONSTRAINT "lawyer_pkey" PRIMARY KEY ("id")
 );
