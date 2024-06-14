@@ -109,7 +109,7 @@ const customStyles = {
     ...provided,
     outline: 'none',
     fontFamily: 'Avenir',
-    color: 'white',
+    color: 'black',
     backgroundColor: 'white',
     borderRadius: '8px',
     border: '1px solid rgb(123, 59, 153)',
@@ -117,7 +117,7 @@ const customStyles = {
   }),
   input: (provided: object) => ({
     ...provided,
-    color: 'white',
+    color: 'black',
   }),
   placeholder: (provided: object) => ({
     ...provided,

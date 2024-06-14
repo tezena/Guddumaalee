@@ -36,13 +36,13 @@ const LawyerSideBar = () => {
             >
               <Link
                 href="/lawyer"
-                className="flex items-center  text-gray-900    p-2 rounded-lg hover:bg-[#c4c4c4] hover:text-black group"
+                className="flex items-center  text-gray-600  gap-4  p-2 rounded-lg hover:bg-[#f0f0f0]  hover:text-black group"
               >
                 <svg
                   className={
                     path.endsWith("/admin")
                       ? "text-white w-5 h-5  transition duration-75"
-                      : "w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                      : "w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-500 dark:group-hover:text-white"
                   }
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
@@ -54,7 +54,7 @@ const LawyerSideBar = () => {
                 </svg>
                 <span
                   className={
-                    path.endsWith("/lawyer") ? "text-white ms-3" : "ms-3"
+                    path.endsWith("/lawyer") ? "text-white ms-3 " : "ms-3"
                   }
                 >
                   Dashboard
@@ -64,14 +64,14 @@ const LawyerSideBar = () => {
             </li>
 
             <li className="flex flex-col items-center py-4 text-gray-900 rounded-lg   dark:hover:bg-[#d9a1f3] group ">
-              <div className="w-full px-2 flex items-center justify-between  text-gray-700   p-2 rounded-lg hover:bg-[#c4c4c4] hover:text-black group">
+              <div className="w-full px-2 flex items-center justify-between  text-gray-700   p-2 rounded-lg hover:bg-[#f0f0f0] hover:text-black group">
                 <Link href="/lawyer/cases" className="flex gap-4 items-center ">
                   <div className="flex items-center gap-4">
                     <FaBriefcase
                       className={
                         path.startsWith("/lawyer/cases")
                           ? "text-white w-5 h-5  transition duration-75"
-                          : "text-gray-500 text-2xl w-5 h-5 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                          : "text-gray-500 text-2xl w-5 h-5 transition duration-75 dark:text-gray-400 group-hover:text-gray-600 dark:group-hover:text-white"
                       }
                     />
 
@@ -112,13 +112,13 @@ const LawyerSideBar = () => {
                   >
                     <Link
                       href="/lawyer/complated"
-                      className="flex gap-4 items-center  px-4 py-2 rounded-lg hover:bg-[#c4c4c4] hover:text-black group"
+                      className="flex gap-4 items-center  px-4 py-2 rounded-lg hover:bg-[#f0f0f0] hover:text-gray-500 group"
                     >
                       <FaBriefcase
                         className={
                           path.startsWith("/lawyer/complated")
                             ? "text-white w-5 h-5  transition duration-75"
-                            : "text-gray-500 text-2xl w-5 h-5 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                            : "text-gray-500 text-2xl w-5 h-5 transition duration-75 dark:text-gray-400 group-hover:text-gray-600 dark:group-hover:text-white"
                         }
                       />
                       Complated
@@ -128,23 +128,23 @@ const LawyerSideBar = () => {
 
                   <li
                     className={
-                      path.startsWith("/lawyer/inprogres")
+                      path.startsWith("/lawyer/InProgress")
                         ? "bg-[#7B3B99] rounded-xl  text-white"
                         : "text-gray-900"
                     }
                   >
                     <Link
-                      href="/lawyer/inprogres"
-                      className=" flex gap-4 items-center  p-2 rounded-lg hover:bg-[#c4c4c4] hover:text-black group"
+                      href="/lawyer/InProgress"
+                      className=" flex gap-4 items-center  p-2 rounded-lg hover:bg-[#f0f0f0] hover:text-black group"
                     >
                       <FaBriefcase
                         className={
-                          path.startsWith("/lawyer/inprogres")
+                          path.startsWith("/lawyer/InProgress")
                             ? "text-white w-5 h-5  transition duration-75"
-                            : "text-gray-500 text-2xl w-5 h-5 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                            : "text-gray-500 text-2xl w-5 h-5 transition duration-75 dark:text-gray-400 group-hover:text-gray-600 dark:group-hover:text-white"
                         }
                       />
-                      Inprogrese
+                      InProgress
                     </Link>
                   </li>
                 </ul>
@@ -165,7 +165,7 @@ const LawyerSideBar = () => {
             >
               <Link
                 href=""
-                className="flex items-center  text-gray-900  py-2 px-4 rounded-lg hover:bg-[#c4c4c4] hover:text-black group"
+                className="flex items-center  text-gray-900  py-2 px-4 rounded-lg hover:bg-[#f3f3f3] hover:text-gray-500 group"
               >
                 <svg
                   className={
