@@ -109,7 +109,7 @@ const ClientProfileForm: React.FC<ClientProfileFormProps> = ({
       </div>
 
       <div className="mb-4">
-        <label className="block text-gray-700">Email</label>
+        <label className="block text-gray-700 font-bold">Email</label>
         {isEditingEmail ? (
           <div className="flex gap-4">
             <input
@@ -142,7 +142,7 @@ const ClientProfileForm: React.FC<ClientProfileFormProps> = ({
         )}
       </div>
       <div className="mb-4">
-        <label className="block text-gray-700">Phone Number</label>
+        <label className="block text-gray-700 font-bold">Phone Number</label>
         {isEditingPhoneNumber ? (
           <div className="flex">
             <input
@@ -177,7 +177,7 @@ const ClientProfileForm: React.FC<ClientProfileFormProps> = ({
       </div>
 
       <div className="mb-4">
-        <label className="block text-gray-700">First Name</label>
+        <label className="block text-gray-700 font-bold">First Name</label>
         {isEditingFirstName ? (
           <div className="flex">
             <input
@@ -212,7 +212,7 @@ const ClientProfileForm: React.FC<ClientProfileFormProps> = ({
       </div>
 
       <div className="mb-4">
-        <label className="block text-gray-700">Last Name</label>
+        <label className="block text-gray-700 font-bold">Last Name</label>
         {isEditingLastName ? (
           <div className="flex">
             <input
