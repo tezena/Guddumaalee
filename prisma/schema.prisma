@@ -140,6 +140,8 @@ model Case{
     title String
     description String
     price Float
+    payment_id String? @unique
     lawyer lawyer @relation(name: "case_from", fields: [lawyer_id], references: [id])
     client client @relation(name: "case_for", fields: [client_id],references: [id])
 }
+
