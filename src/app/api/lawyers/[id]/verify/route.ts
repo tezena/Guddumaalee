@@ -1,24 +1,18 @@
 import { db } from "@/lib/db";
+import { Lawyer } from "@/server/user-management/Lawyer";
 import bcrypt from "bcrypt";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(
+export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: number } }
 ) {
   if (!params.id) {
     throw new Error("Provide the lawyer id");
   }
   try {
-    const user = await db.lawyer.update({
-      where: {
-        id: parseInt(params.id),
-      },
-      data: {
-        isVerified: true,
-      },
-    });
-    return NextResponse.json({ message: "Lawyer verified", lawyer: user.id });
+    const lawyer = await Lawyer.verify(Number(params.id));
+    return NextResponse.json({ message: "Lawyer verified", lawyer: lawyer.id });
   } catch (error) {
     if (error instanceof Error) {
       console.log(`${error.message}`);

@@ -59,6 +59,12 @@ enum DisputeStatus {
   RESOLVED
 }
 
+enum LawyerStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
 model client {
   id             Int       @id @default(autoincrement())
   email          String    @unique
@@ -84,7 +90,7 @@ model lawyer {
   languages Language[] @default([])
   specialties Specialty[] @default([])
   courts Court[] @default([])
-  isVerified Boolean @default(false)
+  isVerified LawyerStatus @default(PENDING)
   created_at     DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
   photo String
