@@ -42,6 +42,7 @@ import { cn, courts, languages, lawyerSpecialties } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
+import { Account } from "@/server/user-management/Account";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -49,6 +50,8 @@ const formSchema = z.object({
   }),
   password: z.string().min(6, "Password must be at least 6 characters"),
   confirm: z.string().min(6, "Repeat the password"),
+  phoneNumber: z.string().min(8, "Phone number is required"),
+  fullName: z.string().min(2, "Full Name must at least be 2 characters"),
   description: z.string(),
   type: z.string().min(2, "Required"),
   languages: z.array(z.string()).refine((value) => value.some((item) => item), {
@@ -79,6 +82,8 @@ const SignUpForm = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
+      phoneNumber: "",
+      fullName: "",
       password: "",
       description: "",
       type: "",
@@ -109,34 +114,35 @@ const SignUpForm = () => {
 
     setRegisteringUser(true);
 
+    console.log(values);
+
     if (values.type == "CLIENT") {
       createClient.mutate(
         {
           email: values.email,
           password: values.password,
+          phone_number: values.phoneNumber,
+          full_name: values.fullName,
         },
         {
           onSuccess: async () => {
-            const res = await signIn("credentials", {
-              redirect: false,
-              email: values.email,
-              password: values.password,
-            });
-            console.log(res);
-            if (!res?.ok) {
-              {
-                console.log(res?.error);
-                throw new Error("Error signing you in.");
-              }
-            }
+            const res = await Account.login(values.email, values.password);
             router.push("/");
             router.refresh();
             setRegisteringUser(false);
           },
           onError: async (e) => {
+            console.log(e);
+
             toast({
               title: "Couldn't create account",
-              description: e.message,
+              description:
+                //@ts-ignore
+                e.response && e.response.data.error
+                  ? //@ts-ignore
+                    e.response.data.error
+                  : e.message,
+              variant: "destructive",
             });
             setRegisteringUser(false);
           },
@@ -157,6 +163,8 @@ const SignUpForm = () => {
           specialties: values.specialties,
           photo,
           description: values.description,
+          phone_number: values.phoneNumber,
+          full_name: values.fullName,
         },
         {
           onSuccess: async () => {
@@ -202,10 +210,10 @@ const SignUpForm = () => {
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-3 lg:flex gap-3 items-end"
+                className="space-y-3 lg:flex gap-3 items-start"
               >
                 {form.watch("type") == "LAWYER" && (
-                  <ScrollArea className="h-[60vh] p-3 rounded-md border">
+                  <ScrollArea className="h-[80vh] p-3 rounded-md border">
                     <div className="flex flex-col gap-8">
                       <div className="flex gap-3 lg:flex-row flex-col">
                         <div className="space-y-2 lg:w-[300px]">
@@ -350,7 +358,7 @@ const SignUpForm = () => {
                       <div className="flex gap-3 lg:flex-row flex-col">
                         <div className="space-y-2 lg:w-[300px]">
                           <Label>Photo</Label>
-                          {!cv ? (
+                          {!photo ? (
                             <UploadDropzone
                               className="p-2 border border-gray-600"
                               endpoint="fileUploader"
@@ -572,6 +580,32 @@ const SignUpForm = () => {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input {...field} className="lg:w-[400px]" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="fullName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Full Name</FormLabel>
+                        <FormControl>
+                          <Input {...field} className="lg:w-[400px]" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="phoneNumber"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Phone Number</FormLabel>
                         <FormControl>
                           <Input {...field} className="lg:w-[400px]" />
                         </FormControl>
