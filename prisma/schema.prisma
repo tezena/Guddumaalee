@@ -53,6 +53,12 @@ enum Court {
   ADMINISTRATIVE_COURT
 }
 
+enum DisputeStatus {
+  PENDING
+  ACCEPTED
+  RESOLVED
+}
+
 model client {
   id             Int       @id @default(autoincrement())
   email          String    @unique
@@ -61,12 +67,7 @@ model client {
   updatedAt      DateTime  @updatedAt
   full_name      String
   phone_number   String @unique
-}
-
-model faq{
-    id             Int       @id @default(autoincrement())
-    question String
-    reply String?
+  disputes dispute[]
 }
 
 
@@ -88,10 +89,29 @@ model lawyer {
   updatedAt      DateTime  @updatedAt
   photo String
   description String
+  disputes dispute[]
 }
 
 model admin{
   id             Int       @id @default(autoincrement())
   email String @unique
   password String
+}
+
+
+model faq{
+    id             Int       @id @default(autoincrement())
+    question String
+    reply String?
+}
+
+model dispute{
+    id             Int       @id @default(autoincrement())
+    client_id Int
+    lawyer_id Int
+    creator_email String
+    status DisputeStatus @default(PENDING)
+    content String
+    lawyer lawyer @relation(fields: [lawyer_id], references: [id])
+    client client @relation(fields: [client_id],references: [id])
 }
