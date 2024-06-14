@@ -1,9 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
+import { getDisputes,submitDispute } from "@/app/lawyer/api/dispute";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import {
+  QueryClient,
+  useMutation,
+  useQuery,
+  UseMutationResult,
+} from "@tanstack/react-query";
 
 // Mock data for disputes
 const disputes = [
@@ -32,27 +40,71 @@ const disputes = [
     resolution: "Issue resolved by renegotiation.",
   },
 ];
-
+const queryClient = new QueryClient();
+type DisputeData = {
+  creator_email: string | null | undefined;
+  client_id: number;
+  content: string;
+  lawyer_id: number;
+};
 const Disputes = () => {
+  const { data: session } = useSession();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newDispute, setNewDispute] = useState({
-    clientName: "John Doe", // Preset for example
-    clientId: "C123", // Preset for example
-    summary: "",
+    // clientName: "John Doe",
+    client_id: 1, // Preset for example
+    content: "",
+    lawyer_id: 1,
   });
+
+  const {data,isLoading,error}= useQuery({
+    queryKey:['disputes'],
+    queryFn:()=>getDisputes()
+  })
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
-  const handleChange = (e: any) =>
+  const handleChange = (e: any) => {
     setNewDispute({ ...newDispute, [e.target.name]: e.target.value });
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    // Handle form submission logic
-    console.log(newDispute);
-    handleCloseModal();
   };
 
   const router = useRouter();
+
+  const mutationFn = async (data: DisputeData) => {
+    return submitDispute(data);
+  };
+
+  const { mutateAsync }: UseMutationResult<void, unknown, DisputeData> =
+    useMutation({
+      mutationFn,
+
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["disputes"] });
+        console.log(";;;;;;;;;;;;;;;;;;;;;;;;;;;;;");
+        handleCloseModal();
+      },
+    });
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+
+    const data: DisputeData = {
+      ...newDispute,
+      creator_email: session?.user?.email,
+    };
+    console.log(data);
+    try {
+      console.log("from submit ", data);
+
+      await mutateAsync(data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    console.log(session);
+  }, [session]);
 
   return (
     <div className="p-6 bg-gray-200 min-h-screen relative">
@@ -99,7 +151,9 @@ const Disputes = () => {
               className=" p-10  mb-4  flex flex-col gap-4 relative"
             >
               <div className="flex flex-col gap-4">
-                <p className="text-2xl font-bold text-[#602979]">Description:</p>{" "}
+                <p className="text-2xl font-bold text-[#602979]">
+                  Description:
+                </p>{" "}
                 {dispute.Description}
               </div>
               <div className="flex gap-2 items-center absolute right-12 top-12 text-sm">
@@ -131,24 +185,25 @@ const Disputes = () => {
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
             <div className="bg-white p-4 rounded shadow-lg w-1/3">
               <h2 className="text-xl mb-4 font-semibold">Submit New Dispute</h2>
+              {/* onSubmit={handleSubmit} */}
               <form onSubmit={handleSubmit}>
-                <div className="mb-4">
+                {/* <div className="mb-4">
                   <label className="block text-gray-700">Client Name</label>
                   <input
                     type="text"
                     name="clientName"
-                    value={newDispute.clientName}
+                    // value={newDispute.clientName}
                     onChange={handleChange}
                     className="w-full p-2 border rounded"
                     required
                   />
-                </div>
+                </div> */}
                 <div className="mb-4">
                   <label className="block text-gray-700">Client ID</label>
                   <input
-                    type="text"
+                    type="number"
                     name="clientId"
-                    value={newDispute.clientId}
+                    value={newDispute.client_id}
                     onChange={handleChange}
                     className="w-full p-2 border rounded"
                     required
@@ -157,8 +212,8 @@ const Disputes = () => {
                 <div className="mb-4">
                   <label className="block text-gray-700">Description</label>
                   <textarea
-                    name="summary"
-                    value={newDispute.summary}
+                    name="content"
+                    value={newDispute.content}
                     onChange={handleChange}
                     className="w-full p-2 border rounded"
                     required
@@ -175,6 +230,15 @@ const Disputes = () => {
                   <button
                     type="submit"
                     className="bg-[#8b47aa] text-white py-2 px-4 rounded  hover:bg-[#6b3286]"
+                    // onClick={ async () => {
+                    //   try {
+                    //     console.log("from submit ", newDispute);
+
+                    //     mutateAsync();
+                    //   } catch (e) {
+                    //     console.log(e);
+                    //   }
+                    // }}
                   >
                     Submit
                   </button>
