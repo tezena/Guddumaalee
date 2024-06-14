@@ -8,7 +8,6 @@ import { SiteHeader } from "@/components/layouts/header";
 import HeroSection from "./components/hersoSection";
 import FAQ from "./components/FAQ";
 
-
 const LandingPage = async () => {
   let session: any = await getServerSession(authOptions);
 
@@ -16,10 +15,9 @@ const LandingPage = async () => {
     redirect("/dashboard");
   }
   return (
-    
-    <div className=" h-full  flex flex-col w-full " >
-    <HeroSection/>
-    <FAQ/>
+    <div className=" h-full  flex flex-col w-full ">
+      <HeroSection />
+      <FAQ />
     </div>
   );
 };

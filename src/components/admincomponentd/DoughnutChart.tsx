@@ -24,9 +24,9 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({ data }) => {
             label: "My First Dataset",
             data: [150, 100, 50],
             backgroundColor: [
-              "Gray",
-              "Green",
-              "Orange",
+              "#C075E3",
+              "#C6EF67",
+              "#69BEF0",
             ],
             hoverOffset: 4,
           },

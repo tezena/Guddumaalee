@@ -5,6 +5,9 @@ import ReactStars from "react-rating-stars-component";
 import Link from "next/link";
 import { reviewData } from "@/app/data/reviewData";
 import ReviewSectionCard from "@/components/reviewCard";
+import { useContext } from "react";
+import { Context } from "@/app/context/userContext";
+
 const LawyerDetail: React.FC<{
   lawyer: LawyerProps;
   lawyers: LawyerProps[];
@@ -20,6 +23,8 @@ const LawyerDetail: React.FC<{
   const comments = lawyerReviews.map((review) => review.comment);
   const [hoveredLawyer, setHoveredLawyer] = useState<LawyerProps | null>(null);
   const filteredLawyers = lawyers.filter((item) => item.id !== lawyer.id);
+  const myContext=useContext(Context)
+  const {setUsername2}=myContext
 
   return (
     <motion.div
@@ -52,6 +57,7 @@ const LawyerDetail: React.FC<{
                   <Link
                     href={`/client/lawyers/${otherLawyer.id}`}
                     className="text-blue-500 hover:underline"
+                  
                   >
                     {otherLawyer.name}
                   </Link>
@@ -83,10 +89,11 @@ const LawyerDetail: React.FC<{
               >
                 Back
               </Link>
-              <div>
+              <div onClick={()=>setUsername2("test2@gmail.com")}  >
                 <Link
-                  href="/client/lawyers/{id}/chat"
+                  href="/chat"
                   className="bg-[#7B3B99] text-white font-bold py-2 px-4 rounded hover:bg-purple-700 inline-block mr-2"
+                  
                 >
                   Chat with Lawyer
                 </Link>

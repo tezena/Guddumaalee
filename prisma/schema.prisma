@@ -19,31 +19,105 @@ enum user_type {
   ADMIN
 }
 
+enum Specialty {
+  CORPORATE_LAW
+  CRIMINAL_LAW
+  FAMILY_LAW
+  INTELLECTUAL_PROPERTY_LAW
+  EMPLOYMENT_LAW
+  IMMIGRATION_LAW
+  REAL_ESTATE_LAW
+  ENVIRONMENTAL_LAW
+  TAX_LAW
+  BANKRUPTCY_LAW
+}
+enum Language {
+  AMHARIC
+  OROMO
+  TIGRINYA
+  SOMALI
+  SIDAMO
+  WOLAYTTA
+  GURAGE
+  AFAR
+  HADIYYA
+  GAMO
+}
+
+enum Court {
+  SUPREME_COURT
+  APPELLATE_COURT
+  HIGH_COURT
+  DISTRICT_COURT
+  SMALL_CLAIMS_COURT
+  ADMINISTRATIVE_COURT
+}
+
+enum DisputeStatus {
+  PENDING
+  ACCEPTED
+  RESOLVED
+}
+
+enum LawyerStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
 model client {
   id             Int       @id @default(autoincrement())
   email          String    @unique
   password       String
   created_at     DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
+  full_name      String
+  phone_number   String @unique
+  disputes dispute[]
 }
+
 
 model lawyer {
   id             Int       @id @default(autoincrement())
   email          String    @unique
   password       String
+  full_name       String
+  phone_number       String @unique
   identification_card String
   qualification String
   cv String?
   resume String?
-  isVerified Boolean @default(false)
+  languages Language[] @default([])
+  specialties Specialty[] @default([])
+  courts Court[] @default([])
+  isVerified LawyerStatus @default(PENDING)
   created_at     DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
+  photo String
+  description String
+  disputes dispute[]
 }
 
-// firstName      String?
-//   lastName       String?
-//   phone          String
-//   experience     Int?      @map("experience_years")
-//   workingArea    String?   @map("working_area")
-//   specialization String?   @map("specialization")
-//   languages      String[]  @map("working_languages")
+model admin{
+  id             Int       @id @default(autoincrement())
+  email String @unique
+  password String
+}
+
+
+model faq{
+    id             Int       @id @default(autoincrement())
+    question String
+    reply String?
+}
+
+model dispute{
+    id             Int       @id @default(autoincrement())
+    client_id Int
+    lawyer_id Int
+    creator_email String
+    status DisputeStatus @default(PENDING)
+    content String
+    lawyer lawyer @relation(fields: [lawyer_id], references: [id])
+    client client @relation(fields: [client_id],references: [id])
+}

@@ -2,10 +2,14 @@
 import React, { useState } from "react";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
+import {useRouter,usePathname} from 'next/navigation'
+
 
 function CaseDetail() {
   const [date, setDate] = useState("");
   const [note, setNote] = useState("");
+  const router = useRouter()
+  const path = usePathname()
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,31 +48,46 @@ function CaseDetail() {
     ],
   };
   return (
+    <>
     <div className="container  mx-auto px-4 pt-10 relative">
-      <Link href={"/lawyer"} className="fixed top-28  left-4 bg-white  cursor-pointer">
+
+
+      <div onClick={()=>router.back()} className="fixed top-28  left-4 bg-white  cursor-pointer">
         <Icon
           icon="grommet-icons:link-previous"
-          style={{ color: "gray" }}
+          style={{ color: "#7B3B99" }}
           width={30}
           height={30}
         />
-      </Link>
-      <div className="mb-4 p-4 border rounded shadow-md">
-        <h1 className="text-2xl font-bold mb-2">{caseData.caseName}</h1>
-        <p className="text-lg mb-1">
-          <strong>Client Name:</strong> {caseData.clientName}
-        </p>
-        <p className="text-lg mb-1">
-          <strong>Description:</strong> {caseData.description}
-        </p>
-        <p className="text-lg mb-1">
-          <strong>Case ID:</strong> {caseData.id}
-        </p>
-        {/* Add more case details as needed */}
       </div>
 
-      <div className="mb-4 px-4 border h-[200px] rounded shadow-md overflow-auto">
-        <h2 className="text-xl font-bold mb-2 sticky top-0 bg-white ">Previous Trials</h2>
+
+      <div className="mb-4 p-10 border rounded shadow-md relative">
+
+        <div>
+        <h1 className="text-2xl font-bold mb-2">{caseData.caseName}</h1>
+        <p className="text-lg mb-1">
+          <span className="font-semibold text-xl">Client Name:</span> {caseData.clientName}
+        </p>
+        <p className="text-lg mb-1">
+          <span className="font-semibold text-xl">Description:</span> {caseData.description}
+        </p>
+        <p className="text-lg mb-1">
+          <span className="font-semibold text-xl">Case ID:</span> {caseData.id}
+        </p>
+
+        </div>
+
+        <button className="px-6 py-2 rounded-md text-lg font-semibold text-white bg-[#7e31a2] absolute top-10 right-4"
+         onClick={ ()=> router.push(`${path}/dispute`)}
+        >DISPUTE</button>
+        
+      </div>
+
+
+
+      <div className="mb-4 px-10 border h-[200px] rounded shadow-md overflow-auto">
+        <h2 className="text-2xl font-bold mb-2 sticky top-0 py-4 bg-white  ">Previous Trials</h2>
         {caseData.trials.length === 0 ? (
           <p>No trials added yet.</p>
         ) : (
@@ -76,10 +95,10 @@ function CaseDetail() {
             {caseData.trials.map((trial) => (
               <li key={trial.date} className="mb-2">
                 <p>
-                  <strong>Date:</strong> {trial.date}
+                  <span className="font-semibold text-lg">Date:</span> {trial.date}
                 </p>
                 <p>
-                  <strong>Note:</strong> {trial.note}
+                  <span className="font-semibold text-lg">Note:</span> {trial.note}
                 </p>
               </li>
             ))}
@@ -87,7 +106,7 @@ function CaseDetail() {
         )}
       </div>
 
-      <div className="p-4 border rounded shadow-md">
+      <div className="p-10 border rounded shadow-md">
         <h2 className="text-xl font-bold mb-2">Add Next Trial</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-2">
@@ -130,6 +149,8 @@ function CaseDetail() {
         </form>
       </div>
     </div>
+    </>
+    
   );
 }
 
