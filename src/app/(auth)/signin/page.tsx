@@ -61,6 +61,7 @@ const RegistrationUserForm = () => {
     try {
       setRegisteringUser(true);
       const res = await Account.login(values.email, values.password);
+      
       router.push("/");
       router.refresh();
     } catch (e: any) {
