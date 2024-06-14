@@ -65,7 +65,7 @@ export class Lawyer extends Account {
         updatedAt: true,
       },
       where: {
-        isVerified: false,
+        isVerified: "PENDING",
       },
     });
     return lawyers;
@@ -89,9 +89,33 @@ export class Lawyer extends Account {
         updatedAt: true,
       },
       where: {
-        isVerified: true,
+        isVerified: "VERIFIED",
       },
     });
     return lawyers;
+  }
+  static async verify(id: number) {
+    await isAdmin();
+    const lawyer = await db.lawyer.update({
+      where: {
+        id,
+      },
+      data: {
+        isVerified: "VERIFIED",
+      },
+    });
+    return lawyer;
+  }
+  static async reject(id: number) {
+    await isAdmin();
+    const lawyer = await db.lawyer.update({
+      where: {
+        id,
+      },
+      data: {
+        isVerified: "REJECTED",
+      },
+    });
+    return lawyer;
   }
 }

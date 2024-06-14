@@ -4,7 +4,6 @@ import { url } from "inspector";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 
-
 const HeroSection = () => {
   const { data: session } = useSession();
   return (
@@ -38,7 +37,7 @@ const HeroSection = () => {
                   href="/signup"
                   className="block w-full rounded bg-[#7B3B99] px-12 py-3 text-sm font-medium text-white shadow hover:text-white focus:outline-none focus:ring  sm:w-auto"
                 >
-                  Be Lawyer
+                  Become a Lawyer
                 </Link>
               </div>
             )}
