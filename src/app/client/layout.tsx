@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "../globals.css";
 import Navbar from "@/components/mainNavbar";
+import { NotificationProvider } from "../context/NotificationContext";
 import { cn } from "@/lib/utils";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -19,12 +20,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn("min-h-screen bg-background font-sans antialiased")}>
-        <div vaul-drawer-wrapper="">
-          <Navbar />
-          <div className="relative max-w-screen-2xl flex min-h-screen  flex-col bg-background">
-            {children}
+        <NotificationProvider>
+          <div vaul-drawer-wrapper="">
+            <Navbar />
+            <div className="relative max-w-screen-2xl flex min-h-screen  flex-col bg-background">
+              {children}
+            </div>
           </div>
-        </div>
+        </NotificationProvider>
       </body>
     </html>
   );
