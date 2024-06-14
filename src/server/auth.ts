@@ -70,8 +70,22 @@ export const authOptions: NextAuthOptions = {
             id: true,
           },
         });
+
+        const admin = await db.admin.findUnique({
+          where: {
+            email: credentials?.email,
+          },
+          select: {
+            password: true,
+            email: true,
+            id: true,
+          },
+        });
+
         const user = client
           ? { ...client, type: "client" }
+          : admin
+          ? { ...admin, type: "admin" }
           : { ...lawyer, type: "lawyer" };
 
         if (!user || !user.password) {

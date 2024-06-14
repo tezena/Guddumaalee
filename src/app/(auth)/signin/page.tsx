@@ -27,6 +27,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { SetUserContext } from "@/app/context/setUserContext";
 import { useSession } from "next-auth/react";
+import { Account } from "@/server/user-management/Account";
 
 // import { ModeToggle } from "@/components/theme/ThemeToggle";
 
@@ -37,22 +38,17 @@ const formSchema = z.object({
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
-
-
-
 const RegistrationUserForm = () => {
-  
-
   const { toast } = useToast();
   const router = useRouter();
-  const {data:session}=useSession();
+  const { data: session } = useSession();
 
   let tempUserInfo: any;
   const [registeringUser, setRegisteringUser] = useState<boolean>(false);
   if (typeof window !== "undefined") {
     tempUserInfo = JSON.parse(localStorage.getItem("tempUserInfo") || "{}");
   }
-   
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -64,13 +60,7 @@ const RegistrationUserForm = () => {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       setRegisteringUser(true);
-      const res = await signIn("credentials", {
-        redirect: false,
-        email: values.email,
-        password: values.password,
-      });
-
-      setRegisteringUser(session?.user?.email,session?.user?.email)
+      const res = await Account.login(values.email, values.password);
       router.push("/");
       router.refresh();
     } catch (e: any) {
