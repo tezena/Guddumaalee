@@ -65,6 +65,11 @@ enum LawyerStatus {
   REJECTED
 }
 
+enum CaseStatus {
+  PENDING
+  ACCEPTED
+ }
+
 model client {
   id             Int       @id @default(autoincrement())
   email          String    @unique
@@ -74,6 +79,7 @@ model client {
   full_name      String
   phone_number   String @unique
   disputes dispute[]
+  cases Case[] @relation("case_for")
 }
 
 
@@ -96,6 +102,7 @@ model lawyer {
   photo String
   description String
   disputes dispute[]
+  cases Case[] @relation("case_from")
 }
 
 model admin{
@@ -120,4 +127,16 @@ model dispute{
     content String
     lawyer lawyer @relation(fields: [lawyer_id], references: [id])
     client client @relation(fields: [client_id],references: [id])
+}
+
+model Case{
+    id             Int       @id @default(autoincrement())
+    client_id Int
+    lawyer_id Int
+    status CaseStatus @default(PENDING)
+    title String
+    description String
+    price Float
+    lawyer lawyer @relation(name: "case_from", fields: [lawyer_id], references: [id])
+    client client @relation(name: "case_for", fields: [client_id],references: [id])
 }
