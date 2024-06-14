@@ -59,12 +59,16 @@ model client {
   password       String
   created_at     DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
+  full_name      String
+  phone_number   String @unique
 }
 
 model lawyer {
   id             Int       @id @default(autoincrement())
   email          String    @unique
   password       String
+  full_name       String
+  phone_number       String @unique
   identification_card String
   qualification String
   cv String?

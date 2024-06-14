@@ -15,6 +15,8 @@ export class Lawyer extends Account {
     courts: Court[],
     photo: string,
     description: string,
+    full_name: string,
+    phone_number: string,
     cv: string | undefined,
     resume: string | undefined
   ) {
@@ -27,6 +29,8 @@ export class Lawyer extends Account {
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = await db.lawyer.create({
       data: {
+        phone_number,
+        full_name,
         email: email,
         password: hashedPassword,
         identification_card: identification_card,

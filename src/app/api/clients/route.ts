@@ -9,7 +9,12 @@ export async function POST(req: Request, res: Response) {
     if (!userInput.email || !userInput.password) {
       throw new Error("Please provide all the necessary information.");
     }
-    const newUser = await Client.add(userInput.email, userInput.password);
+    const newUser = await Client.add(
+      userInput.email,
+      userInput.password,
+      userInput.full_name,
+      userInput.phone_number
+    );
     return NextResponse.json(
       { message: "New user account created", userId: newUser.id },
       { status: 201 }

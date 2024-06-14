@@ -24,6 +24,8 @@ export async function POST(req: Request, res: Response) {
       userInput.courts,
       userInput.photo,
       userInput.description,
+      userInput.full_name,
+      userInput.phone_number,
       userInput.cv,
       userInput.resume
     );
