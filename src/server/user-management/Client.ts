@@ -6,7 +6,12 @@ import { authOptions } from "../auth";
 import { isAdmin, isAuthenticated } from "../checkRole";
 
 export class Client extends Account {
-  static async add(email: string, password: string) {
+  static async add(
+    email: string,
+    password: string,
+    full_name: string,
+    phone_number: string
+  ) {
     const emailUsed =
       (await db.client.findFirst({ where: { email } })) ||
       (await db.lawyer.findFirst({ where: { email } }));
@@ -16,6 +21,8 @@ export class Client extends Account {
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = await db.client.create({
       data: {
+        full_name,
+        phone_number,
         email: email,
         password: hashedPassword,
       },
