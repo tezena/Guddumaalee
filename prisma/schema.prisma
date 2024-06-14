@@ -143,5 +143,13 @@ model Case{
     payment_id String? @unique
     lawyer lawyer @relation(name: "case_from", fields: [lawyer_id], references: [id])
     client client @relation(name: "case_for", fields: [client_id],references: [id])
+    trials Trial[]
 }
 
+model Trial{
+  id             Int       @id @default(autoincrement())
+  trial_date DateTime
+  case_id Int
+  description String?
+  case Case @relation(fields: [case_id], references: [id])
+}

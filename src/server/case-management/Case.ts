@@ -1,5 +1,5 @@
 import { db } from "@/lib/db";
-import { isClient, isLawyer } from "../checkRole";
+import { isAuthenticated, isClient, isLawyer } from "../checkRole";
 
 export class Case {
   static async create(
@@ -19,6 +19,32 @@ export class Case {
       },
     });
     return newCase;
+  }
+
+  static async addTrialDates(
+    trial_date: Date,
+    case_id: number,
+    description: string
+  ) {
+    await isLawyer();
+    const newTrial = await db.trial.create({
+      data: {
+        case_id,
+        trial_date,
+        description,
+      },
+    });
+    return newTrial;
+  }
+
+  static async getTrialsForCase(case_id: number) {
+    await isAuthenticated();
+    const trials = await db.trial.findMany({
+      where: {
+        case_id,
+      },
+    });
+    return trials;
   }
 
   static async getClientCases(client_id: number) {
