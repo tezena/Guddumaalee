@@ -2,7 +2,8 @@
 import { Button } from "@/components/ui/button";
 import { url } from "inspector";
 import { useSession } from "next-auth/react";
-import Link   from "next/link"
+import Link from "next/link";
+
 
 const HeroSection = () => {
   const { data: session } = useSession();
@@ -31,18 +32,14 @@ const HeroSection = () => {
             {!session && (
               <div className="mt-8 flex flex-wrap gap-4 text-center">
                 <Button className="block w-full rounded bg-[#7B3B99] px-12 py-3 text-sm font-medium text-white shadow  focus:outline-none focus:ring  sm:w-auto">
-                <Link href="/signup">
-              Find Lawyers
-             
-            </Link>
+                  Get Lawyers
                 </Button>
-
-                <Button className="block w-full rounded bg-[#7B3B99] px-12 py-3 text-sm font-medium text-white shadow hover:text-white focus:outline-none focus:ring  sm:w-auto">
-                  <Link href="/signup">
-                    Become a lawyer
-          
-                  </Link>
-                </Button>
+                <Link
+                  href="/signup"
+                  className="block w-full rounded bg-[#7B3B99] px-12 py-3 text-sm font-medium text-white shadow hover:text-white focus:outline-none focus:ring  sm:w-auto"
+                >
+                  Be Lawyer
+                </Link>
               </div>
             )}
           </>

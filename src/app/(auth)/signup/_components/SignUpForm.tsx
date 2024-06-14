@@ -134,9 +134,17 @@ const SignUpForm = () => {
             setRegisteringUser(false);
           },
           onError: async (e) => {
+            console.log(e);
+
             toast({
               title: "Couldn't create account",
-              description: e.message,
+              description:
+                //@ts-ignore
+                e.response && e.response.data.error
+                  ? //@ts-ignore
+                    e.response.data.error
+                  : e.message,
+              variant: "destructive",
             });
             setRegisteringUser(false);
           },

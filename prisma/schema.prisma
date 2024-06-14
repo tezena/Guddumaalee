@@ -78,3 +78,9 @@ model lawyer {
   photo String
   description String
 }
+
+model admin{
+  id             Int       @id @default(autoincrement())
+  email String @unique
+  password String
+}

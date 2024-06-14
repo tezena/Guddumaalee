@@ -1,0 +1,93 @@
+import { db } from "@/lib/db";
+import { Account } from "./Account";
+import bcrypt from "bcrypt";
+import { isAdmin, isAuthenticated } from "../checkRole";
+import { Court, Language, Specialty } from "@prisma/client";
+
+export class Lawyer extends Account {
+  static async add(
+    email: string,
+    password: string,
+    identification_card: string,
+    qualification: string,
+    languages: Language[],
+    specialties: Specialty[],
+    courts: Court[],
+    photo: string,
+    description: string,
+    cv: string | undefined,
+    resume: string | undefined
+  ) {
+    const emailUsed =
+      (await db.client.findFirst({ where: { email } })) ||
+      (await db.lawyer.findFirst({ where: { email } }));
+    if (emailUsed) {
+      throw new Error("Email already used");
+    }
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = await db.lawyer.create({
+      data: {
+        email: email,
+        password: hashedPassword,
+        identification_card: identification_card,
+        qualification: qualification,
+        languages: languages,
+        specialties: specialties,
+        courts: courts,
+        photo: photo,
+        description: description,
+        ...(cv && { cv: cv }),
+        ...(resume && { resume: resume }),
+      },
+    });
+    return newUser;
+  }
+
+  static async getUnverified() {
+    await isAdmin();
+    const lawyers = await db.lawyer.findMany({
+      select: {
+        created_at: true,
+        cv: true,
+        email: true,
+        id: true,
+        identification_card: true,
+        isVerified: true,
+        qualification: true,
+        resume: true,
+        courts: true,
+        languages: true,
+        specialties: true,
+        updatedAt: true,
+      },
+      where: {
+        isVerified: false,
+      },
+    });
+    return lawyers;
+  }
+
+  static async getVerified() {
+    await isAdmin();
+    const lawyers = await db.lawyer.findMany({
+      select: {
+        created_at: true,
+        cv: true,
+        email: true,
+        id: true,
+        identification_card: true,
+        isVerified: true,
+        qualification: true,
+        resume: true,
+        courts: true,
+        languages: true,
+        specialties: true,
+        updatedAt: true,
+      },
+      where: {
+        isVerified: true,
+      },
+    });
+    return lawyers;
+  }
+}

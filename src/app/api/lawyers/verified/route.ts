@@ -1,28 +1,11 @@
 import { db } from "@/lib/db";
+import { Lawyer } from "@/server/user-management/Lawyer";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: Request, res: Response) {
   try {
-    const lawyers = await db.lawyer.findMany({
-      select: {
-        created_at: true,
-        cv: true,
-        email: true,
-        id: true,
-        identification_card: true,
-        isVerified: true,
-        qualification: true,
-        resume: true,
-        updatedAt: true,
-        courts: true,
-        languages: true,
-        specialties: true,
-      },
-      where: {
-        isVerified: true,
-      },
-    });
-    return NextResponse.json({ id: "GET", lawyers: lawyers });
+    const lawyers = await Lawyer.getVerified();
+    return NextResponse.json({ id: "GET", lawyers });
   } catch (error) {
     if (error instanceof Error) {
       console.log(`${error.message}`);
