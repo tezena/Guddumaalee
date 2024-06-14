@@ -1,91 +1,36 @@
-import { NextApiRequest, NextApiResponse } from 'next'
+import { NextApiRequest, NextApiResponse } from "next";
 import { NextRequest, NextResponse } from "next/server";
-import axios from 'axios';
-import { json } from 'stream/consumers';
- 
+import axios from "axios";
+import { json } from "stream/consumers";
+import { Payment } from "@/server/payment-management/Payment";
 
-
-const CHAPA_AUTH_KEY=process.env.NEXT_PUBLIC_CHAPA_AUTH_KEY
-
-
-export  async function POST(
-  req: Request,
-  res: Response
-) {
-
+export async function POST(req: Request, res: Response) {
   try {
-    const paymentInput= await req.json();
-   
-    if(!paymentInput.amount || !paymentInput.currency || !paymentInput.tx_ref){
+    const paymentInput = await req.json();
+    if (!paymentInput.amount || !paymentInput.email || !paymentInput.case_id) {
       throw new Error("Please provide all the necessary information.");
     }
-    const {
-      amount,
-      currency,
+    const { amount, email, first_name, last_name, phone_number, case_id } =
+      paymentInput;
+
+    const checkout_url = await Payment.initiate(
       email,
       first_name,
       last_name,
       phone_number,
-      tx_ref,
-    } = paymentInput;
+      case_id
+    );
 
-     
-   
-    const header = {
-      headers: {
-        "Authorization": `Bearer ${CHAPA_AUTH_KEY}`,
-        "Content-Type": "application/json",
-      },
-    };
-    const body = {
-      amount: amount,
-      currency: currency,
-      email: email,
-      first_name: first_name,
-      last_name: last_name,
-      phone_number: phone_number,
-      tx_ref: tx_ref,
-      return_url: "http://localhost:3000/client/lawyers", 
-    };
-   
-    
- const response =   await axios
-      .post<any>("https://api.chapa.co/v1/transaction/initialize", body, header)
-      .catch((error) => {
-        
-        console.log(error.response.data);
-        console.log(error.response.status);
-        console.log(error.response.headers);
-
-
-        return NextResponse.json({ message:error }, { status: 400 });
-        
-      
-      });
-
-
-      if ('data' in response) {
-        const responseData = response.data;
-  
-
-        const responseObject = {
-          data: responseData,
-          status: 200
-        };
-        
-        console.log(responseObject.data)
-        return NextResponse.json(responseObject);
-      }
-      
-
-  } catch (error:any) {
-   
-    console.log(error.message)
-
-    return NextResponse.json({ message:error.message,error_code:error.code }, { status: 400 });
-
-   
+    return NextResponse.json(
+      //@ts-ignore
+      { checkout_url },
+      { status: 200 }
+    );
+  } catch (error: any) {
+    if (error instanceof Error) {
+      console.log(`${error.message}`);
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+    return NextResponse.json({ error: "Couldn't do payment" }, { status: 500 });
   }
-  
-
 }
