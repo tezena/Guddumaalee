@@ -26,7 +26,7 @@ export async function POST(req: Request, res: Response) {
 
 export async function GET(req: Request, res: Response) {
   try {
-    const faqs = await Faq.getAll();
+    const faqs = await Faq.getUnanswered();
     return NextResponse.json({ id: "GET", faqs });
   } catch (error) {
     if (error instanceof Error) {
