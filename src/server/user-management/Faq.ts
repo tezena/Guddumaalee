@@ -26,9 +26,13 @@ export class Faq extends Account {
     return faqs;
   }
 
-  static async getAll() {
+  static async getUnanswered() {
     await isAdmin();
-    const faqs = await db.faq.findMany();
+    const faqs = await db.faq.findMany({
+      where: {
+        reply: null,
+      },
+    });
     return faqs;
   }
 

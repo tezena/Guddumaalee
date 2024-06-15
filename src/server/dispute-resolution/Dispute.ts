@@ -1,5 +1,5 @@
 import { db } from "@/lib/db";
-import { isAdmin } from "../checkRole";
+import { isAdmin, isLawyer } from "../checkRole";
 
 export class Dispute {
   static async create(
@@ -36,6 +36,25 @@ export class Dispute {
     return acceptedDispute;
   }
 
+  static async getForLawyer(lawyer_id: number) {
+    await isLawyer();
+    const disputes = await db.dispute.findMany({
+      where: {
+        lawyer_id,
+      },
+    });
+    return disputes;
+  }
+
+  static async getForClient(client_id: number) {
+    await isLawyer();
+    const disputes = await db.dispute.findMany({
+      where: {
+        client_id,
+      },
+    });
+    return disputes;
+  }
   static async resolve(id: number) {
     await isAdmin();
     const resolvedDispute = await db.dispute.update({
