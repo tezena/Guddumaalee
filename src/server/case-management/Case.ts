@@ -39,6 +39,23 @@ export class Case {
     return newTrial;
   }
 
+  static async getUpcomingTrials() {
+    const lawyer = await isLawyer();
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const trials = await db.trial.findMany({
+      where: {
+        trial_date: {
+          gte: today,
+        },
+        case: {
+          //@ts-ignore
+          lawyer_id: lawyer.user.image.id,
+        },
+      },
+    });
+    return trials;
+  }
   static async getTrialsForCase(case_id: number) {
     await isAuthenticated();
     const trials = await db.trial.findMany({
