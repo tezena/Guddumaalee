@@ -16,9 +16,12 @@ const LawyersList: React.FC<Props> = ({ selectedSpecialization,selectedCourt,sel
   })
   const filteredLawyers = data?.filter((lawyer:any) => {
     return (
-      (!selectedLanguage || lawyer.language === selectedLanguage) &&
-      (!selectedSpecialization || lawyer.specialization === selectedSpecialization) &&
-      (!selectedCourt || lawyer.court === selectedCourt)
+    
+      
+
+      (!selectedLanguage ||   lawyer.languages.includes(selectedLanguage)) &&
+      (!selectedSpecialization || lawyer.specialties.includes(selectedSpecialization)) &&
+      (!selectedCourt || lawyer.courts.includes(selectedCourt))
     );
   });
 

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
-import { getDisputes,submitDispute } from "@/app/lawyer/api/dispute";
+import { getDisputes, submitDispute } from "@/app/lawyer/api/dispute";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import {
@@ -57,10 +57,10 @@ const Disputes = () => {
     lawyer_id: 1,
   });
 
-  const {data,isLoading,error}= useQuery({
-    queryKey:['disputes'],
-    queryFn:()=>getDisputes()
-  })
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["disputes"],
+    queryFn: () => getDisputes(),
+  });
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
@@ -108,19 +108,13 @@ const Disputes = () => {
 
   return (
     <div className="p-6 bg-gray-200 min-h-screen relative">
-      <div
-        onClick={() => router.back()}
-        className="fixed top-28  left-4  cursor-pointer"
-      >
-        <Icon
-          icon="grommet-icons:link-previous"
-          style={{ color: "#60297a" }}
-          width={30}
-          height={30}
-        />
-      </div>
-
       <div className="bg-white h-[80%] w-[80%] rounded-xl m-auto p-10 relative">
+        <div
+          onClick={() => router.back()}
+          className="bg-[#7B3B99] text-white font-bold py-2 px-4 rounded transition duration-300 hover:bg-purple-700 inline-block mb-2 md:mb-0 cursor-pointer"
+        >
+          Back
+        </div>
         <div className="flex justify-between items-center p-8">
           <h1 className="text-2xl font-bold">Dispute Details</h1>
           <button

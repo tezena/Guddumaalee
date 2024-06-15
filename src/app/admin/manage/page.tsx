@@ -16,9 +16,9 @@ export function Manage() {
 
   useEffect(() => {
     if (data) {
-      console.log('length',data.lawyers.length);
+      console.log('length',data?.lawyers?.length);
       
-      setLawyerNotifications(data.lawyers.length);
+      setLawyerNotifications(data?.lawyers?.length);
     }
   }, [data, setLawyerNotifications]);
 
@@ -40,7 +40,7 @@ export function Manage() {
 
   return (
     <div className="w-full font-sans min-h-screen pt-28 pl-6 lg:pl-72 bg-[#f2f6fa] text-black grid   gap-[2px] grid-cols-2 overflow-auto">
-      {data.lawyers.map((lawyer: any) => (
+      {data?.lawyers?.map((lawyer: any) => (
         <Link
           href={{
             pathname: `/admin/manage/${lawyer.id}`,

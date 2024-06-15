@@ -87,7 +87,7 @@ const LawyerSideBar = () => {
                   </div>
                 </Link>
 
-                {showCase ? (
+                {showCase &&  path.startsWith("/lawyer/") ? (
                   <div onClick={toggleShowCase} className="cursor-pointer">
                     <Icon icon="mingcute:up-line" style={{ color: "black" }} />
                   </div>
@@ -101,7 +101,7 @@ const LawyerSideBar = () => {
                 )}
               </div>
               <hr />
-              {showCase ? (
+              {showCase ||  path.startsWith("/lawyer/") ? (
                 <ul className="space-y-2 font-medium mt-2">
                   <li
                     className={

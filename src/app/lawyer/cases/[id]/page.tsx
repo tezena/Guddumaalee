@@ -1,21 +1,70 @@
 "use client";
 import React, { useState } from "react";
 import { Icon } from "@iconify/react";
-import Link from "next/link";
-import {useRouter,usePathname} from 'next/navigation'
-
-
+import { useRouter, usePathname } from "next/navigation";
+import {
+  QueryClient,
+  useMutation,
+  useQuery,
+  UseMutationResult,
+} from "@tanstack/react-query";
+import { getTrialsForCase, addTrial } from "../../api/trial";
+const queryClient = new QueryClient();
 function CaseDetail() {
-  const [date, setDate] = useState("");
-  const [note, setNote] = useState("");
-  const router = useRouter()
-  const path = usePathname()
+  // const [date, setDate] = useState("");
+  // const [note, setNote] = useState("");
+  const [inputData,setInputData] =useState({
+    trial_date:'',
+     description:'',
+     location:''
+  }) 
+  const router = useRouter();
+  const path = usePathname();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Extract the id from the path
+  const id = Number(path.split("/").pop()); // Assumes the id is the last part of the path
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["trial"],
+    queryFn: () => getTrialsForCase(id),
+    // Ensure the query only runs if id is defined
+  });
+
+  // const { data, isLoading, error } = useQuery({
+  //   queryKey: ['trial', id],
+  //   queryFn: ({ queryKey }) => {
+  //     const [, id] = queryKey;
+  //     return getTrialsForCase(id);
+  //   },
+  //   enabled: !!id,
+  // });
+
+  const handleChange = (e:any)=>{
+    setInputData({...inputData,[e.target.name]:e.target.value})
+  }
+  const mutationFn = async (data: Object) => {
+    return addTrial(data);
+  };
+
+  const { mutateAsync }: UseMutationResult<void, unknown, Object> = useMutation(
+    {
+      mutationFn,
+
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["trials"] });
+      },
+    }
+  );
+
+  const handleSubmit = async (e:any) => {
     e.preventDefault();
-    // addTrial({ date, note });
-    setDate("");
-    setNote("");
+    const formattedDate = new Date(inputData.trial_date).toISOString();
+    const data = {
+      ...inputData,
+      case_id: id,
+      trial_date: formattedDate,
+    };
+    await mutateAsync(data);
   };
 
   const caseData = {
@@ -47,110 +96,137 @@ function CaseDetail() {
       },
     ],
   };
+
   return (
     <>
-    <div className="container  mx-auto px-4 pt-10 relative">
+      <div className="container mx-auto px-4 pt-10 relative">
+        <div className="mb-4 p-10 border rounded shadow-md relative">
+          <div className="flex justify-between  items-center mb-4 ">
+        <div
+          onClick={() => router.back()}
+          className=" bg-[#7B3B99] text-white font-bold py-2 px-4 rounded transition duration-300 hover:bg-purple-700 inline-block mb-2 md:mb-0 cursor-pointer"
+        >
+          Back
+        </div>
+ 
+        <button
+            className="px-6 py-2 rounded-md text-lg font-semibold text-white bg-[#7e31a2] "
+            onClick={() => router.push(`${path}/dispute`)}
+          >
+            DISPUTE
+          </button>
 
+          </div>
 
-      <div onClick={()=>router.back()} className="fixed top-28  left-4 bg-white  cursor-pointer">
-        <Icon
-          icon="grommet-icons:link-previous"
-          style={{ color: "#7B3B99" }}
-          width={30}
-          height={30}
-        />
-      </div>
+          <div>
+            <h1 className="text-2xl font-bold mb-2">{caseData.caseName}</h1>
+            <p className="text-lg mb-1">
+              <span className="font-semibold text-xl">Client Name:</span>{" "}
+              {caseData.clientName}
+            </p>
+            <p className="text-lg mb-1">
+              <span className="font-semibold text-xl">Description:</span>{" "}
+              {caseData.description}
+            </p>
+            <p className="text-lg mb-1">
+              <span className="font-semibold text-xl">Case ID:</span>{" "}
+              {caseData.id}
+            </p>
+          </div>
 
-
-      <div className="mb-4 p-10 border rounded shadow-md relative">
-
-        <div>
-        <h1 className="text-2xl font-bold mb-2">{caseData.caseName}</h1>
-        <p className="text-lg mb-1">
-          <span className="font-semibold text-xl">Client Name:</span> {caseData.clientName}
-        </p>
-        <p className="text-lg mb-1">
-          <span className="font-semibold text-xl">Description:</span> {caseData.description}
-        </p>
-        <p className="text-lg mb-1">
-          <span className="font-semibold text-xl">Case ID:</span> {caseData.id}
-        </p>
-
+          
         </div>
 
-        <button className="px-6 py-2 rounded-md text-lg font-semibold text-white bg-[#7e31a2] absolute top-10 right-4"
-         onClick={ ()=> router.push(`${path}/dispute`)}
-        >DISPUTE</button>
-        
-      </div>
+        <div className="mb-4 px-10 border h-[200px] rounded shadow-md overflow-auto">
+          <h2 className="text-2xl font-bold mb-2 sticky top-0 py-4 bg-white">
+            Previous Trials
+          </h2>
+          {caseData.trials.length === 0 ? (
+            <p>No trials added yet.</p>
+          ) : (
+            <ul>
+              {caseData.trials.map((trial) => (
+                <li key={trial.date} className="mb-2">
+                  <p>
+                    <span className="font-semibold text-lg">Date:</span>{" "}
+                    {trial.date}
+                  </p>
+                  <p>
+                    <span className="font-semibold text-lg">Note:</span>{" "}
+                    {trial.note}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
 
-
-
-      <div className="mb-4 px-10 border h-[200px] rounded shadow-md overflow-auto">
-        <h2 className="text-2xl font-bold mb-2 sticky top-0 py-4 bg-white  ">Previous Trials</h2>
-        {caseData.trials.length === 0 ? (
-          <p>No trials added yet.</p>
-        ) : (
-          <ul>
-            {caseData.trials.map((trial) => (
-              <li key={trial.date} className="mb-2">
-                <p>
-                  <span className="font-semibold text-lg">Date:</span> {trial.date}
-                </p>
-                <p>
-                  <span className="font-semibold text-lg">Note:</span> {trial.note}
-                </p>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-
-      <div className="p-10 border rounded shadow-md">
-        <h2 className="text-xl font-bold mb-2">Add Next Trial</h2>
-        <form onSubmit={handleSubmit}>
+        <div className="p-10 border rounded shadow-md">
+          <h2 className="text-xl font-bold mb-2">Add Next Trial</h2>
+          <form onSubmit={handleSubmit}>
           <div className="mb-2">
-            <label
-              htmlFor="date"
-              className="block text-sm font-medium text-gray-700"
+              <label
+                htmlFor="date"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Location
+              </label>
+              <input
+
+              name='location'
+                type="text"
+                id="location"
+
+                value={inputData.location}
+                onChange={handleChange}
+               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#7B3B99] focus:ring-[#7B3B99] sm:text-sm"
+                required
+              />
+            </div>
+            <div className="mb-2">
+              <label
+                htmlFor="date"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Date
+              </label>
+              <input
+              name='trial_date'
+                type="datetime-local"
+                id="date"
+
+                value={inputData.trial_date}
+                onChange={handleChange}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#7B3B99] focus:ring-[#7B3B99] sm:text-sm"
+                required
+              />
+            </div>
+            <div className="mb-2">
+              <label
+                htmlFor="note"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Note
+              </label>
+              <textarea
+              name='description'
+                id="note"
+                value={inputData.description}
+                onChange={handleChange}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#7B3B99] focus:ring-[#7B3B99] sm:text-sm"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#7B3B99] hover:bg-[#59286f] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
-              Date
-            </label>
-            <input
-              type="datetime-local"
-              id="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#7B3B99] focus:ring-[#7B3B99] sm:text-sm"
-              required
-            />
-          </div>
-          <div className="mb-2">
-            <label
-              htmlFor="note"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Note
-            </label>
-            <textarea
-              id="note"
-              value={note}
-              onChange={(e) => setNote(e.target.value)}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#7B3B99] focus:ring-[#7B3B99 ]sm:text-sm"
-              required
-            />
-          </div>
-          <button
-            type="submit"
-            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#7B3B99] hover:bg-[#59286f] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            Add Trial
-          </button>
-        </form>
+              Add Trial
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
     </>
-    
   );
 }
 

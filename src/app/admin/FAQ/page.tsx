@@ -8,7 +8,7 @@ import {
   useQuery,
   UseMutationResult,
 } from "@tanstack/react-query";
-import { answerFqa, getFaqs } from "../api/faq";
+import { answerFaq, getFaqs } from "../api/faq";
 
 const queryClient = new QueryClient();
 
@@ -22,7 +22,7 @@ export function FAQ() {
   });
 
   const mutationFn = async ({ id, answer }: { id: number; answer: string }): Promise<void> => {
-    await answerFqa(id, answer);
+    await answerFaq(id, answer);
   };
 
   const { mutateAsync }: UseMutationResult<void, unknown, { id: number; answer: string }> = useMutation({
