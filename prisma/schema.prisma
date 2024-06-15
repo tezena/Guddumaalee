@@ -83,6 +83,7 @@ model client {
   phone_number   String @unique
   disputes dispute[]
   cases Case[] @relation("case_for")
+  ratings Rating[]
 }
 
 
@@ -106,6 +107,7 @@ model lawyer {
   description String
   disputes dispute[]
   cases Case[] @relation("case_from")
+  ratings Rating[]
 }
 
 model admin{
@@ -144,6 +146,7 @@ model Case{
     lawyer lawyer @relation(name: "case_from", fields: [lawyer_id], references: [id])
     client client @relation(name: "case_for", fields: [client_id],references: [id])
     trials Trial[]
+    ratings Rating[]
 }
 
 model Trial{
@@ -152,5 +155,18 @@ model Trial{
   case_id Int
   description String?
   location String
+  case Case @relation(fields: [case_id], references: [id])
+}
+
+model Rating{
+  id             Int       @id @default(autoincrement())
+  client_id Int
+  lawyer_id Int
+  rate Int
+  comment String
+  case_id Int
+  created_at     DateTime  @default(now())
+  lawyer lawyer @relation(fields: [lawyer_id], references: [id])
+  client client @relation(fields: [client_id],references: [id])
   case Case @relation(fields: [case_id], references: [id])
 }
