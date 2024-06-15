@@ -8,13 +8,14 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: Request, res: Response) {
   try {
     const userInput = await req.json();
-    if (!userInput.trial_date || !userInput.case_id) {
+    if (!userInput.trial_date || !userInput.case_id || !userInput.location) {
       throw new Error("Please provide all the necessary information.");
     }
     const newTrial = await Case.addTrialDates(
       userInput.trial_date,
       userInput.case_id,
-      userInput.description
+      userInput.description,
+      userInput.location
     );
     return NextResponse.json(
       { message: "New trial added", newTrial },
