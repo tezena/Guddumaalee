@@ -54,6 +54,10 @@ export class Lawyer extends Account {
         created_at: true,
         cv: true,
         email: true,
+        phone_number: true,
+        photo: true,
+        full_name: true,
+        description: true,
         id: true,
         identification_card: true,
         isVerified: true,
@@ -72,12 +76,16 @@ export class Lawyer extends Account {
   }
 
   static async getVerified() {
-    // await isAdmin() ;
+    await isAdmin() ;
     const lawyers = await db.lawyer.findMany({
       select: {
         created_at: true,
         cv: true,
         email: true,
+        phone_number: true,
+        photo: true,
+        full_name: true,
+        description: true,
         id: true,
         identification_card: true,
         isVerified: true,

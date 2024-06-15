@@ -38,6 +38,8 @@ export class Client extends Account {
         email: true,
         id: true,
         updatedAt: true,
+        full_name: true,
+        phone_number: true,
       },
     });
     return clients;

@@ -24,7 +24,8 @@ export class Case {
   static async addTrialDates(
     trial_date: Date,
     case_id: number,
-    description: string
+    description: string,
+    location: string
   ) {
     await isLawyer();
     const newTrial = await db.trial.create({
@@ -32,6 +33,7 @@ export class Case {
         case_id,
         trial_date,
         description,
+        location,
       },
     });
     return newTrial;
