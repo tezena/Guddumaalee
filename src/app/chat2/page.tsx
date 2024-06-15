@@ -5,8 +5,17 @@ import Form from "./components/Form";
 import ChatComponent from "./components/Chat";
 import { db } from "@/lib/db";
 import { getServerAuthSession } from "@/server/auth";
+import { Context } from "@/app/context/userContext";
+
+
+
+
+interface ChatProps{
+  id:string
+}
 
 async function getData() {
+
   const session = await getServerAuthSession();
   const id=""
   // const prisma2 = new PrismaClient2();

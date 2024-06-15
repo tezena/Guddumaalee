@@ -26,8 +26,8 @@ export async function postData(formData: FormData) {
 
   // Check if the user exists based on the userType
   let user = null;
-  let clientId=null;
-  let lawyerId=null;
+  let clientId="";
+  let lawyerId="";
 
   if (userType === "client" && email) {
     user = await db.client.findUnique({
