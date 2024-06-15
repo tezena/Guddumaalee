@@ -86,6 +86,24 @@ export class Payment {
         status: "ACCEPTED",
       },
     });
+    await db.transaction.create({
+      data: {
+        payment_id: transactionId,
+        client_id: acceptedCase.client_id,
+        lawyer_id: acceptedCase.lawyer_id,
+      },
+    });
+    const lawyerBalance = acceptedCase.price - (acceptedCase.price * 10) / 100;
+    await db.lawyer.update({
+      where: {
+        id: acceptedCase.lawyer_id,
+      },
+      data: {
+        balance: {
+          increment: lawyerBalance,
+        },
+      },
+    });
     return acceptedCase;
   }
 }

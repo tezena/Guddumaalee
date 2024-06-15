@@ -1,3 +1,4 @@
+import { db } from "@/lib/db";
 import { Case } from "@/server/case-management/Case";
 import { Payment } from "@/server/payment-management/Payment";
 import { NextResponse } from "next/server";

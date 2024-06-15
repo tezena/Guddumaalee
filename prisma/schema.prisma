@@ -84,6 +84,7 @@ model client {
   disputes dispute[]
   cases Case[] @relation("case_for")
   ratings Rating[]
+  transactions Transaction[]
 }
 
 
@@ -109,6 +110,8 @@ model lawyer {
   disputes dispute[]
   cases Case[] @relation("case_from")
   ratings Rating[]
+  withdrawRequests WithdrawRequest[]
+  transactions Transaction[]
 }
 
 model admin{
@@ -170,4 +173,20 @@ model Rating{
   lawyer lawyer @relation(fields: [lawyer_id], references: [id])
   client client @relation(fields: [client_id],references: [id])
   case Case @relation(fields: [case_id], references: [id])
+}
+
+model WithdrawRequest {
+  id             Int       @id @default(autoincrement())
+  lawyer_id Int
+  amount Float
+  lawyer lawyer @relation(fields: [lawyer_id], references: [id])
+}
+
+model Transaction {
+  id             Int       @id @default(autoincrement())
+  lawyer_id Int
+  client_id Int
+  payment_id String
+  lawyer lawyer @relation(fields: [lawyer_id], references: [id])
+  client client @relation(fields: [client_id],references: [id])
 }

@@ -67,6 +67,7 @@ export class Lawyer extends Account {
         languages: true,
         specialties: true,
         updatedAt: true,
+        balance: true,
       },
       where: {
         isVerified: "PENDING",
@@ -76,7 +77,7 @@ export class Lawyer extends Account {
   }
 
   static async getVerified() {
-    await isAdmin() ;
+    await isAuthenticated();
     const lawyers = await db.lawyer.findMany({
       select: {
         created_at: true,
@@ -95,6 +96,7 @@ export class Lawyer extends Account {
         languages: true,
         specialties: true,
         updatedAt: true,
+        balance: true,
       },
       where: {
         isVerified: "VERIFIED",
