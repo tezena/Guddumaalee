@@ -1,18 +1,50 @@
 // components/OfferModal.jsx
-import React, { useState } from 'react';
-interface OfferModalProps {
-    isOpen: boolean;
-    onClose: () => void;
-  }
-  const OfferModal: React.FC<OfferModalProps> = ({ isOpen, onClose })=> {
-  const [description, setDescription] = useState('');
-  const [amount, setAmount] = useState('');
-  const [caseName,setCaseName]=useState('')
+import React, { useState } from "react";
+import {
+  QueryClient,
+  useMutation,
+  useQuery,
+  UseMutationResult,
+} from "@tanstack/react-query";
+import { createOffer } from "@/app/lawyer/api/offer";
+import { join } from "path";
 
-  const handleSubmit = () => {
-    console.log({ caseName,description, amount });   
-    onClose();
+interface OfferModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+const OfferModal: React.FC<OfferModalProps> = ({ isOpen, onClose }) => {
+  const [description, setDescription] = useState("");
+  const [amount, setAmount] = useState("");
+  const [caseName, setCaseName] = useState("");
+
+  const [inputData, setInputData] = useState({
+    description: "",
+    price: 0,
+    title: "",
+  });
+
+  const handleChange = (e: any) => {
+    setInputData({ ...inputData, [e.target.name]: e.target.value });
   };
+  const handleSubmit = () => {
+    console.log({ caseName, description, amount });
+    const data = {
+      ...inputData,price: Number(inputData.price),
+      lawyer_id: 1,
+      client_id: 1,
+    };
+    mutateAsync( data);
+  };
+
+  const { mutateAsync }: UseMutationResult<void, unknown, Object> = useMutation(
+    {
+      mutationFn: (data) => createOffer(data),
+      onSuccess: () => {
+        onClose();
+      },
+    }
+  );
 
   if (!isOpen) return null;
 
@@ -22,12 +54,13 @@ interface OfferModalProps {
         <h2 className="text-xl font-bold mb-4">Make an Offer</h2>
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700">
-            CaseName
+            Title
           </label>
           <input
+            name="title"
             type="text"
-            value={caseName}
-            onChange={(e) => setCaseName(e.target.value)}
+            value={inputData.title}
+            onChange={handleChange}
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
           />
         </div>
@@ -36,20 +69,22 @@ interface OfferModalProps {
             Description
           </label>
           <input
+            name="description"
             type="text"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            value={inputData.description}
+            onChange={handleChange}
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
           />
         </div>
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700">
-            Amount
+            Price
           </label>
           <input
+            name="price"
             type="number"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
+            value={inputData.price}
+            onChange={handleChange}
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
           />
         </div>

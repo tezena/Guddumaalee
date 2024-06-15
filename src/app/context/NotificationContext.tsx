@@ -10,6 +10,8 @@ import React, {
   SetStateAction,
 } from "react";
 import { getNewLawyers } from "../admin/api/lawyers";
+import { getDisputes } from "../lawyer/api/dispute";
+import { getFaqs } from "../admin/api/faq";
 
 // Define types for context state
 interface NotificationContextType {
@@ -58,8 +60,15 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
 
       setLawyerNotifications(lawyers.lawyers.length); // Update lawyer notifications count
 
-      setFaqNotifications(2); // Example count
-      setDisputeNotifications(3); // Example count
+      const faqs = await getFaqs();
+      console.log('faq for nitification',faqs.length);
+      
+      setFaqNotifications(faqs.length); // Example count
+
+      const disputs = await getDisputes()
+      console.log('dispute noti................',disputs.length);
+      
+      setDisputeNotifications(disputs.length); // Example count
     } catch (error) {
       console.error("Failed to fetch notifications", error);
     }

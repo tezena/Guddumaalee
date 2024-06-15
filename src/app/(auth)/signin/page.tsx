@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSession } from "next-auth/react";
 import * as z from "zod";
 import {
   Form,
@@ -26,7 +27,6 @@ import {
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { SetUserContext } from "@/app/context/setUserContext";
-import { useSession } from "next-auth/react";
 import { Account } from "@/server/user-management/Account";
 
 // import { ModeToggle } from "@/components/theme/ThemeToggle";
@@ -61,6 +61,7 @@ const RegistrationUserForm = () => {
     try {
       setRegisteringUser(true);
       const res = await Account.login(values.email, values.password);
+
       router.push("/");
       router.refresh();
     } catch (e: any) {
@@ -74,6 +75,7 @@ const RegistrationUserForm = () => {
       setRegisteringUser(false);
     }
   }
+
   return (
     <div className="h-screen flex items-center justify-center px-2">
       <Card className="w-[450px] mx-auto">

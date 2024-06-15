@@ -11,8 +11,10 @@ import FAQ from "./components/FAQ";
 const LandingPage = async () => {
   let session: any = await getServerSession(authOptions);
 
-  if (session?.user?.image?.type == "SELLER") {
-    redirect("/dashboard");
+  if (session?.user?.image?.type === "admin") {
+    console.log(session?.user?.image?.type);
+    
+    redirect("/admin");
   }
   return (
     <div className=" h-full  flex flex-col w-full ">

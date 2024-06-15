@@ -6,11 +6,10 @@ import { getVerifiedLawyers } from "../api/lawyers";
 import { useQuery } from "@tanstack/react-query";
 // import getLawyers from "./api/lawyers"
 export function Lawyers() {
-
-  const {data,error,isLoading}= useQuery({
-    queryKey:['lawyers'],
-    queryFn:getVerifiedLawyers
-  })
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["lawyers"],
+    queryFn: getVerifiedLawyers,
+  });
 
   // const Lawyers = [
   //   { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" ,status:'ACTIVE'},
@@ -32,8 +31,8 @@ export function Lawyers() {
   const [currentPage, setCurrentPage] = useState(1);
 
   const totalPages = useMemo(() => {
-    return Math.ceil(Lawyers.length / pageSize);
-  }, [data?.lawyers]);
+    return Math.ceil(data?.length / pageSize);
+  }, [data]);
 
   const startPage = useMemo(() => {
     let start = 1;
@@ -75,8 +74,8 @@ export function Lawyers() {
   const paginatedLawyers = useMemo(() => {
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = startIndex + pageSize;
-    return data?.lawyers?.slice(startIndex, endIndex);
-  }, [currentPage, data?.lawyers, pageSize]);
+    return data?.slice(startIndex, endIndex);
+  }, [currentPage, data, pageSize]);
 
   const nextPage = () => {
     if (currentPage < totalPages) {
@@ -90,20 +89,21 @@ export function Lawyers() {
     }
   };
 
-
-
-
-
-  if (isLoading) return <div className="w-full font-sans min-h-screen pt-24 pl-10 lg:pl-72 bg-[#f2f6fa]">
-     <div
-      
-          className="w-full h-full pt-28 flex gap-5 items-center justify-center m-auto"
-        >
+  if (isLoading)
+    return (
+      <div className="w-full font-sans min-h-screen pt-24 pl-10 lg:pl-72 bg-[#f2f6fa]">
+        <div className="w-full h-full pt-28 flex gap-5 items-center justify-center m-auto">
           <Icon icon="eos-icons:loading" width="80" height="80" color="green" />
           <p className="text-2xl text-green-500">...Loading</p>
         </div>
-  </div>;
-  if (error) return <div className="w-full font-sans min-h-screen pt-24 pl-10 lg:pl-72 bg-[#f2f6fa]">Error loading data</div>;
+      </div>
+    );
+  if (error)
+    return (
+      <div className="w-full font-sans min-h-screen pt-24 pl-10 lg:pl-72 bg-[#f2f6fa]">
+        Error loading data
+      </div>
+    );
   return (
     <>
       <div className="w-full font-sans min-h-screen pt-24 pl-10 lg:pl-72 bg-[#f2f6fa]">
@@ -145,7 +145,7 @@ export function Lawyers() {
               </tr>
             </thead>
             <tbody>
-              {paginatedLawyers.map((lawyer:any, index:any) => (
+              {paginatedLawyers?.map((lawyer: any, index: any) => (
                 <tr
                   className={
                     index % 2 === 0
@@ -158,8 +158,13 @@ export function Lawyers() {
                   <td className="py-3 px-6 text-black">{lawyer.phone}</td>
                   <td className="py-3 px-6 text-black">{lawyer.email}</td>
                   <td className="py-3 px-6 text-black">
-                    <button className={ lawyer.isVerified ? 'w-[100px] px-4 py-2 rounded-full outline outline-[#7B3B99]':'w-[100px] px-4 py-2 bg-[#7B3B99] text-white rounded-full '   } >
-
+                    <button
+                      className={
+                        lawyer.isVerified
+                          ? "w-[100px] px-4 py-2 rounded-full outline outline-[#7B3B99]"
+                          : "w-[100px] px-4 py-2 bg-[#7B3B99] text-white rounded-full "
+                      }
+                    >
                       Active
                     </button>
                   </td>

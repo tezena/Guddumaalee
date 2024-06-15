@@ -1,6 +1,8 @@
 import LawyersCard from "@/components/lawyersCard";
 import { data } from "@/app/data/lawyersMockData";
 import { useQuery } from "@tanstack/react-query";
+import { getVerifiedLawyers } from "@/app/admin/api/lawyers";
+
 
 interface Props { 
   selectedSpecialization: string;
@@ -8,13 +10,22 @@ interface Props {
   selectedLanguage: string;
 }
 const LawyersList: React.FC<Props> = ({ selectedSpecialization,selectedCourt,selectedLanguage }) => {
-  const filteredLawyers = data.filter((lawyer) => {
+  const {data,isLoading,error} = useQuery({
+    queryKey:['lawyers'],
+    queryFn:()=>getVerifiedLawyers()
+  })
+  const filteredLawyers = data?.filter((lawyer:any) => {
     return (
-      (!selectedLanguage || lawyer.language === selectedLanguage) &&
-      (!selectedSpecialization || lawyer.specialization === selectedSpecialization) &&
-      (!selectedCourt || lawyer.court === selectedCourt)
+    
+      
+
+      (!selectedLanguage ||   lawyer.languages.includes(selectedLanguage)) &&
+      (!selectedSpecialization || lawyer.specialties.includes(selectedSpecialization)) &&
+      (!selectedCourt || lawyer.courts.includes(selectedCourt))
     );
   });
+
+  
 
   //   const { isPending, error, data } = useQuery({
   //     queryKey: ['repoData'],
@@ -34,8 +45,8 @@ const LawyersList: React.FC<Props> = ({ selectedSpecialization,selectedCourt,sel
   return (
     <div className="container px-5 py-5 mx-auto mt-4">
       <div className="flex flex-wrap -m-4 text-center mx-auto justify-center">
-        {filteredLawyers.length > 0 ? (
-          filteredLawyers.map((item, index) => {
+        {filteredLawyers?.length > 0 ? (
+          filteredLawyers?.map((item:any, index:any) => {
             return (
               <LawyersCard
                 key={index}
