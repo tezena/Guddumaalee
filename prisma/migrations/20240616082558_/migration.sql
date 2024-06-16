@@ -17,6 +17,9 @@ CREATE TYPE "DisputeStatus" AS ENUM ('PENDING', 'ACCEPTED', 'RESOLVED');
 CREATE TYPE "LawyerStatus" AS ENUM ('PENDING', 'VERIFIED', 'REJECTED');
 
 -- CreateEnum
+CREATE TYPE "ChatUser" AS ENUM ('CLIENT', 'LAWYER');
+
+-- CreateEnum
 CREATE TYPE "CaseStatus" AS ENUM ('PENDING', 'ACCEPTED', 'REJECTED', 'FINISHED', 'WITHDRAWN');
 
 -- CreateTable
@@ -143,6 +146,19 @@ CREATE TABLE "Transaction" (
     CONSTRAINT "Transaction_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "Message" (
+    "id" TEXT NOT NULL,
+    "message" TEXT NOT NULL,
+    "sender_email" TEXT NOT NULL,
+    "reciver_email" TEXT NOT NULL,
+    "clientId" INTEGER NOT NULL,
+    "lawyerId" INTEGER NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Message_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "client_email_key" ON "client"("email");
 
@@ -160,6 +176,9 @@ CREATE UNIQUE INDEX "admin_email_key" ON "admin"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Case_payment_id_key" ON "Case"("payment_id");
+
+-- CreateIndex
+CREATE INDEX "Message_clientId_lawyerId_idx" ON "Message"("clientId", "lawyerId");
 
 -- AddForeignKey
 ALTER TABLE "dispute" ADD CONSTRAINT "dispute_lawyer_id_fkey" FOREIGN KEY ("lawyer_id") REFERENCES "lawyer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -193,3 +212,9 @@ ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_lawyer_id_fkey" FOREIGN KE
 
 -- AddForeignKey
 ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_client_id_fkey" FOREIGN KEY ("client_id") REFERENCES "client"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Message" ADD CONSTRAINT "Message_clientId_fkey" FOREIGN KEY ("clientId") REFERENCES "client"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Message" ADD CONSTRAINT "Message_lawyerId_fkey" FOREIGN KEY ("lawyerId") REFERENCES "lawyer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
