@@ -12,7 +12,7 @@ export async function POST(req: Request, res: Response) {
       userInput.amount
     );
     return NextResponse.json(
-      { message: "New withdrawal request created", newWithdrawRequest },
+      { message: "New withdrawal request created!", newWithdrawRequest },
       { status: 201 }
     );
   } catch (error) {
