@@ -15,7 +15,7 @@ import { ProfileDropdown } from "./profileDropDown";
 import { ChatDropdown } from "./chatDropDown";
 import { Icon } from "@iconify/react";
 import { useNotifications } from "@/app/context/NotificationContext";
-
+import Notification from "./header/Notification";
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
@@ -24,7 +24,7 @@ const Navbar = () => {
   const userType = session?.user?.image?.type;
   const [visted, setVisted] = useState(false);
 
-  const {handleClosePopup,handleNotificationClick} = useNotifications()
+  const { handleClosePopup, handleNotificationClick } = useNotifications();
 
   const trialNotifications = 3;
 
@@ -43,7 +43,7 @@ const Navbar = () => {
   return (
     <div className="absolute sticky top-0 bg-background/95 md:backdrop-blur md:text-black z-50 flex justify-between items-center h-20 min-w-screen mx-auto px-4 text-white border ">
       {/* Logo */}
-    
+
       <div className="w-[15%] lg:pl-12">
         <Link href={"/client"}>
           {" "}
@@ -63,22 +63,7 @@ const Navbar = () => {
 
             <ul className="hidden md:flex items-center ">
               <div className="relative p-2 ">
-               
-                  <div onClick={userType == "client"?()=>router.push('/lawyer/notification'):()=>router.push('/client/notification')} className="  hover:text-white rounded-full p-1  hover:opacity-100 transition-opacity duration-300">
-                    <Icon
-                      icon="iconamoon:notification-bold"
-                      className="text-gray-400  hover:text-[#7B3B99]"
-                      width={30}
-                      height={30}
-                    />
-
-                    {trialNotifications > 0 && (
-                      <span className="ml-2 bg-red-500 text-white text-xs rounded-full px-2 py-1 absolute top-0 right-0">
-                        1
-                      </span>
-                    )}
-                  </div>
-               
+                <Notification />
               </div>
               <li className="py-4 px-2 rounded-xl m-1 cursor-pointer duration-300 hover:text-black hover:scale-110 ">
                 <ChatDropdown />

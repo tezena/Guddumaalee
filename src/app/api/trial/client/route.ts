@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
   try {
-    const trials = await Case.getTodayTrialsForLawyer();
+    const trials = await Case.getTodayTrialsForClient();
     return NextResponse.json({ trials });
   } catch (error) {
     if (error instanceof Error) {
