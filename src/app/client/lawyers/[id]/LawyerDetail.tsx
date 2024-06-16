@@ -43,7 +43,7 @@ const {data,isLoading,error} = useQuery({
   const [hoveredLawyer, setHoveredLawyer] = useState<LawyerProps | null>(null);
   const filteredLawyers = lawyers.filter((item) => item.id !== lawyer.id);
   const myContext=useContext(Context)
-  const {setUsername2}=myContext
+ 
 
   return (
     <motion.div
@@ -108,9 +108,9 @@ const {data,isLoading,error} = useQuery({
               >
                 Back
               </Link>
-              <div onClick={()=>setUsername2("test2@gmail.com")}  >
+              <div   >
                 <Link
-                  href="/chat"
+                  href={`/chat2/${data?.id}`}
                   className="bg-[#7B3B99] text-white font-bold py-2 px-4 rounded hover:bg-purple-700 inline-block mr-2"
                   
                 >

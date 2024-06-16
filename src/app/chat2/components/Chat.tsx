@@ -3,20 +3,23 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import Pusher from "pusher-js";
+import { useSession } from "next-auth/react";
 
 interface iAppProps {
   data: {
-    User: {
-      image: string | null;
-      name: string | null;
-    };
+    clientId:number
     message: string;
+    lawyerId:number
   }[];
 }
 
 export default function ChatComponent({ data }: iAppProps) {
   const [totalComments, setTotalComments] = useState(data);
   const messageEndRef = useRef<HTMLInputElement>(null);
+  const {data:session}=useSession()
+
+  const userId=session?.user?.id
+  const userEmail=session?.user?.email
 
   console.log(`this is toke: ${process.env.NEXT_PUBLIC_PUSHER_KEY}`)
 
@@ -44,6 +47,8 @@ export default function ChatComponent({ data }: iAppProps) {
   useEffect(() => {
     scrollTobottom();
   }, [totalComments]);
+
+  console.log(totalComments)
   
 
   return (
@@ -51,7 +56,25 @@ export default function ChatComponent({ data }: iAppProps) {
       <div className="flex flex-col gap-4">
         {totalComments.map((message, index) => (
           <div key={index}>
-            <div className="flex items-center">
+            {
+              
+             //@ts-ignore
+             message.sender_email== userEmail ?
+               
+              <div className="flex items-center justify-end ">
+              <div className="rounded-lg bg-white p-4 shadow-md self-start mr-4">
+                {message.message}
+              </div>
+              <img
+                src="https://img.freepik.com/free-photo/portrait-expressive-young-man-wearing-formal-suit_273609-6942.jpg?size=626&ext=jpg&ga=GA1.1.735520172.1710288000&semt=ais"
+                alt="Profile image of user"
+                className="w-12 h-12 object-cover rounded-lg "
+                width={50}
+                height={50}
+              />
+              
+            </div> :  <div className="flex items-center  ">
+             
               <img
                 src="https://img.freepik.com/free-photo/portrait-expressive-young-man-wearing-formal-suit_273609-6942.jpg?size=626&ext=jpg&ga=GA1.1.735520172.1710288000&semt=ais"
                 alt="Profile image of user"
@@ -59,14 +82,11 @@ export default function ChatComponent({ data }: iAppProps) {
                 width={50}
                 height={50}
               />
-              <div className="rounded-lg bg-white p-4 shadow-md self-start">
+               <div className="rounded-lg bg-white p-4 shadow-md self-start">
                 {message.message}
               </div>
             </div>
-
-            <p className="font-light text-sm text-gray-600">
-              {message.User?.name}
-            </p>
+            }
           </div>
         ))}
         <div ref={messageEndRef}></div>

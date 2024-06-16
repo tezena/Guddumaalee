@@ -3,11 +3,18 @@
 import { useRef } from "react";
 import { postData } from "./action";
 
-export default function Form() {
+
+interface Props{
+  recipent_id:number
+}
+
+ const  Form : React.FC<Props>=({recipent_id})=> {
   const formRef = useRef<HTMLFormElement>(null);
   return (
     <form
       action={async (formData) => {
+        //@ts-ignore
+        formData.append('recipient_id', recipent_id)
         await postData(formData);
         formRef.current?.reset();
       }}
@@ -31,3 +38,5 @@ export default function Form() {
     </form>
   );
 }
+
+export default Form

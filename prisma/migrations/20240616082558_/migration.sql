@@ -19,6 +19,9 @@ CREATE TYPE "LawyerStatus" AS ENUM ('PENDING', 'VERIFIED', 'REJECTED');
 -- CreateEnum
 CREATE TYPE "ChatUser" AS ENUM ('CLIENT', 'LAWYER');
 
+-- CreateEnum
+CREATE TYPE "CaseStatus" AS ENUM ('PENDING', 'ACCEPTED', 'REJECTED', 'FINISHED', 'WITHDRAWN');
+
 -- CreateTable
 CREATE TABLE "client" (
     "id" SERIAL NOT NULL,
@@ -39,6 +42,7 @@ CREATE TABLE "lawyer" (
     "password" TEXT NOT NULL,
     "full_name" TEXT NOT NULL,
     "phone_number" TEXT NOT NULL,
+    "balance" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "identification_card" TEXT NOT NULL,
     "qualification" TEXT NOT NULL,
     "cv" TEXT,
@@ -86,6 +90,63 @@ CREATE TABLE "dispute" (
 );
 
 -- CreateTable
+CREATE TABLE "Case" (
+    "id" SERIAL NOT NULL,
+    "client_id" INTEGER NOT NULL,
+    "lawyer_id" INTEGER NOT NULL,
+    "status" "CaseStatus" NOT NULL DEFAULT 'PENDING',
+    "title" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "price" DOUBLE PRECISION NOT NULL,
+    "payment_id" TEXT,
+
+    CONSTRAINT "Case_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Trial" (
+    "id" SERIAL NOT NULL,
+    "trial_date" TIMESTAMP(3) NOT NULL,
+    "case_id" INTEGER NOT NULL,
+    "description" TEXT,
+    "location" TEXT NOT NULL,
+
+    CONSTRAINT "Trial_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Rating" (
+    "id" SERIAL NOT NULL,
+    "client_id" INTEGER NOT NULL,
+    "lawyer_id" INTEGER NOT NULL,
+    "rate" INTEGER NOT NULL,
+    "comment" TEXT NOT NULL,
+    "case_id" INTEGER NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Rating_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "WithdrawRequest" (
+    "id" SERIAL NOT NULL,
+    "lawyer_id" INTEGER NOT NULL,
+    "amount" DOUBLE PRECISION NOT NULL,
+
+    CONSTRAINT "WithdrawRequest_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Transaction" (
+    "id" SERIAL NOT NULL,
+    "lawyer_id" INTEGER NOT NULL,
+    "client_id" INTEGER NOT NULL,
+    "payment_id" TEXT NOT NULL,
+
+    CONSTRAINT "Transaction_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "Message" (
     "id" TEXT NOT NULL,
     "message" TEXT NOT NULL,
@@ -114,6 +175,9 @@ CREATE UNIQUE INDEX "lawyer_phone_number_key" ON "lawyer"("phone_number");
 CREATE UNIQUE INDEX "admin_email_key" ON "admin"("email");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Case_payment_id_key" ON "Case"("payment_id");
+
+-- CreateIndex
 CREATE INDEX "Message_clientId_lawyerId_idx" ON "Message"("clientId", "lawyerId");
 
 -- AddForeignKey
@@ -121,6 +185,33 @@ ALTER TABLE "dispute" ADD CONSTRAINT "dispute_lawyer_id_fkey" FOREIGN KEY ("lawy
 
 -- AddForeignKey
 ALTER TABLE "dispute" ADD CONSTRAINT "dispute_client_id_fkey" FOREIGN KEY ("client_id") REFERENCES "client"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Case" ADD CONSTRAINT "Case_lawyer_id_fkey" FOREIGN KEY ("lawyer_id") REFERENCES "lawyer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Case" ADD CONSTRAINT "Case_client_id_fkey" FOREIGN KEY ("client_id") REFERENCES "client"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Trial" ADD CONSTRAINT "Trial_case_id_fkey" FOREIGN KEY ("case_id") REFERENCES "Case"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Rating" ADD CONSTRAINT "Rating_lawyer_id_fkey" FOREIGN KEY ("lawyer_id") REFERENCES "lawyer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Rating" ADD CONSTRAINT "Rating_client_id_fkey" FOREIGN KEY ("client_id") REFERENCES "client"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Rating" ADD CONSTRAINT "Rating_case_id_fkey" FOREIGN KEY ("case_id") REFERENCES "Case"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "WithdrawRequest" ADD CONSTRAINT "WithdrawRequest_lawyer_id_fkey" FOREIGN KEY ("lawyer_id") REFERENCES "lawyer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_lawyer_id_fkey" FOREIGN KEY ("lawyer_id") REFERENCES "lawyer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_client_id_fkey" FOREIGN KEY ("client_id") REFERENCES "client"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Message" ADD CONSTRAINT "Message_clientId_fkey" FOREIGN KEY ("clientId") REFERENCES "client"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

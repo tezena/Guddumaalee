@@ -1,19 +1,20 @@
 import { getServerSession } from "next-auth";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
-import Form from "./components/Form";
-import ChatComponent from "./components/Chat";
+import Form from "./../components/Form";
+import ChatComponent from "./../components/Chat";
 import { db } from "@/lib/db";
 import { getServerAuthSession } from "@/server/auth";
 import { Context } from "@/app/context/userContext";
 
 
+//@ts-ignore
 
 type ChatProps = {
-  id: string;
+  id: string ;
 };
 
-async function getData(recipent_id:number) {
+async function getData(id:number) {
 
   const session = await getServerAuthSession();
 
@@ -25,6 +26,8 @@ async function getData(recipent_id:number) {
   let data;
   if (userType == "client") {
     data = await db.message.findMany({
+      
+
       where: {
         OR: [
           {
@@ -33,7 +36,7 @@ async function getData(recipent_id:number) {
           },
           {
             //@ts-ignore
-            lawyerId: recipent_id,
+            lawyerId: id,
           }
         ]
       },
@@ -70,7 +73,7 @@ async function getData(recipent_id:number) {
           },
           {
             //@ts-ignore
-            lawyerId: recipent_id
+            lawyerId: id,
           }
         ]
       },
@@ -105,24 +108,27 @@ async function getData(recipent_id:number) {
 // Add
 export const dynamic = "force-dynamic";
 
-export default async function Chathomepage() {
-
-  // const { id } = router.query;
-  const recipentId=1
+export default async function Chathomepage({params}:{params:{id:string}}) {
+  
 
   const session = await getServerAuthSession();
-  const data =recipentId? await getData(recipentId) : "" 
+  const recipentId=Number(params.id)
+  //@ts-ignore
+  const data =await getData(recipentId) 
 
   if (!session) {
     redirect("/signin");
   }
+
+   
 
   console.log(`session is: ${session.user.email}`);
 
   return (
     <div className="h-screen bg-gray-200 flex flex-col">
       <ChatComponent data={data as any} />
-      <Form  recipent_id={recipentId} />
+      
+      <Form   recipent_id={recipentId}/>
     </div>
   );
 }

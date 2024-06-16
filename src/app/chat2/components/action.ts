@@ -12,7 +12,7 @@ export async function postData(formData: FormData) {
 
   const session = await getServerAuthSession();
  
-
+   //@ts-ignore
   const userType = session?.user.image?.type;
 
   console.log(`user type is${userType}`);
@@ -21,6 +21,7 @@ export async function postData(formData: FormData) {
   // const prisma2 = new db2();
 
   const message = formData.get("message");
+  const recipentId=Number(formData.get("recipient_id"))
 
   const email = session?.user?.email;
 
@@ -33,15 +34,19 @@ export async function postData(formData: FormData) {
     user = await db.client.findUnique({
       where: { email },
     });
-
+     
+    //@ts-ignore
     clientId=user?.id
-    lawyerId=""
+    //@ts-ignore
+    lawyerId=recipentId
   } else if (userType === "lawyer" && email) {
     user = await db.lawyer.findUnique({
       where: { email },
     });
+    //@ts-ignore
     lawyerId=user?.id
-    clientId=""
+    //@ts-ignore
+    clientId=recipentId
   }
 
   console.log(`user is: ${user}`);
@@ -51,16 +56,20 @@ export async function postData(formData: FormData) {
   }
 
     
- 
-   
-    
 
   // Create the message
+  
    const data  = await db.message.create({
     data: {
+      //@ts-ignore
       message,
+      //@ts-ignore
       lawyerId,
-      clientId // Use the session user's email// Save the user type
+      //@ts-ignore
+      clientId ,
+      reciver_email:'lla@gmail.com',
+      //@ts-ignore
+      sender_email:email
     },
     include: {
       ...(userType === "client"
