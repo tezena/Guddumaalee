@@ -18,9 +18,6 @@ const config = {
       },
     },
     extend: {
-      backgroundImage: {
-        'hero-section': "url('../../public/images/banner1.jpg')", 
-      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

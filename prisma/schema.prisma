@@ -74,9 +74,21 @@ enum CaseStatus {
   PENDING
   ACCEPTED
   REJECTED
-  FINISHED
   WITHDRAWN
+  DELIVERED
+  FINISHED
+  PAID
  }
+
+enum TransactionStatus {
+  PENDING
+  TRANSFERRED
+}
+
+enum WithdrawRequestStatus {
+  PENDING
+  TRANSFERRED
+}
 
 model client {
   id             Int       @id @default(autoincrement())
@@ -91,7 +103,6 @@ model client {
   ratings Rating[]
   transactions Transaction[]
   Message       Message[] @relation(name: "ClientMessages")
-
 }
 
 
@@ -120,7 +131,6 @@ model lawyer {
   withdrawRequests WithdrawRequest[]
   transactions Transaction[]
   Message       Message[] @relation(name: "LawyerMessages")
-
 }
 
 model admin{
@@ -141,6 +151,7 @@ model dispute{
     client_id Int
     lawyer_id Int
     creator_email String
+    created_at     DateTime  @default(now())
     status DisputeStatus @default(PENDING)
     content String
     lawyer lawyer @relation(fields: [lawyer_id], references: [id])
@@ -160,6 +171,7 @@ model Case{
     client client @relation(name: "case_for", fields: [client_id],references: [id])
     trials Trial[]
     ratings Rating[]
+    transactions Transaction[]
 }
 
 model Trial{
@@ -188,16 +200,17 @@ model WithdrawRequest {
   id             Int       @id @default(autoincrement())
   lawyer_id Int
   amount Float
+  status WithdrawRequestStatus @default(PENDING)
+  created_at     DateTime  @default(now())
   lawyer lawyer @relation(fields: [lawyer_id], references: [id])
 }
 
 model Transaction {
-  id             Int       @id @default(autoincrement())
-  lawyer_id Int
-  client_id Int
-  payment_id String
-  lawyer lawyer @relation(fields: [lawyer_id], references: [id])
-  client client @relation(fields: [client_id],references: [id])
+  id             Int       @id @default(autoincrement)
+  payment_id String @unique
+  case_id Int
+  case Case @relation(fields: [case_id], references: [id])
+  status TransactionStatus @default(PENDING)
 }
 
 
@@ -217,16 +230,4 @@ model Transaction {
 
     @@index([clientId, lawyerId])
   }
-
-
-
-
-
-
-
-
-
-
-
-
 

@@ -112,7 +112,7 @@ const FilteringOptions:React.FC<props>=({setSelectedCourt,setSelectedLanguage,se
           courts.map((item,index)=>{
             return(
                 <div className="flex items-center space-x-2" key={index}>
-                <RadioGroupItem value={item.value} id={index} onClick={()=>setSelectedCourt(item.value)} chacked={item.value} />
+                <RadioGroupItem value={item.value} id={index}  onClick={()=>setSelectedCourt(item.value)} chacked={item.value} />
                 <Label htmlFor="r1">{item.label}</Label>
               </div>)
             })

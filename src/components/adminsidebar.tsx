@@ -159,7 +159,31 @@ const AdminSidebar = () => {
                   Sign Out
                 </span>
               </Link>
+
               <hr />
+              <li
+                className={
+                  path.startsWith("/admin/transaction")
+                    ? "bg-[#7B3B99] rounded-xl  text-black"
+                    : ""
+                }
+              >
+                <Link
+                  href="/admin/transaction"
+                  className="flex items-center p-4 text-gray-900 rounded-lg   dark:hover:bg-[#d9a1f3] group"
+                >
+                  <span
+                    className={
+                      path.startsWith("/admin/transaction")
+                        ? "text-white flex-1 ms-3 whitespace-nowrap"
+                        : "flex-1 ms-3 whitespace-nowrap"
+                    }
+                  >
+                    Finance
+                  </span>
+                </Link>
+                <hr />
+              </li>
             </li>
           </ul>
         </div>

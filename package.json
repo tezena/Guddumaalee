@@ -36,7 +36,7 @@
     "chapa": "^1.0.5",
     "chart.js": "^4.4.2",
     "class-variance-authority": "^0.7.0",
-    "clsx": "^2.1.0",
+    "clsx": "^2.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
@@ -60,7 +60,7 @@
     "react-slick": "^0.30.2",
     "react-toastify": "^10.0.5",
     "slick-carousel": "^1.8.1",
-    "tailwind-merge": "^2.2.1",
+    "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "uploadthing": "^6.7.0",
     "zod": "^3.22.4"
