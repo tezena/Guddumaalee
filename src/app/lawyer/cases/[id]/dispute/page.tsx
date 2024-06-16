@@ -29,6 +29,7 @@ type DisputeData = {
 
 const Disputes = () => {
   const queryClient = useQueryClient();
+  
   const { data: session } = useSession();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newDispute, setNewDispute] = useState({
