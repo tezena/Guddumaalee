@@ -97,6 +97,7 @@ model client {
   created_at     DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
   full_name      String
+  photo String?
   phone_number   String @unique
   disputes dispute[]
   cases Case[] @relation("case_for")

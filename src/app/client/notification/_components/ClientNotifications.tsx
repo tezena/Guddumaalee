@@ -16,7 +16,7 @@ const ClientNotifications = () => {
     return <Loader2 className="animate-spin" />;
   }
 
-  if (data?.length == 0) {
+  if (!data || data?.length == 0) {
     return (
       <div className="flex items-center justify-center">
         <div className="w-[400px] h-[300px] flex flex-col gap-3 items-center justify-center border rounded-lg shadow-md">
