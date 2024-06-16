@@ -7,7 +7,7 @@ export async function GET(
   { params }: { params: { id: number } }
 ) {
   try {
-    const id = params.id;
+    const id = Number(params.id);
     const caseById = await db.case.findUnique({
       where: {
         id,

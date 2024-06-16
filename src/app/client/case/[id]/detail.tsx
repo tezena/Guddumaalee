@@ -9,7 +9,7 @@ import {
   UseMutationResult,
   useQueryClient,
 } from "@tanstack/react-query";
-import { accept } from "@/app/lawyer/api/offer";
+import { accept, getCaesesById } from "@/app/lawyer/api/offer";
 
 const CaseDetail: React.FC = () => {
 
@@ -19,6 +19,12 @@ const CaseDetail: React.FC = () => {
   const router = useRouter();
   const { id } = params;
 
+
+  const caseId = Number(id)
+  const {data,isLoading,error} = useQuery({
+       queryKey:['case'],
+       queryFn:()=>getCaesesById(caseId)
+  })
 
   const acceptMutation: UseMutationResult<void, unknown, number> = useMutation({
     mutationFn: (id: number) => accept(id),
@@ -85,24 +91,24 @@ const CaseDetail: React.FC = () => {
 
           <div className="flex items-center  gap-4 w-1/3 self-end absolute top-17 right-4">
             <p className="text-xl text-[#7B3B99] font-semibold">Date</p>
-            <p className="text-gray-800">clientcase?.date</p>
+            <p className="text-gray-800">{data?.date}</p>
           </div>
           <div className="flex items-center gap-4 w-1/3">
             <p className="text-xl text-[#7B3B99] font-semibold">Case</p>
-            <p className="text-gray-800">clientcase?.title</p>
+            <p className="text-gray-800">{data?.title}</p>
           </div>
           <div className="flex items-center gap-4 w-1/3">
             <p className="text-xl text-[#7B3B99] font-semibold">Lawyer</p>
-            <p className="text-gray-800">clientcase?.lawyer_id</p>
+            <p className="text-gray-800">{data?.lawyer_id}</p>
           </div>
 
           <div className="mt-6 flex gap-4 items-center">
             <p className="text-xl text-[#7B3B99] font-semibold">Status</p>
-            <p className="text-gray-800">clientcase?.status</p>
+            <p className="text-gray-800">{data?.status}</p>
           </div>
           <div className="mt-6">
             <p className="text-xl text-[#7B3B99] font-semibold">Summary</p>
-            <p className="text-gray-800">clientcase?.description</p>
+            <p className="text-gray-800">{data?.description}</p>
           </div>
         </div>
       </div>
