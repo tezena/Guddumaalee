@@ -1,5 +1,5 @@
 import axios from "axios";
-import { isClient } from "../checkRole";
+import { isAdmin, isClient, isLawyer } from "../checkRole";
 import { db } from "@/lib/db";
 
 export class Payment {
@@ -89,21 +89,70 @@ export class Payment {
     await db.transaction.create({
       data: {
         payment_id: transactionId,
-        client_id: acceptedCase.client_id,
-        lawyer_id: acceptedCase.lawyer_id,
-      },
-    });
-    const lawyerBalance = acceptedCase.price - (acceptedCase.price * 10) / 100;
-    await db.lawyer.update({
-      where: {
-        id: acceptedCase.lawyer_id,
-      },
-      data: {
-        balance: {
-          increment: lawyerBalance,
-        },
+        case_id: acceptedCase.id,
       },
     });
     return acceptedCase;
+  }
+  static async getTransactionHistory() {
+    await isAdmin();
+    const transactionHistory = await db.transaction.findMany();
+    return transactionHistory;
+  }
+  static async requestWithdrawal(amount: number) {
+    const lawyerSession = await isLawyer();
+    const lawyer = await db.lawyer.findUnique({
+      where: {
+        //@ts-ignore
+        id: lawyerSession.user.image.id,
+      },
+    });
+    if (!lawyer) {
+      throw new Error("Lawyer doesn't exist");
+    }
+    if (lawyer?.balance < amount) {
+      throw new Error("Insufficient balance.");
+    }
+    const newWithdrawRequest = await db.withdrawRequest.create({
+      data: {
+        amount,
+        //@ts-ignore
+        lawyer_id: lawyerSession.user.image.id,
+      },
+    });
+    return newWithdrawRequest;
+  }
+  static async withdrawalRequestHistory() {
+    await isAdmin();
+    const withdrawRequestHistory = await db.withdrawRequest.findMany();
+    return withdrawRequestHistory;
+  }
+  static async pay(withdrawRequestId: number) {
+    await isAdmin();
+    const withdrawRequest = await db.withdrawRequest.findUnique({
+      where: {
+        id: withdrawRequestId,
+        status: "PENDING",
+      },
+    });
+    await db.lawyer.update({
+      where: {
+        id: withdrawRequest?.lawyer_id,
+      },
+      data: {
+        balance: {
+          decrement: withdrawRequest?.amount,
+        },
+      },
+    });
+    const acceptedWithdrawRequest = await db.withdrawRequest.update({
+      where: {
+        id: withdrawRequest?.id,
+      },
+      data: {
+        status: "TRANSFERRED",
+      },
+    });
+    return acceptedWithdrawRequest;
   }
 }
