@@ -1,49 +1,30 @@
 import { motion } from "framer-motion";
 import { LawyerProps } from "@/components/lawyersCard";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import ReactStars from "react-rating-stars-component";
 import Link from "next/link";
 import { reviewData } from "@/app/data/reviewData";
 import ReviewSectionCard from "@/components/reviewCard";
-import { useContext } from "react";
 import { Context } from "@/app/context/userContext";
 import { getLawyerById } from "@/app/admin/api/lawyers";
 import { useParams } from "next/navigation";
-import {
-  QueryClient,
-  useMutation,
-  useQuery,
-  UseMutationResult,
-  useQueryClient,
-} from "@tanstack/react-query";
-import { languages } from "@/lib/utils";
+import { useQuery } from "@tanstack/react-query";
 
-const LawyerDetail: React.FC<{
-  lawyer: LawyerProps;
-  lawyers: LawyerProps[];
-}> = ({ lawyer, lawyers }) => {
-  
+const LawyerDetail: React.FC<{ lawyer: LawyerProps; lawyers: LawyerProps[] }> = ({ lawyer, lawyers }) => {
   const param = useParams();
   const { id } = param;
-const {data,isLoading,error} = useQuery({
-  queryKey:['clientlawyer'],
-  queryFn:()=>getLawyerById(id)
-})
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['clientlawyer'],
+    queryFn: () => getLawyerById(id)
+  });
 
-
-  const lawyerReviews = reviewData.filter(
-    (review) => String(review.lawyerId) === lawyer.id
-  );
-  // const lawyerReviews=reviewData
-
-  // Extract client names, ratings, and comments from reviews
+  const lawyerReviews = reviewData.filter((review) => String(review.lawyerId) === lawyer.id);
   const clientNames = lawyerReviews.map((review) => review.clientName);
   const ratings = lawyerReviews.map((review) => review.rating);
   const comments = lawyerReviews.map((review) => review.comment);
   const [hoveredLawyer, setHoveredLawyer] = useState<LawyerProps | null>(null);
   const filteredLawyers = lawyers.filter((item) => item.id !== lawyer.id);
-  const myContext=useContext(Context)
- 
+  const myContext = useContext(Context);
 
   return (
     <motion.div
@@ -52,8 +33,6 @@ const {data,isLoading,error} = useQuery({
       transition={{ duration: 0.6 }}
       className="container mx-auto mt-10 px-4 md:px-0"
     >
-      {/* <motion.div className="flex justify-between"> */}
-
       <motion.div
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -62,21 +41,18 @@ const {data,isLoading,error} = useQuery({
       >
         <motion.div className="flex justify-between">
           <div className="md:w-1/4 md:mr-8">
-            <h3 className="text-xl font-semibold text-gray-800 mb-4">
-              Other Lawyers
-            </h3>
+            <h3 className="text-xl font-semibold text-gray-800 mb-4">Other Lawyers</h3>
             <ul>
               {filteredLawyers.map((otherLawyer) => (
                 <li
                   key={otherLawyer.id}
-                  className="mb-2"
+                  className="mb-4 p-2 rounded-lg hover:bg-gray-200 transition-all"
                   onMouseEnter={() => setHoveredLawyer(otherLawyer)}
                   onMouseLeave={() => setHoveredLawyer(null)}
                 >
                   <Link
                     href={`/client/lawyers/${otherLawyer.id}`}
                     className="text-blue-500 hover:underline"
-                  
                   >
                     {otherLawyer.name}
                   </Link>
@@ -108,11 +84,10 @@ const {data,isLoading,error} = useQuery({
               >
                 Back
               </Link>
-              <div   >
+              <div>
                 <Link
                   href={`/chat2/${data?.id}`}
                   className="bg-[#7B3B99] text-white font-bold py-2 px-4 rounded hover:bg-purple-700 inline-block mr-2"
-                  
                 >
                   Chat with Lawyer
                 </Link>
@@ -136,15 +111,11 @@ const {data,isLoading,error} = useQuery({
                   whileHover={{ scale: 1.1 }}
                 />
                 <div className="absolute bottom-0 left-0 p-6 bg-gray-800 bg-opacity-75 rounded-br-lg">
-                  <h2 className="text-3xl font-semibold text-white">
-                    {data?.full_name}
-                  </h2>
+                  <h2 className="text-3xl font-semibold text-white">{data?.full_name}</h2>
                 </div>
               </motion.div>
               <div className="p-4 md:p-8">
-                <h3 className="text-xl font-semibold text-gray-800 mb-4">
-                  Personal Information
-                </h3>
+                <h3 className="text-xl font-semibold text-gray-800 mb-4">Personal Information</h3>
                 <p className="text-gray-600 mt-2">{data?.description}</p>
                 <div className="flex items-center mt-4">
                   <ReactStars
@@ -159,55 +130,40 @@ const {data,isLoading,error} = useQuery({
                 <hr className="my-6 border-t border-gray-200" />
 
                 <div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-4">
-                 Languages
-                </h3>
-                  {
-                    data?.languages?.map((language:any)=>(
-                      <ul key={language}>
-                        <li>{language}</li>
-                      </ul>
-                    ))
-                  }
-                 
+                  <h3 className="text-xl font-semibold text-gray-800 mb-4">Languages</h3>
+                  <ul className="list-disc pl-5">
+                    {data?.languages?.map((language: any) => (
+                      <li key={language} className="text-gray-600">{language}</li>
+                    ))}
+                  </ul>
                 </div>
-                
+
                 <div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-4">
-                Specialties
-                </h3>
-                  {
-                    data?.specialties?.map((specialtie:any)=>(
-                      <ul key={specialtie}>
-                        <li>{specialtie}</li>
-                      </ul>
-                    ))
-                  }
-                 
+                  <h3 className="text-xl font-semibold text-gray-800 mb-4">Specialties</h3>
+                  <ul className="list-disc pl-5">
+                    {data?.specialties?.map((specialtie: any) => (
+                      <li key={specialtie} className="text-gray-600">{specialtie}</li>
+                    ))}
+                  </ul>
                 </div>
+
                 <hr className="my-6 border-t border-gray-200" />
+
                 <div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-4">
-                Courts
-                </h3>
-                  {
-                    data?.courts?.map((courts:any)=>(
-                      <ul key={courts}>
-                        <li>{courts}</li>
-                      </ul>
-                    ))
-                  }
-                 
+                  <h3 className="text-xl font-semibold text-gray-800 mb-4">Courts</h3>
+                  <ul className="list-disc pl-5">
+                    {data?.courts?.map((court: any) => (
+                      <li key={court} className="text-gray-600">{court}</li>
+                    ))}
+                  </ul>
                 </div>
               </div>
             </div>
           </motion.div>
         </motion.div>
 
-        <div className="   p-4 mt-8">
-          <h2 className="text-xl font-semibold mb-4 text-black text-center">
-            Client Comments and Reviews
-          </h2>
+        <div className="p-4 mt-8">
+          <h2 className="text-xl font-semibold mb-4 text-black text-center">Client Comments and Reviews</h2>
           {clientNames.map((clientName, index) => (
             <ReviewSectionCard
               key={index}
@@ -218,8 +174,6 @@ const {data,isLoading,error} = useQuery({
           ))}
         </div>
       </motion.div>
-
-      {/* </motion.div> */}
     </motion.div>
   );
 };

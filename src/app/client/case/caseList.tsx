@@ -10,6 +10,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import { getClientCaeses } from "../api/case";
+import { useRouter } from "next/navigation";
 
 const Cases: React.FC = () => {
   const { data: session } = useSession();
@@ -19,6 +20,7 @@ const Cases: React.FC = () => {
     // @ts-ignore
     queryFn: () => getClientCaeses(session?.user?.image?.id),
   });
+  const router = useRouter();
 
   // Filter cases based on their status
   const currentCases = data?.filter(
@@ -31,11 +33,18 @@ const Cases: React.FC = () => {
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
       <div className="max-w-4xl mx-auto">
+
         <h1 className="text-4xl font-bold mb-8 text-center text-[#7B3B99]">
           Client Cases
         </h1>
 
         <div className="bg-white p-10 flex flex-col gap-4 mb-12">
+        <button
+          onClick={() => router.back()}
+          className="bg-[#7B3B99] text-white font-bold py-2 px-4 rounded transition duration-300 hover:bg-purple-700 inline-block mb-2 md:mb-0 cursor-pointer w-20"
+        >
+          Back
+        </button>
           <h2 className="text-3xl font-semibold mb-4 text-[#7B3B99]">
             Current Case
           </h2>
