@@ -10,7 +10,7 @@ import {
   UseMutationResult,
   useQuery,
 } from "@tanstack/react-query";
-import { verifyLawyer, fetchLawyerById, rejectLawyer } from "../../api/lawyers";
+import { verifyLawyer, getLawyerById, rejectLawyer } from "../../api/lawyers";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 
@@ -63,7 +63,7 @@ export function Detail() {
   const { id } = param;
   const { data, isLoading, error } = useQuery({
     queryKey: ["lawyer"],
-    queryFn: () => fetchLawyerById(id),
+    queryFn: () => getLawyerById(id),
   });
 
   const VerifyMutationFn = async () => {

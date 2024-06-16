@@ -26,7 +26,7 @@ export async function getTrials() {
       const data = response;
       console.log(data);
   
-      return data.data.disputes;
+      return data.data.trials;
     } catch (err) {
       console.error(err);
       throw err; // Ensure errors are propagated correctly
@@ -42,7 +42,7 @@ export async function getTrials() {
       const data = response;
       console.log(data);
   
-      return data.data.disputes;
+      return data.data.trials;
     } catch (err) {
       console.error(err);
       throw err; // Ensure errors are propagated correctly

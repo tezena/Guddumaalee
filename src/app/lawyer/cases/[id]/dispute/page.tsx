@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
-import { getDisputes, submitDispute } from "@/app/lawyer/api/dispute";
+import { getDisputes, getLawyerDisputes, submitDispute } from "@/app/lawyer/api/dispute";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import {
@@ -11,6 +11,7 @@ import {
   useMutation,
   useQuery,
   UseMutationResult,
+  useQueryClient,
 } from "@tanstack/react-query";
 
 // Mock data for disputes
@@ -40,7 +41,7 @@ const disputes = [
     resolution: "Issue resolved by renegotiation.",
   },
 ];
-const queryClient = new QueryClient();
+
 type DisputeData = {
   creator_email: string | null | undefined;
   client_id: number;
@@ -48,6 +49,7 @@ type DisputeData = {
   lawyer_id: number;
 };
 const Disputes = () => {
+  const queryClient = useQueryClient();
   const { data: session } = useSession();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newDispute, setNewDispute] = useState({
@@ -56,11 +58,14 @@ const Disputes = () => {
     content: "",
     lawyer_id: 1,
   });
+  
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["disputes"],
-    queryFn: () => getDisputes(),
+    queryFn: () => getLawyerDisputes(session?.user?.image?.id),
   });
+
+  // const id = data[1].id
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
@@ -134,33 +139,37 @@ const Disputes = () => {
           </p>
           <p className="flex gap-4 items-center">
             <span className="text-xl font-bold text-[#60287a]">Client ID:</span>{" "}
-            {disputes[0].clientId}
+            {/* {data[0]?.client_id} */}
           </p>
         </div>
 
-        {disputes.map((dispute) => (
+        {data?.map((dispute:any) => (
           <>
             <div
               key={dispute.id}
               className=" p-10  mb-4  flex flex-col gap-4 relative"
             >
+               <div className="flex  gap-4">
+                <p className="text-2xl font-bold text-[#60287a]">Email:</p>{" "}
+                {dispute.creator_email}
+              </div>
               <div className="flex flex-col gap-4">
                 <p className="text-2xl font-bold text-[#602979]">
                   Description:
                 </p>{" "}
-                {dispute.Description}
+                <div className="px-4 text-justify ">
+                {dispute.content}
+                </div>
+              
               </div>
               <div className="flex gap-2 items-center absolute right-12 top-12 text-sm">
                 <p className=" font-bold text-[#60277b]">Submission Date:</p>
                 {dispute.submissionDate}
               </div>
-              <div className="flex flex-col gap-4">
-                <p className="text-2xl font-bold text-[#60287a]">Response:</p>{" "}
-                {dispute.response}
-              </div>
+              
               <div className="flex gap-2 items-center">
                 <p className="text-2xl font-bold text-[#60287a]">Status:</p>{" "}
-                {dispute.solved ? "Solved" : "In Progress"}
+                {dispute.status}
               </div>
               {dispute.solved && (
                 <div>

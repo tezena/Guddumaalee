@@ -78,22 +78,15 @@ export async function getVerifiedLawyers() {
   }
 }
 
-export async function fetchLawyerById(id: any) {
-  // const options = {
-  //   method: "GET",
-  //   headers: {
-  //     accept: "application/json",
-  //     Authorization: "Bearer ....",
-  //   },
-  // };
-
+export async function getLawyerById(id: any) {
+ 
   try {
     const response = await axios.get(`http://localhost:3000/api/lawyers/${id}`);
-    // if (!response.ok) {
-    //   throw new Error(`Error: ${response.statusText}`);
-    // }
+    if (response.status < 200 || response.status >= 300) {
+      throw new Error(`Error: ${response.statusText}`);
+    }
     const data = response;
-    console.log(data.data.user);
+    console.log(data);
 
     return data.data.user;
   } catch (err) {
@@ -101,19 +94,7 @@ export async function fetchLawyerById(id: any) {
     throw err; // Ensure errors are propagated correctly
   }
 
-  //  await axios
-  //     .get(`http://localhost:3000/api/lawyers/${id}`)
-  //     .then(async (res: any) => {
-  //       console.log(res);
-
-  //      const data = await res;
-  //      return data
-  //     })
-  //     .catch((err: any) => {
-  //       console.log(err);
-
-  //       return err;
-  //     });
+  
 }
 
 export async function verifyLawyer(id: any) {
