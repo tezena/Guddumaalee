@@ -1,7 +1,9 @@
+'use client'
 import LawyersCard from "@/components/lawyersCard";
 import { data } from "@/app/data/lawyersMockData";
 import { useQuery } from "@tanstack/react-query";
 import { getVerifiedLawyers } from "@/app/admin/api/lawyers";
+import { useEffect } from "react";
 
 interface Props {
   selectedSpecialization: string;
@@ -17,6 +19,12 @@ const LawyersList: React.FC<Props> = ({
     queryKey: ["clientlawyers"],
     queryFn: () => getVerifiedLawyers(),
   });
+
+useEffect(()=>{
+  console.log('selectedLanguage',selectedLanguage,'selectedCourt',selectedCourt,'selectedSpecialization',selectedSpecialization);
+  
+},[selectedCourt,selectedLanguage,selectedSpecialization])
+
   const filteredLawyers = data?.filter((lawyer: any) => {
     return (
       (!selectedLanguage || lawyer.languages.includes(selectedLanguage)) &&

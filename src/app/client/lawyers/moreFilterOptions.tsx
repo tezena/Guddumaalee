@@ -18,37 +18,43 @@ interface props {
 
 const specilization = [
   { id: 1, text: "All", type: "" },
-  { id: 2, text: "Family", type: "family" },
-  { id: 3, text: "Personal Injury", type: "personal" },
-  { id: 3, text: "Adoption", type: "adoption" },
-  { id: 3, text: "Banking", type: "banking" },
-  { id: 3, text: "Assult", type: "assult" },
-  { id: 3, text: "Housing", type: "housing" },
-  { id: 10, text: "Criminal", type: "criminal" },
+  { id: 2, text: "EMPLOYMENT", type: "EMPLOYMENT_LAW" },
+  { id: 3, text: "IMMIGRATION", type: "IMMIGRATION_LAW" },
+  { id: 4, text: "REAL_ESTATE", type: "REAL_ESTATE_LAW" },
+  { id: 5, text: "REAL_ESTATE", type: "REAL_ESTATE_LAW" },
+  { id: 6, text: "ENVIRONMENTAL", type: "ENVIRONMENTAL_LAW" },
+  { id: 7, text: "TAX", type: "TAX_LAW" },
+  { id: 8, text: "FAMILY", type: "FAMILY_LAW" },
+  { id: 9, text: "Intellectual_Property", type: "INTELLECTUAL_PROPERTY_LAW" },
+
+  { id: 8, text: "CRIMINAL", type: "CRIMINAL_LAW" },
+  { id: 9, text: "CORPORATE", type: "CORPORATE_LAW" },
+  { id: 10, text: "BANKRUPTCY", type: "BANKRUPTCY_LAW" },
 ];
 
 const languages = [
   { id: 0, label: "All", value: "" },
-  { id: 1, label: "Amharic", value: "amharic" },
-  { id: 2, label: "Oromo", value: "oromo" },
-  { id: 3, label: "Tigrinya", value: "tigrinya" },
-  { id: 4, label: "Somali", value: "somali" },
-  { id: 5, label: "Sidamo", value: "sidamo" },
-  { id: 6, label: "Gurage", value: "gurage" },
-  { id: 7, label: "Afar", value: "afar" },
-  { id: 8, label: "Gamo", value: "gamo" },
-  { id: 9, label: "Hadiyya", value: "hadiyya" },
-  { id: 10, label: "Konso", value: "konso" },
+  { id: 1, label: "AMHARIC", value: "AMHARIC" },
+  { id: 2, label: "OROMO", value: "OROMO" },
+  { id: 3, label: "TIGRINYA", value: "TIGRINYA" },
+  { id: 4, label: "SOMALI", value: "SOMALI" },
+  { id: 5, label: "SIDAMO", value: "SIDAMO" },
+  { id: 6, label: "GURAGE", value: "GURAGE" },
+  { id: 7, label: "AFAR", value: "AFAR" },
+  { id: 8, label: "GAMO", value: "GAMO" },
+  { id: 9, label: "HADIYYA", value: "HADIYYA" },
+  // { id: 10, label: "Konso", value: "konso" },
+  { id: 10, label: "WOLAYTTA", value: "WOLAYTTA" },
 ];
 
 const courts = [
   { id: 0, label: "All", value: "" },
-  { id: 1, label: "Supreme Court", value: "supreme_court" },
-  { id: 2, label: "Appellate Court", value: "appellate_court" },
-  { id: 3, label: "High Court", value: "high_court" },
-  { id: 4, label: "District Court", value: "district_court" },
-  { id: 9, label: "Small Claims Court", value: "small_claims_court" },
-  { id: 10, label: "Administrative Court", value: "administrative_court" },
+  { id: 1, label: "Supreme Court", value: "SUPREME_COURT" },
+  { id: 2, label: "Appellate Court", value: "APPELLATE_COURT" },
+  { id: 3, label: "High Court", value: "HIGH_COURT" },
+  { id: 4, label: "District Court", value: "DISTRICT_COURT" },
+  { id: 9, label: "Small Claims Court", value: "SMALL_CLAIMS_COURT" },
+  { id: 10, label: "Administrative Court", value: "ADMINISTRATIVE_COURT" },
 ];
 
 const FilteringOptions: React.FC<props> = ({
@@ -83,7 +89,7 @@ const FilteringOptions: React.FC<props> = ({
                     <div className="flex items-center space-x-2" key={index}>
                       <RadioGroupItem
                         value={item.type}
-                        id={index}
+                        id={`${index}`}
                         onClick={() => setSelectedSpecialization(item.type)}
                       />
                       <Label htmlFor="r1">{item.text}</Label>
@@ -100,7 +106,7 @@ const FilteringOptions: React.FC<props> = ({
                     <div className="flex items-center space-x-2" key={index}>
                       <RadioGroupItem
                         value={item.value}
-                        id={index}
+                        id={`${index}`}
                         onClick={() => setSelectedLanguage(item.value)}
                       />
                       <Label htmlFor="r1">{item.label}</Label>
@@ -118,7 +124,7 @@ const FilteringOptions: React.FC<props> = ({
                   <div className="flex items-center space-x-2" key={index}>
                     <RadioGroupItem
                       value={item.value}
-                      id={index}
+                      id={`${index}`}
                       onClick={() => setSelectedCourt(item.value)}
                       chacked={item.value}
                     />
