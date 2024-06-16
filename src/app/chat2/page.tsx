@@ -8,16 +8,14 @@ import { getServerAuthSession } from "@/server/auth";
 import { Context } from "@/app/context/userContext";
 
 
+type ChatProps = {
+  id: string;
+};
 
-
-interface ChatProps{
-  id:string
-}
-
-async function getData() {
+async function getData(id:string) {
 
   const session = await getServerAuthSession();
-  const id=""
+
   // const prisma2 = new PrismaClient2();
   const userType = session?.user.image?.type;
   const email=session?.user?.email
@@ -83,9 +81,9 @@ async function getData() {
 // Add
 export const dynamic = "force-dynamic";
 
-export default async function Chathomepage() {
+export default async function Chathomepage(recipent_id:string) {
   const session = await getServerAuthSession();
-  const data = await getData();
+  const data = await getData(recipent_id);
 
   if (!session) {
     redirect("/signin");
