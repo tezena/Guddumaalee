@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, use } from "react";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
 import {
@@ -13,9 +13,10 @@ import {
   useMutation,
   useQuery,
   UseMutationResult,
+  useQueryClient,
 } from "@tanstack/react-query";
-const queryClient = new QueryClient();
 export function Dispute() {
+  const queryClient = useQueryClient();
   const { data, isLoading, error } = useQuery({
     queryKey: ["disputes"],
     queryFn: () => getDisputes(),
@@ -35,7 +36,7 @@ export function Dispute() {
       queryClient.invalidateQueries({ queryKey: ["disputes"] });
       console.log("Dispute accepted.");
     },
-  });3
+  });
 
   const resolveMutation: UseMutationResult<void, unknown, number> = useMutation(
     {

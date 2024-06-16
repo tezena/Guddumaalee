@@ -3,29 +3,28 @@ import { data } from "@/app/data/lawyersMockData";
 import { useQuery } from "@tanstack/react-query";
 import { getVerifiedLawyers } from "@/app/admin/api/lawyers";
 
-
-interface Props { 
+interface Props {
   selectedSpecialization: string;
-  selectedCourt:string;
+  selectedCourt: string;
   selectedLanguage: string;
 }
-const LawyersList: React.FC<Props> = ({ selectedSpecialization,selectedCourt,selectedLanguage }) => {
-  const {data,isLoading,error} = useQuery({
-    queryKey:['lawyers'],
-    queryFn:()=>getVerifiedLawyers()
-  })
-  const filteredLawyers = data?.filter((lawyer:any) => {
+const LawyersList: React.FC<Props> = ({
+  selectedSpecialization,
+  selectedCourt,
+  selectedLanguage,
+}) => {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["clientlawyers"],
+    queryFn: () => getVerifiedLawyers(),
+  });
+  const filteredLawyers = data?.filter((lawyer: any) => {
     return (
-    
-      
-
-      (!selectedLanguage ||   lawyer.languages.includes(selectedLanguage)) &&
-      (!selectedSpecialization || lawyer.specialties.includes(selectedSpecialization)) &&
+      (!selectedLanguage || lawyer.languages.includes(selectedLanguage)) &&
+      (!selectedSpecialization ||
+        lawyer.specialties.includes(selectedSpecialization)) &&
       (!selectedCourt || lawyer.courts.includes(selectedCourt))
     );
   });
-
-  
 
   //   const { isPending, error, data } = useQuery({
   //     queryKey: ['repoData'],
@@ -36,24 +35,23 @@ const LawyersList: React.FC<Props> = ({ selectedSpecialization,selectedCourt,sel
   //   })
 
   //   console.log(data)
-  
+
   //   if (isPending) return 'Loading...'
-  
+
   //   if (error) return 'An error has occurred: ' + error.message
-  
 
   return (
     <div className="container px-5 py-5 mx-auto mt-4">
       <div className="flex flex-wrap -m-4 text-center mx-auto justify-center">
         {filteredLawyers?.length > 0 ? (
-          filteredLawyers?.map((item:any, index:any) => {
+          filteredLawyers?.map((item: any, index: any) => {
             return (
               <LawyersCard
                 key={index}
                 id={item.id}
-                name={item.name}
-                imageUrl={item.imageUrl}
-                des={item.des}
+                name={item.full_name}
+                imageUrl={item.photo}
+                des={item.description}
                 rate={item.rate}
               />
             );

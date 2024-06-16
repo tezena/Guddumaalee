@@ -143,8 +143,8 @@ export function Clients() {
                 }
                 key={index}
               >
-                <td className="py-3 px-6 text-black">{client.name}</td>
-                <td className="py-3 px-6 text-black">{client.phone}</td>
+                <td className="py-3 px-6 text-black">{client.full_name}</td>
+                <td className="py-3 px-6 text-black">{client.phone_number}</td>
                 <td className="py-3 px-6 text-black">{client.email}</td>
               </tr>
             ))}

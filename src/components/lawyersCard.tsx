@@ -16,7 +16,7 @@ const LawyersCard: React.FC<LawyerProps> = ({ id, name, imageUrl, des, rate }) =
    <Link className="text-start mx-auto md:mx-2 my-2 bg-white rounded-lg shadow-lg overflow-hidden  w-[60%] sm:w-[40%]  lg:w-[23%] transform transition duration-500 hover:scale-105" href={`/client/lawyers/${id}`}>
      <div className="w-full">
       <img
-        src="https://img.freepik.com/free-photo/portrait-expressive-young-man-wearing-formal-suit_273609-6942.jpg?size=626&ext=jpg&ga=GA1.1.735520172.1710288000&semt=ais"
+        src={imageUrl}
         alt="Mountain"
         className="w-full h-64 object-cover"
       />

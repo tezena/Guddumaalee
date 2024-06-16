@@ -154,8 +154,8 @@ export function Lawyers() {
                   }
                   key={index}
                 >
-                  <td className="py-3 px-6 text-black">{lawyer.name}</td>
-                  <td className="py-3 px-6 text-black">{lawyer.phone}</td>
+                  <td className="py-3 px-6 text-black">{lawyer.full_name}</td>
+                  <td className="py-3 px-6 text-black">{lawyer.phone_number}</td>
                   <td className="py-3 px-6 text-black">{lawyer.email}</td>
                   <td className="py-3 px-6 text-black">
                     <button
