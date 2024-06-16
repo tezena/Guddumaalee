@@ -4,9 +4,15 @@ import React from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { Icon } from "@iconify/react";
-import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
-import { verifyLawyer, fetchLawyerById } from "../../api/lawyers";
+import {
+  QueryClient,
+  useMutation,
+  UseMutationResult,
+  useQuery,
+} from "@tanstack/react-query";
+import { verifyLawyer, getLawyerById, rejectLawyer } from "../../api/lawyers";
 import { useRouter } from "next/navigation";
+import { ToastContainer, toast } from "react-toastify";
 
 // async function fetchLawyer(id: any) {
 //   const options = {
@@ -57,26 +63,58 @@ export function Detail() {
   const { id } = param;
   const { data, isLoading, error } = useQuery({
     queryKey: ["lawyer"],
-    queryFn: () => fetchLawyerById(id),
+    queryFn: () => getLawyerById(id),
   });
 
-  const { mutateAsync } = useMutation({
-    mutationFn: () => verifyLawyer(id),
-    onSuccess: () => {
+  const VerifyMutationFn = async () => {
+    return verifyLawyer(id);
+  };
+
+  const rejectMutationFn = async () => {
+    return rejectLawyer(id);
+  };
+  const VerifyMutation: UseMutationResult<void, unknown> = useMutation({
+    mutationFn: VerifyMutationFn,
+    onSuccess: (data: any) => {
       queryClient.invalidateQueries({ queryKey: ["lawyers"] });
-      router.back()
+      console.log("lawyer acceptd.", data);
+      toast.success("Question submitted successfully!");
+      setTimeout(()=>{
+        router.back();
+      },2000)
+    
+    },
+    onError: (error: any) => {
+      toast.error("Failed to submit the question.");
     },
   });
 
-  if (isLoading) return <div className="w-full font-sans min-h-screen pt-24 pl-10 lg:pl-72 bg-[#f2f6fa]">
-     <div
-      
-          className="w-full h-full pt-28 flex gap-5 items-center justify-center m-auto"
-        >
+  const rejectMutation: UseMutationResult<void, unknown> = useMutation({
+    mutationFn: rejectMutationFn,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["lawyers"] });
+      console.log("lawyer rejected.");
+      router.back();
+    },
+  });
+
+  const handleVeryfy = async () => {
+    await VerifyMutation.mutateAsync(id);
+  };
+
+  const handleReject = async () => {
+    await rejectMutation.mutateAsync(id);
+  };
+
+  if (isLoading)
+    return (
+      <div className="w-full font-sans min-h-screen pt-24 pl-10 lg:pl-72 bg-[#f2f6fa]">
+        <div className="w-full h-full pt-28 flex gap-5 items-center justify-center m-auto">
           <Icon icon="eos-icons:loading" width="80" height="80" color="green" />
           <p className="text-2xl text-green-500">...Loading</p>
         </div>
-  </div>;
+      </div>
+    );
   if (error) return <div>Error loading data</div>;
 
   return (
@@ -144,19 +182,15 @@ export function Detail() {
           <hr className="border-gray-300" />
         </div>
         <div className="flex items-center justify-between p-4 mt-4 ">
-          <button className="px-6 py-2  rounded-2xl outline outline-[#c156f3] text-[#61207f]">
+          <button
+            className="px-6 py-2  rounded-2xl outline outline-[#c156f3] text-[#61207f]"
+            onClick={handleReject}
+          >
             REJECT
           </button>
           <button
             className="px-6 py-2  rounded-2xl outline bg-[#5e207b] text-white"
-            onClick={async () => {
-              try {
-                mutateAsync();
-
-              } catch (e) {
-                console.log(e);
-              }
-            }}
+            onClick={handleVeryfy}
           >
             ACCEPT
           </button>

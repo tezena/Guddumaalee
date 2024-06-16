@@ -87,7 +87,7 @@ const LawyerSideBar = () => {
                   </div>
                 </Link>
 
-                {showCase ? (
+                {showCase &&  path.startsWith("/lawyer/") ? (
                   <div onClick={toggleShowCase} className="cursor-pointer">
                     <Icon icon="mingcute:up-line" style={{ color: "black" }} />
                   </div>
@@ -101,7 +101,7 @@ const LawyerSideBar = () => {
                 )}
               </div>
               <hr />
-              {showCase ? (
+              {showCase ||  path.startsWith("/lawyer/") ? (
                 <ul className="space-y-2 font-medium mt-2">
                   <li
                     className={
@@ -121,7 +121,7 @@ const LawyerSideBar = () => {
                             : "text-gray-500 text-2xl w-5 h-5 transition duration-75 dark:text-gray-400 group-hover:text-gray-600 dark:group-hover:text-white"
                         }
                       />
-                      Complated
+                      Completed
                     </Link>
                   </li>
                   <hr />
@@ -144,7 +144,7 @@ const LawyerSideBar = () => {
                             : "text-gray-500 text-2xl w-5 h-5 transition duration-75 dark:text-gray-400 group-hover:text-gray-600 dark:group-hover:text-white"
                         }
                       />
-                      InProgress
+                      In-progress  
                     </Link>
                   </li>
                 </ul>

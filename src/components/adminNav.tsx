@@ -4,11 +4,15 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
 import { useNotifications } from "@/app/context/NotificationContext";
+import { useSession } from "next-auth/react";
+import { ProfileDropdown } from "./profileDropDown";
 
 export function AdminNavbar() {
   const [isClient, setIsClient] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showProfileDrop, setShowProfileDrop] = useState(false);
+
+  const { data: session } = useSession();
 
   const {
     faqNotifications,
@@ -93,10 +97,10 @@ export function AdminNavbar() {
             onClick={toggleDropDown}
           >
             <div className="relative p-2 ">
-              <div className="  hover:text-white rounded-full p-1   hover:bg-black hover:bg-opacity-50 hover:opacity-100 transition-opacity duration-300">
+              <div className="  hover:text-white rounded-full p-1  hover:opacity-100 transition-opacity duration-300">
                 <Icon
                   icon="iconamoon:notification-bold"
-                  className="text-black hover:text-white"
+                  className="text-gray-400  hover:text-[#7B3B99]"
                   width={30}
                   height={30}
                 />
@@ -164,10 +168,11 @@ export function AdminNavbar() {
             alt="lawyer image"
           />
           <div className="flex flex-col gap-1 text-black ">
-            <p>Ugullu Banga</p>
-            <p>uglu21@gmail.com</p>
+            {/* <p>Ugullu Banga</p> */}
+            <p>{session?.user?.email}</p>
           </div>
-          <div
+
+          {/* <div
             className="relative transform transition duration-500 hover:scale-105"
             onClick={toggleProfDropDown}
           >
@@ -198,7 +203,9 @@ export function AdminNavbar() {
                 </div>
               </div>
             )}
-          </div>
+          </div> */}
+
+          <ProfileDropdown />
         </div>
       </div>
     </div>

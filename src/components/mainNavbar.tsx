@@ -64,7 +64,7 @@ const Navbar = () => {
             <ul className="hidden md:flex items-center ">
               <div className="relative p-2 ">
                
-                  <div onClick={handleNotificationClick} className="  hover:text-white rounded-full p-1  hover:opacity-100 transition-opacity duration-300">
+                  <div onClick={userType == "client"?()=>router.push('/lawyer/notification'):()=>router.push('/client/notification')} className="  hover:text-white rounded-full p-1  hover:opacity-100 transition-opacity duration-300">
                     <Icon
                       icon="iconamoon:notification-bold"
                       className="text-gray-400  hover:text-[#7B3B99]"

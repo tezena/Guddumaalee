@@ -7,7 +7,7 @@ export async function getClients() {
       throw new Error(`Error: ${response.statusText}`);
     }
     const data = response;
-    console.log(data.data.clients);
+    console.log('clients',data);
 
     return data.data;
   } catch (err) {

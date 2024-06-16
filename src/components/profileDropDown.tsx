@@ -56,15 +56,18 @@ export function ProfileDropdown() {
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <User className="mr-2 h-4 w-4" />
-            <Link href={userType == "client" ? "" : "/lawyer/updateProfile"}>
-              {" "}
-              Profile
-            </Link>
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
+        {userType === "admin" ? null : (
+          <DropdownMenuGroup>
+            <DropdownMenuItem>
+              <User className="mr-2 h-4 w-4" />
+              <Link href={userType == "client" ? "" : "/lawyer/updateProfile"}>
+                {" "}
+                Profile
+              </Link>
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+        )}
+
         <DropdownMenuGroup>
           {userType == "client" ? (
             <DropdownMenuItem>

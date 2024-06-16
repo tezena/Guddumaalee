@@ -1,11 +1,13 @@
 "use client"
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 type DisputeFormData = {
   title: string;
   description: string;
   category: string;
+  customCategory: string;
   clientName: string;
   clientContact: string;
   lawyerName: string;
@@ -14,10 +16,13 @@ type DisputeFormData = {
 };
 
 const DisputePage: React.FC = () => {
+  const router = useRouter();
+
   const [formData, setFormData] = useState<DisputeFormData>({
     title: '',
     description: '',
     category: '',
+    customCategory: '',
     clientName: '',
     clientContact: '',
     lawyerName: '',
@@ -49,6 +54,7 @@ const DisputePage: React.FC = () => {
     if (!formData.title) newErrors.title = 'Title is required';
     if (!formData.description) newErrors.description = 'Description is required';
     if (!formData.category) newErrors.category = 'Category is required';
+    if (formData.category === 'Others' && !formData.customCategory) newErrors.customCategory = 'Custom category is required';
     if (!formData.clientName) newErrors.clientName = 'Client name is required';
     if (!formData.clientContact) newErrors.clientContact = 'Client contact is required';
     if (!formData.lawyerName) newErrors.lawyerName = 'Lawyer name is required';
@@ -70,7 +76,13 @@ const DisputePage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl relative">
+        <button
+          onClick={() => router.back()}
+          className="absolute top-4 left-4 bg-[#7B3B99] text-white px-4 py-2 rounded-md hover:bg-purple-700"
+        >
+          Back
+        </button>
         <h1 className="text-2xl font-bold mb-6 text-center">Submit a Dispute</h1>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
@@ -115,6 +127,21 @@ const DisputePage: React.FC = () => {
             </select>
             {errors.category && <p className="text-red-500 mt-1">{errors.category}</p>}
           </div>
+
+          {formData.category === 'Others' && (
+            <div>
+              <label className="block mb-2 font-medium" htmlFor="customCategory">Custom Category</label>
+              <input
+                id="customCategory"
+                name="customCategory"
+                type="text"
+                value={formData.customCategory}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+              />
+              {errors.customCategory && <p className="text-red-500 mt-1">{errors.customCategory}</p>}
+            </div>
+          )}
 
           <div>
             <label className="block mb-2 font-medium" htmlFor="clientName">Client Name</label>
@@ -182,7 +209,7 @@ const DisputePage: React.FC = () => {
 
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-500"
+            className="w-full bg-[#7B3B99] hover:bg-purple-700 text-white py-2 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
           >
             Submit Dispute
           </button>

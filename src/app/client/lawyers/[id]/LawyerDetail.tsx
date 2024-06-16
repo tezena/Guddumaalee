@@ -7,11 +7,30 @@ import { reviewData } from "@/app/data/reviewData";
 import ReviewSectionCard from "@/components/reviewCard";
 import { useContext } from "react";
 import { Context } from "@/app/context/userContext";
+import { getLawyerById } from "@/app/admin/api/lawyers";
+import { useParams } from "next/navigation";
+import {
+  QueryClient,
+  useMutation,
+  useQuery,
+  UseMutationResult,
+  useQueryClient,
+} from "@tanstack/react-query";
+import { languages } from "@/lib/utils";
 
 const LawyerDetail: React.FC<{
   lawyer: LawyerProps;
   lawyers: LawyerProps[];
 }> = ({ lawyer, lawyers }) => {
+  
+  const param = useParams();
+  const { id } = param;
+const {data,isLoading,error} = useQuery({
+  queryKey:['clientlawyer'],
+  queryFn:()=>getLawyerById(id)
+})
+
+
   const lawyerReviews = reviewData.filter(
     (review) => String(review.lawyerId) === lawyer.id
   );
@@ -111,14 +130,14 @@ const LawyerDetail: React.FC<{
                 className="relative"
               >
                 <motion.img
-                  src={lawyer.imageUrl}
-                  alt={lawyer.name}
+                  src={data?.photo}
+                  alt={data?.full_name}
                   className="w-full object-cover rounded-t-lg"
                   whileHover={{ scale: 1.1 }}
                 />
                 <div className="absolute bottom-0 left-0 p-6 bg-gray-800 bg-opacity-75 rounded-br-lg">
                   <h2 className="text-3xl font-semibold text-white">
-                    {lawyer.name}
+                    {data?.full_name}
                   </h2>
                 </div>
               </motion.div>
@@ -126,7 +145,7 @@ const LawyerDetail: React.FC<{
                 <h3 className="text-xl font-semibold text-gray-800 mb-4">
                   Personal Information
                 </h3>
-                <p className="text-gray-600 mt-2">{lawyer.des}</p>
+                <p className="text-gray-600 mt-2">{data?.description}</p>
                 <div className="flex items-center mt-4">
                   <ReactStars
                     count={5}
@@ -138,29 +157,48 @@ const LawyerDetail: React.FC<{
                   <span className="ml-2 text-gray-600">{lawyer.rate}/5</span>
                 </div>
                 <hr className="my-6 border-t border-gray-200" />
+
+                <div>
                 <h3 className="text-xl font-semibold text-gray-800 mb-4">
-                  Experience
+                 Languages
                 </h3>
-                <ul className="list-disc list-inside">
-                  <li>Position: Divorce Lawyer</li>
-                  <li>
-                    Practice Area: Family Lawyer, Criminal Defence, Personal
-                    Injury
-                  </li>
-                  <li>Experience: 10 Years</li>
-                </ul>
+                  {
+                    data?.languages?.map((language:any)=>(
+                      <ul key={language}>
+                        <li>{language}</li>
+                      </ul>
+                    ))
+                  }
+                 
+                </div>
+                
+                <div>
+                <h3 className="text-xl font-semibold text-gray-800 mb-4">
+                Specialties
+                </h3>
+                  {
+                    data?.specialties?.map((specialtie:any)=>(
+                      <ul key={specialtie}>
+                        <li>{specialtie}</li>
+                      </ul>
+                    ))
+                  }
+                 
+                </div>
                 <hr className="my-6 border-t border-gray-200" />
+                <div>
                 <h3 className="text-xl font-semibold text-gray-800 mb-4">
-                  Education & Court Admissions
+                Courts
                 </h3>
-                <ul className="list-disc list-inside">
-                  <li>
-                    Admization Institute of Law and Technology, Juzment School
-                    of Management, Cambridge
-                  </li>
-                  <li>Academy University School of Law, Boston, MA</li>
-                  <li>The Syntify High School Of New York</li>
-                </ul>
+                  {
+                    data?.courts?.map((courts:any)=>(
+                      <ul key={courts}>
+                        <li>{courts}</li>
+                      </ul>
+                    ))
+                  }
+                 
+                </div>
               </div>
             </div>
           </motion.div>
