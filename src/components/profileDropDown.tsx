@@ -70,10 +70,16 @@ export function ProfileDropdown() {
 
         <DropdownMenuGroup>
           {userType == "client" ? (
-            <DropdownMenuItem>
-              <HandHelping className="mr-2 h-4 w-4" />
-              <Link href="/client/dispute"> Dispute</Link>
-            </DropdownMenuItem>
+            <DropdownMenuGroup>
+              {/* <DropdownMenuItem>
+                <HandHelping className="mr-2 h-4 w-4" />
+                <Link href="/client/dispute"> Dispute</Link>
+              </DropdownMenuItem> */}
+              <DropdownMenuItem>
+                <HandHelping className="mr-2 h-4 w-4" />
+                <Link href="/client/case"> case</Link>
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
           ) : (
             ""
           )}

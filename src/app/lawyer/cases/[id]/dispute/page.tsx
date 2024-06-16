@@ -134,7 +134,7 @@ const Disputes = () => {
               <span className="text-xl font-bold text-[#60287a]">
                 Client Name:
               </span>
-              {/* {disputes[0].clientName} */}
+              {data[0]?.client?.full_name}
             </p>
             <p className="flex gap-4 items-center">
               <span className="text-xl font-bold text-[#60287a]">
@@ -148,6 +148,13 @@ const Disputes = () => {
                 Lawyer_Email:
               </span>
               {data?.[0]?.creator_email}
+            </p>
+
+            <p className="flex gap-4 items-center">
+              <span className="text-xl font-bold text-[#60287a]">
+                Client_Email:
+              </span>
+              {data?.[0]?.client?.email}
             </p>
         </div>
 
@@ -169,7 +176,8 @@ const Disputes = () => {
               </div>
               <div className="flex gap-2 items-center absolute right-12 top-12 text-sm">
                 <p className=" font-bold text-[#60277b]">Submission Date:</p>
-                {dispute.submissionDate}
+                {new Date(dispute.created_at).toLocaleDateString()}
+              
               </div>
               <div className="flex gap-2 items-center">
                 <p className="text-2xl font-bold text-[#60287a]">Status:</p>

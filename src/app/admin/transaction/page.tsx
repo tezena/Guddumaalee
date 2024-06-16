@@ -1,6 +1,8 @@
 'use client'
 'use client'
 import { useEffect, useState } from 'react';
+import { useMutation, useQuery, useQueryClient, UseMutationResult } from "@tanstack/react-query";
+import { getTransaction } from '../api/finance';
 
 interface Transaction {
   id: number;
@@ -17,6 +19,13 @@ interface Transaction {
 }
 
 const TransactionsPage = () => {
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["finance"],
+    queryFn: () => getTransaction(),
+  });
+
+
   const [transactions, setTransactions] = useState<Transaction[]>([
     {
       id: 1,
@@ -59,6 +68,7 @@ const TransactionsPage = () => {
               <th className="py-2 px-4 border-b text-left">Client</th>
               <th className="py-2 px-4 border-b text-left">Payment ID</th>
               <th className="py-2 px-4 border-b text-left">Amount</th>
+              {/* <td className="py-2 px-4 border-b text-left">Action</td> */}
             </tr>
           </thead>
           <tbody>
@@ -72,6 +82,18 @@ const TransactionsPage = () => {
                 <td className="py-2 px-4 border-b">{transaction.client.name}</td>
                 <td className="py-2 px-4 border-b">{transaction.payment_id}</td>
                 <td className="py-2 px-4 border-b">${transaction.amount.toFixed(2)}</td>
+                
+                {/* <td className="py-3 px-6 text-black text-center">
+                  <div className="flex gap-4 items-center justify-center ">
+                    <button
+                      className="rounded py-2 px-6 text-lg font-semibold bg-[#7B3B99] text-white"
+                      // onClick={() => handleAccept(dispute.id)}
+                    >
+                      Accept
+                    </button>
+                  
+                  </div>
+                </td> */}
               </tr>
             ))}
           </tbody>

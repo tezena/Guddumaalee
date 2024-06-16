@@ -23,7 +23,6 @@ export function AdminNavbar() {
 
   useEffect(() => {
     setIsClient(true);
-    console.log("fetching....");
 
     fetchNotifications(); // Fetch notifications when the component mounts
   }, [fetchNotifications]);
@@ -162,11 +161,9 @@ export function AdminNavbar() {
               </div>
             )}
           </div>
-          <img
-            className="w-20 rounded-full"
-            src="https://img.freepik.com/free-photo/portrait-expressive-young-man-wearing-formal-suit_273609-6942.jpg?size=626&ext=jpg&ga=GA1.1.735520172.1710288000&semt=ais"
-            alt="lawyer image"
-          />
+          <div className="  hover:text-white rounded-full p-1  hover:opacity-100 transition-opacity duration-300">
+            <p className="text-gray-400  hover:text-[#7B3B99]">$ 455</p>
+          </div>
           <div className="flex flex-col gap-1 text-black ">
             {/* <p>Ugullu Banga</p> */}
             <p>{session?.user?.email}</p>

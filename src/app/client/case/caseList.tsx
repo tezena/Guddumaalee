@@ -1,39 +1,103 @@
-import React from 'react';
-import Link from 'next/link';
-import { cases, Case } from './mockData';
+"use client";
+import React from "react";
+import Link from "next/link";
+import { useSession } from "next-auth/react";
+import {
+  QueryClient,
+  useMutation,
+  useQuery,
+  UseMutationResult,
+  useQueryClient,
+} from "@tanstack/react-query";
+import { getClientCaeses } from "../api/case";
 
 const Cases: React.FC = () => {
-  const { currentCase, recentCases } = cases;
+  const { data: session } = useSession();
+  const queryClient = useQueryClient();
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["clientcases"],
+    // @ts-ignore
+    queryFn: () => getClientCaeses(session?.user?.image?.id),
+  });
+
+  // Filter cases based on their status
+  const currentCases = data?.filter(
+    (clientcase: any) => clientcase.status !== "DELIVERED"
+  );
+  const recentCases = data?.filter(
+    (clientcase: any) => clientcase.status === "DELIVERED"
+  );
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold mb-8 text-center text-blue-700">Client Cases</h1>
+        <h1 className="text-4xl font-bold mb-8 text-center text-[#7B3B99]">
+          Client Cases
+        </h1>
 
-        <div className="mb-12">
-          <h2 className="text-3xl font-semibold mb-4 text-blue-600">Current Case</h2>
-          <Link href={`/client/case/${currentCase.id}`}>
-            <div className="block p-6 bg-white rounded-lg shadow-lg hover:bg-blue-50">
-              <h3 className="text-2xl font-semibold mb-2 text-gray-800">{currentCase.title}</h3>
-              <p className="text-gray-700 mb-4">{currentCase.description}</p>
-              <p className="text-gray-500 text-sm">{currentCase.date}</p>
-            </div>
-          </Link>
+        <div className="bg-white p-10 flex flex-col gap-4 mb-12">
+          <h2 className="text-3xl font-semibold mb-4 text-[#7B3B99]">
+            Current Case
+          </h2>
+          {currentCases?.map((clientcase: any) => (
+            <Link href={`/client/case/${clientcase.id}`} key={clientcase?.id}>
+              <div className="block p-6 bg-white hover:bg-blue-50 relative">
+                <div className="flex items-center gap-4 w-1/3">
+                  <p className="text-xl text-[#7B3B99] font-semibold">Case</p>
+                  <p className="text-gray-800">{clientcase?.title}</p>
+                </div>
+                <div className="flex items-center gap-4 w-1/3">
+                  <p className="text-xl text-[#7B3B99] font-semibold">Lawyer</p>
+                  <p className="text-gray-800">{clientcase?.lawyer_id}</p>
+                </div>
+                <div className="flex items-center flex-col gap-4 w-1/3 absolute top-6 right-4">
+                  <p className="text-xl text-[#7B3B99] font-semibold">Date</p>
+                  <p className="text-gray-800">{clientcase?.date}</p>
+                </div>
+                <div className="mt-6">
+                  <p className="text-xl text-[#7B3B99] font-semibold">
+                    Summary
+                  </p>
+                  <p className="text-gray-800">{clientcase?.description}</p>
+                </div>
+              </div>
+            </Link>
+          ))}
         </div>
 
-        <div>
-          <h2 className="text-3xl font-semibold mb-4 text-blue-600">Recent Cases</h2>
-          <div className="space-y-6">
-            {recentCases.map((caseItem: Case) => (
-              <Link key={caseItem.id} href={`/client/case/${caseItem.id}`}>
-                <div className="block p-6 bg-white rounded-lg shadow-lg hover:bg-blue-50">
-                  <h3 className="text-2xl font-semibold mb-2 text-gray-800">{caseItem.title}</h3>
-                  <p className="text-gray-700 mb-4">{caseItem.description}</p>
-                  <p className="text-gray-500 text-sm">{caseItem.date}</p>
+        <div className="bg-white p-10 flex flex-col gap-4">
+          <h2 className="text-3xl font-semibold mb-4 text-[#7B3B99]">
+            Recent Cases
+          </h2>
+          {recentCases?.map((clientcase: any) => (
+            <Link href={`/client/case/${clientcase.id}`} key={clientcase?.id}>
+              <div className="block p-6 bg-white hover:bg-blue-50 relative">
+                <div className="flex items-center gap-4 w-1/3">
+                  <p className="text-xl text-[#7B3B99] font-semibold">Case</p>
+                  <p className="text-gray-800">{clientcase?.title}</p>
                 </div>
-              </Link>
-            ))}
-          </div>
+                <div className="flex items-center gap-4 w-1/3">
+                  <p className="text-xl text-[#7B3B99] font-semibold">Lawyer</p>
+                  <p className="text-gray-800">{clientcase?.lawyer_id}</p>
+                </div>
+                <div className="flex items-center flex-col gap-4 w-1/3 absolute top-6 right-4">
+                  <p className="text-xl text-[#7B3B99] font-semibold">Date</p>
+                  <p className="text-gray-800">{clientcase?.date}</p>
+                </div>
+                <div className="mt-6 flex gap-4 items-center">
+                  <p className="text-xl text-[#7B3B99] font-semibold">Status</p>
+                  <p className="text-gray-800">{clientcase?.status}</p>
+                </div>
+                <div className="mt-6">
+                  <p className="text-xl text-[#7B3B99] font-semibold">
+                    Summary
+                  </p>
+                  <p className="text-gray-800">{clientcase?.description}</p>
+                </div>
+              </div>
+              <hr />
+            </Link>
+          ))}
         </div>
       </div>
     </div>

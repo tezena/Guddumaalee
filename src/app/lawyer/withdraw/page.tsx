@@ -75,6 +75,13 @@ function Withdraw() {
   return (
     <div className="p-6 bg-gray-200 min-h-screen relative overflow-hidden">
       <div className="bg-white h-[100vh] w-[80%] rounded-xl m-auto p-10 relative flex flex-col gap-8">
+      <div
+          onClick={() => router.back()}
+          className="w-20 text-center bg-[#7B3B99] text-white font-bold py-2 px-4 rounded transition duration-300 hover:bg-purple-700 inline-block mb-2 md:mb-0 cursor-pointer"
+        >
+          Back
+        </div>
+
         <div className=" bg-white p-4 rounded w-1/3">
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
