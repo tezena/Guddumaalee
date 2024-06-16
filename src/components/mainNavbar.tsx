@@ -136,7 +136,10 @@ const Navbar = () => {
             </div>
           </>
         ) : (
-          <Button className=" rounded bg-[#7B3B99] px-8 py-3 text-sm font-medium text-white shadow hover:text-white focus:outline-none focus:ring  sm:w-auto">
+          <Button
+            className=" rounded bg-[#7B3B99] px-8 py-3 text-sm font-medium text-white shadow hover:text-white focus:outline-none focus:ring  sm:w-auto"
+            asChild
+          >
             <Link href="/signin">Sign In</Link>
           </Button>
         )}
