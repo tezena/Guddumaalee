@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
 import { Account } from "./Account";
 import bcrypt from "bcrypt";
-import { isAdmin, isAuthenticated } from "../checkRole";
+import { isAdmin, isAuthenticated, isLawyer } from "../checkRole";
 import { Court, Language, Specialty } from "@prisma/client";
 
 export class Lawyer extends Account {
@@ -127,5 +127,30 @@ export class Lawyer extends Account {
       },
     });
     return lawyer;
+  }
+  static async update(
+    full_name: string | undefined,
+    phone_number: string | undefined,
+    photo: string | undefined,
+    description: string | undefined,
+    languages: Language[] | undefined,
+    resume: string | undefined
+  ) {
+    const lawyer = await isLawyer();
+    const lawyerUpdated = await db.lawyer.update({
+      data: {
+        ...(full_name && { full_name }),
+        ...(phone_number && { phone_number }),
+        ...(photo && { photo }),
+        ...(languages?.length && { languages }),
+        ...(description && { description }),
+        ...(resume && { resume }),
+      },
+      where: {
+        //@ts-ignore
+        id: lawyer.user.image.id,
+      },
+    });
+    return lawyerUpdated;
   }
 }
