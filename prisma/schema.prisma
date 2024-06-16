@@ -65,6 +65,11 @@ enum LawyerStatus {
   REJECTED
 }
 
+enum ChatUser {
+   CLIENT
+   LAWYER
+}
+
 enum CaseStatus {
   PENDING
   ACCEPTED
@@ -96,6 +101,7 @@ model client {
   disputes dispute[]
   cases Case[] @relation("case_for")
   ratings Rating[]
+  Message       Message[] @relation(name: "ClientMessages")
 }
 
 
@@ -122,6 +128,7 @@ model lawyer {
   cases Case[] @relation("case_from")
   ratings Rating[]
   withdrawRequests WithdrawRequest[]
+  Message       Message[] @relation(name: "LawyerMessages")
 }
 
 model admin{
@@ -203,3 +210,22 @@ model Transaction {
   case Case @relation(fields: [case_id], references: [id])
   status TransactionStatus @default(PENDING)
 }
+
+
+  model Message {
+    id        String    @id @default(uuid())
+    message   String
+    sender_email     String
+    reciver_email    String
+    clientId  Int
+    lawyerId  Int
+
+
+    client    client?   @relation(name: "ClientMessages", fields: [clientId], references: [id])
+    lawyer    lawyer?   @relation(name: "LawyerMessages", fields: [lawyerId], references: [id])
+
+    createdAt DateTime  @default(now())
+
+    @@index([clientId, lawyerId])
+  }
+

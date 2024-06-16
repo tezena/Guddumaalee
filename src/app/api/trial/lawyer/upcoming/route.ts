@@ -3,15 +3,15 @@ import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
   try {
-    const trials = await Case.getTodayTrialsForLawyer();
-    return NextResponse.json({ trials });
+    const upcomingTrials = await Case.getUpcomingTrials();
+    return NextResponse.json({ upcomingTrials });
   } catch (error) {
     if (error instanceof Error) {
       console.log(`${error.message}`);
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
     return NextResponse.json(
-      { error: "Couldn't get today trials" },
+      { error: "Couldn't get upcoming trials" },
       { status: 500 }
     );
   }

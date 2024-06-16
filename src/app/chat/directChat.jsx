@@ -71,8 +71,9 @@ const Chat = () => {
     <div className="" style={{ height: "80vh", backgroundColor: "blue" }}>
       <PrettyChatWindow
         projectId={projectID}
-        username={session?.user?.email}
-        secret={session?.user?.id}
+        username= "kebe" 
+        
+        secret="kebe123"
         style={{ height: "100%" }}
         username2={username2}
       />

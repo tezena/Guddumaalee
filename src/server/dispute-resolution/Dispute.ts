@@ -1,5 +1,5 @@
 import { db } from "@/lib/db";
-import { isAdmin, isLawyer } from "../checkRole";
+import { isAdmin, isClient, isLawyer } from "../checkRole";
 
 export class Dispute {
   static async create(
@@ -73,7 +73,7 @@ export class Dispute {
   }
 
   static async getForClient(client_id: number) {
-    await isLawyer();
+    await isClient();
     const disputes = await db.dispute.findMany({
       where: {
         client_id,
