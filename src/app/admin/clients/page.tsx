@@ -66,6 +66,9 @@ export function Clients() {
       }
       array.push(totalPages);
     }
+
+
+
     return array;
   }, [startPage, endPage, totalPages]);
 
@@ -92,7 +95,7 @@ export function Clients() {
           className="w-full h-full pt-28 flex gap-5 items-center justify-center m-auto"
         >
           <Icon icon="eos-icons:loading" width="80" height="80" color="green" />
-          <p className="text-2xl text-green-500">...Loading</p>
+          {/* <p className="text-2xl text-green-500">...Loading</p> */}
         </div>
   </div>;
   if (error) return <div>Error loading data</div>;

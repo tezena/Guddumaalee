@@ -119,6 +119,87 @@ const AdminSidebar = () => {
               </Link>
               <hr />
             </li>
+
+            <li
+              className={
+                path.startsWith("/admin/transaction")
+                  ? "bg-[#7B3B99] rounded-xl  text-black"
+                  : ""
+              }
+            >
+              <Link
+                href="/admin/transaction"
+                className="flex items-center p-4 text-gray-900 rounded-lg   dark:hover:bg-[#d9a1f3] group"
+              >
+                <svg
+                className={
+                  path.startsWith("/admin/lawyers")
+                    ? "text-white w-5 h-5  transition duration-75"
+                    : "w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 dark:hover:bg-[#d9a1f3] dark:group-hover:text-white"
+                }
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="1em"
+                  height="1em"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M11.75 16h.725v-.8q.7-.1 1.188-.575t.487-1.225q0-.65-.5-1.088T12.5 11.6V9.75q.25.075.413.25t.237.425l.9-.375q-.175-.525-.6-.837T12.5 8.8V8h-.75v.775q-.7.075-1.187.513t-.488 1.162q0 .675.513 1.125t1.162.725v1.975q-.4-.125-.675-.425t-.375-.7l-.875.375q.2.7.7 1.15t1.225.55zm.75-1.75V12.6q.275.125.488.3t.212.525q0 .4-.2.563t-.5.262m-.75-2.975q-.275-.125-.5-.3t-.225-.525t.225-.513t.5-.212zM8 19q-2.925 0-4.962-2.037T1 12t2.038-4.962T8 5h8q2.925 0 4.963 2.038T23 12t-2.037 4.963T16 19z"
+                  />
+                </svg>
+                <span
+                  className={
+                    path.startsWith("/admin/transaction")
+                      ? "text-white flex-1 ms-3 whitespace-nowrap"
+                      : "flex-1 ms-3 whitespace-nowrap"
+                  }
+                >
+                  Finance
+                </span>
+              </Link>
+              <hr />
+            </li>
+
+            <li
+              className={
+                path.startsWith("/admin/withdraw")
+                  ? "bg-[#7B3B99] rounded-xl  text-black"
+                  : ""
+              }
+            >
+              <Link
+                href="/admin/withdraw"
+                className="flex items-center p-4 text-gray-900 rounded-lg   dark:hover:bg-[#d9a1f3] group"
+              >
+                <svg
+                className={
+                  path.startsWith("/admin/withdraw")
+                    ? "text-white w-5 h-5  transition duration-75"
+                    : "w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 dark:hover:bg-[#d9a1f3] dark:group-hover:text-white"
+                }
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="1em"
+                  height="1em"
+                  viewBox="0 0 256 256"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M236 198.65V240a12 12 0 0 1-24 0v-41.35A70.66 70.66 0 0 0 196 154v48.27a12 12 0 0 1-22 6.57l-10.67-16.3a7 7 0 0 1-.36-.58a8 8 0 0 0-14 7.77l22 33.66a12 12 0 1 1-20.08 13.14l-22.26-34c-.12-.19-.24-.38-.35-.58A32 32 0 0 1 172 168.3V68h-8a12 12 0 0 1 0-24h12a20 20 0 0 1 20 20v57.52a94.91 94.91 0 0 1 40 77.13M88 56a12 12 0 0 0-12-12H64a20 20 0 0 0-20 20v136a12 12 0 0 0 24 0V68h8a12 12 0 0 0 12-12m68.49 60.48a12 12 0 0 0-17-17L132 107V16a12 12 0 0 0-24 0v91l-7.51-7.52a12 12 0 0 0-17 17l28 28a12 12 0 0 0 17 0Z"
+                  />
+                </svg>
+                <span
+                  className={
+                    path.startsWith("/admin/withdraw")
+                      ? "text-white flex-1 ms-3 whitespace-nowrap"
+                      : "flex-1 ms-3 whitespace-nowrap"
+                  }
+                >
+                  Withdraw
+                </span>
+              </Link>
+              <hr />
+            </li>
+
             <li
               className={
                 path.startsWith("/admin/signOut")
@@ -161,29 +242,6 @@ const AdminSidebar = () => {
               </Link>
 
               <hr />
-              <li
-                className={
-                  path.startsWith("/admin/transaction")
-                    ? "bg-[#7B3B99] rounded-xl  text-black"
-                    : ""
-                }
-              >
-                <Link
-                  href="/admin/transaction"
-                  className="flex items-center p-4 text-gray-900 rounded-lg   dark:hover:bg-[#d9a1f3] group"
-                >
-                  <span
-                    className={
-                      path.startsWith("/admin/transaction")
-                        ? "text-white flex-1 ms-3 whitespace-nowrap"
-                        : "flex-1 ms-3 whitespace-nowrap"
-                    }
-                  >
-                    Finance
-                  </span>
-                </Link>
-                <hr />
-              </li>
             </li>
           </ul>
         </div>

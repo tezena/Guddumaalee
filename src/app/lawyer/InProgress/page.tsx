@@ -1,8 +1,24 @@
-
+"use client";
 import React from "react";
 import Link from "next/link";
 
+import {
+  QueryClient,
+  useMutation,
+  useQuery,
+  UseMutationResult,
+  useQueryClient,
+} from "@tanstack/react-query";
+
 function Inprogres() {
+  const queryClient = useQueryClient();
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["lawyercases"],
+
+    // @ts-ignore
+    queryFn: () => getLawyerCaeses(session?.user?.image?.id),
+  });
+
   const cases = [
     {
       id: 1,

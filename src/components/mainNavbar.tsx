@@ -80,19 +80,31 @@ const Navbar = () => {
                         </h3>
                       </Link>
                     ) : (
-                      <Link href="/lawyer">
-                        <h3 className="text-xl group-hover:font-bolder hover:text-[#7B3B99]">
-                          MyPage
-                        </h3>
-                      </Link>
+                      <div className="flex gap-4">
+                        <div
+                          onClick={() => router.push("/lawyer/withdraw")}
+                          className="  hover:text-white rounded-full p-1  hover:opacity-100 transition-opacity duration-300"
+                        >
+                          <p className="text-gray-400  hover:text-[#7B3B99]">
+                            $ 455
+                          </p>
+                        </div>
+                        <Link href="/lawyer">
+                          <h3 className="text-xl group-hover:font-bolder hover:text-[#7B3B99]">
+                            MyPage
+                          </h3>
+                        </Link>
+                      </div>
                     )}
                   </>
                 ) : (
-                  <Link href="/">
-                    <h3 className="text-xl group-hover:font-bolder hover:text-[#7B3B99]">
-                      Home
-                    </h3>
-                  </Link>
+                  <div className="flex gap-4">
+                    <Link href="/">
+                      <h3 className="text-xl group-hover:font-bolder hover:text-[#7B3B99]">
+                        Home
+                      </h3>
+                    </Link>
+                  </div>
                 )}
               </li>
               <li className="py-4 px-2 rounded-xl m-1 duration-300 hover:scale-110">

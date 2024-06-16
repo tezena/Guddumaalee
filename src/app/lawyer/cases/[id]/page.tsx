@@ -10,9 +10,11 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import { getTrialsForCase, addTrial } from "../../api/trial";
+import { deliver } from "../../api/offer";
 
 function CaseDetail() {
   const queryClient = useQueryClient();
+
   const [inputData, setInputData] = useState({
     trial_date: "",
     description: "",
@@ -52,7 +54,11 @@ function CaseDetail() {
 
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["trials"] });
-        setInputData("");
+        setInputData({
+          trial_date: "",
+          description: "",
+          location: "",
+        });
       },
     }
   );
@@ -66,6 +72,19 @@ function CaseDetail() {
       trial_date: formattedDate,
     };
     await mutateAsync(data);
+  };
+
+  const deliverMutation: UseMutationResult<void, unknown, number> = useMutation(
+    {
+      mutationFn: (id: number) => deliver(id),
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["disputes"] });
+      },
+    }
+  );
+
+  const handleDeliver = async (id: number) => {
+    await deliverMutation.mutateAsync(id);
   };
 
   const caseData = {
@@ -109,13 +128,20 @@ function CaseDetail() {
             >
               Back
             </div>
-
-            <button
-              className="px-6 py-2 rounded-md text-lg font-semibold text-white bg-[#7e31a2] "
-              onClick={() => router.push(`${path}/dispute`)}
-            >
-              DISPUTE
-            </button>
+            <div className="flex gap-4 items-center">
+              <button
+                className="px-6 py-2 rounded-md text-lg font-semibold text-white bg-[#7e31a2] "
+                onClick={() => handleDeliver(id)}
+              >
+                Deliver
+              </button>
+              <button
+                className="px-6 py-2 rounded-md text-lg font-semibold text-white bg-[#7e31a2] "
+                onClick={() => router.push(`${path}/dispute`)}
+              >
+                DISPUTE
+              </button>
+            </div>
           </div>
 
           <div>
@@ -145,31 +171,29 @@ function CaseDetail() {
             <ul>
               {data?.map((trial: any) => (
                 <li key={trial.date} className="mb-4 ">
-                  <p>{data.indexOf(trial)+1}</p>
+                  <p>{data.indexOf(trial) + 1}</p>
                   <div className="px-10">
+                    <div className="flex justify-between items-center">
+                      <p>
+                        <span className="font-semibold text-lg text-[#7B3B99]">
+                          Location:
+                        </span>{" "}
+                        {trial.location}
+                      </p>
+                      <p>
+                        <span className="font-semibold text-lg text-[#7B3B99]">
+                          Date:
+                        </span>{" "}
+                        {trial.trial_date}
+                      </p>
+                    </div>
 
-
-                  <div className="flex justify-between items-center">
                     <p>
                       <span className="font-semibold text-lg text-[#7B3B99]">
-                        Location:
+                        Note:
                       </span>{" "}
-                      {trial.location}
+                      {trial.description}
                     </p>
-                    <p>
-                      <span className="font-semibold text-lg text-[#7B3B99]">
-                        Date:
-                      </span>{" "}
-                      {trial.trial_date}
-                    </p>
-                  </div>
-
-                  <p>
-                    <span className="font-semibold text-lg text-[#7B3B99]">
-                      Note:
-                    </span>{" "}
-                    {trial.description}
-                  </p>
                   </div>
                   <hr />
                 </li>

@@ -52,7 +52,7 @@ export function Manage() {
             <div className="flex gap-5 items-center">
               <img
                 className="w-20 h-20 rounded-full"
-                src={lawyer.identification_card}
+                src={lawyer?.photo}
                 alt="lawyer"
               />
               <h1>{lawyer.email}</h1>

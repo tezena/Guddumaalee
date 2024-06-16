@@ -17,6 +17,8 @@ function Complated() {
   const queryClient = useQueryClient();
   const { data, isLoading, error } = useQuery({
     queryKey: ["lawyercases"],
+
+    // @ts-ignore
     queryFn: () => getLawyerCaeses(session?.user?.image?.id),
   });
 
