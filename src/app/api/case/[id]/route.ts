@@ -1,5 +1,6 @@
 import { db } from "@/lib/db";
 import { Case } from "@/server/case-management/Case";
+import { isAuthenticated } from "@/server/checkRole";
 import { NextResponse } from "next/server";
 
 export async function GET(
@@ -11,6 +12,18 @@ export async function GET(
     const caseById = await db.case.findUnique({
       where: {
         id,
+      },
+      include: {
+        lawyer: {
+          select: {
+            full_name: true,
+          },
+        },
+        client: {
+          select: {
+            full_name: true,
+          },
+        },
       },
     });
 
