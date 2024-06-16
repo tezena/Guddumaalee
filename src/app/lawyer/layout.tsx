@@ -22,6 +22,7 @@ export default function RootLayout({
     /^\/lawyer\/cases\/\d+$/,
     /^\/lawyer\/cases\/\d\/dispute+$/,
     "/lawyer/notification",
+    '/lawyer/withdraw'
   ];
   const shouldHideSidebar = (path: string) => {
     return noSidebarRoutes.some((route) =>

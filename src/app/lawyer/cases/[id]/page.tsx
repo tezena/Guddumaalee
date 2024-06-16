@@ -52,7 +52,11 @@ function CaseDetail() {
 
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["trials"] });
-        setInputData("");
+        setInputData({
+          trial_date: "",
+          description: "",
+          location: "",
+        });
       },
     }
   );
