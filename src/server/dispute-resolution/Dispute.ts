@@ -21,7 +21,24 @@ export class Dispute {
 
   static async getAll() {
     await isAdmin();
-    const disputes = await db.dispute.findMany();
+    const disputes = await db.dispute.findMany({
+      include: {
+        lawyer: {
+          select: {
+            email: true,
+            full_name: true,
+            phone_number: true,
+          },
+        },
+        client: {
+          select: {
+            email: true,
+            full_name: true,
+            phone_number: true,
+          },
+        },
+      },
+    });
     return disputes;
   }
 
@@ -42,6 +59,15 @@ export class Dispute {
       where: {
         lawyer_id,
       },
+      include: {
+        client: {
+          select: {
+            full_name: true,
+            email: true,
+            phone_number: true,
+          },
+        },
+      },
     });
     return disputes;
   }
@@ -51,6 +77,15 @@ export class Dispute {
     const disputes = await db.dispute.findMany({
       where: {
         client_id,
+      },
+      include: {
+        lawyer: {
+          select: {
+            email: true,
+            full_name: true,
+            phone_number: true,
+          },
+        },
       },
     });
     return disputes;

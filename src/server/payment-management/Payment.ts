@@ -96,7 +96,11 @@ export class Payment {
   }
   static async getTransactionHistory() {
     await isAdmin();
-    const transactionHistory = await db.transaction.findMany();
+    const transactionHistory = await db.transaction.findMany({
+      include: {
+        case: true,
+      },
+    });
     return transactionHistory;
   }
   static async requestWithdrawal(amount: number) {
