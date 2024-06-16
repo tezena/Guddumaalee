@@ -129,4 +129,49 @@ export class Case {
     });
     return withdrawnCase;
   }
+
+  static async deliver(case_id: number) {
+    const lawyer = await isLawyer();
+    const deliveredCase = await db.case.update({
+      where: { id: case_id },
+      data: {
+        status: "DELIVERED",
+      },
+    });
+    return deliveredCase;
+  }
+
+  static async acceptDelivery(case_id: number) {
+    await isClient();
+    const acceptedCase = await db.case.update({
+      where: { id: case_id },
+      data: {
+        status: "FINISHED",
+      },
+    });
+    if (!acceptedCase) {
+      throw new Error("Case doesn't exist");
+    }
+    // update lawyer balance
+    await db.lawyer.update({
+      where: {
+        id: acceptedCase.lawyer_id,
+      },
+      data: {
+        balance: {
+          increment: acceptedCase.price - acceptedCase.price * 0.2,
+        },
+      },
+    });
+    // update transaction status
+    await db.transaction.update({
+      where: {
+        payment_id: acceptedCase.payment_id + "",
+      },
+      data: {
+        status: "TRANSFERRED",
+      },
+    });
+    return acceptedCase;
+  }
 }
