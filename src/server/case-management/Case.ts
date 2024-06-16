@@ -199,7 +199,7 @@ export class Case {
     const tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
     tomorrow.setHours(0, 0, 0, 0);
-    const lawyer = await isClient();
+    const lawyer = await isLawyer();
     const trials = await db.trial.findMany({
       where: {
         case: {

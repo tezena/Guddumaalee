@@ -47,17 +47,24 @@ export async function GET(req: Request, res: Response) {
   }
 }
 
-// export async function PUT(req: Request, res: Response) {
-//   try {
-//     return NextResponse.json({ id: "PUT" });
-//   } catch (error) {
-//     if (error instanceof Error) {
-//       console.log(`${error.message}`);
-//       return NextResponse.json({ error: error.message }, { status: 500 });
-//     }
-//     return NextResponse.json(
-//       { error: "Couldn't update user account" },
-//       { status: 500 }
-//     );
-//   }
-// }
+export async function PUT(req: Request, res: Response) {
+  try {
+    const userInput = await req.json();
+
+    const clientUpdated = await Client.update(
+      userInput.full_name,
+      userInput.phone_number,
+      userInput.photo
+    );
+    return NextResponse.json({ clientUpdated });
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log(`${error.message}`);
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+    return NextResponse.json(
+      { error: "Couldn't update client" },
+      { status: 500 }
+    );
+  }
+}
