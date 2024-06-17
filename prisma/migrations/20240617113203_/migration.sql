@@ -20,7 +20,13 @@ CREATE TYPE "LawyerStatus" AS ENUM ('PENDING', 'VERIFIED', 'REJECTED');
 CREATE TYPE "ChatUser" AS ENUM ('CLIENT', 'LAWYER');
 
 -- CreateEnum
-CREATE TYPE "CaseStatus" AS ENUM ('PENDING', 'ACCEPTED', 'REJECTED', 'FINISHED', 'WITHDRAWN');
+CREATE TYPE "CaseStatus" AS ENUM ('PENDING', 'ACCEPTED', 'REJECTED', 'WITHDRAWN', 'DELIVERED', 'FINISHED', 'PAID');
+
+-- CreateEnum
+CREATE TYPE "TransactionStatus" AS ENUM ('PENDING', 'TRANSFERRED');
+
+-- CreateEnum
+CREATE TYPE "WithdrawRequestStatus" AS ENUM ('PENDING', 'TRANSFERRED');
 
 -- CreateTable
 CREATE TABLE "client" (
@@ -30,6 +36,7 @@ CREATE TABLE "client" (
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "full_name" TEXT NOT NULL,
+    "photo" TEXT,
     "phone_number" TEXT NOT NULL,
 
     CONSTRAINT "client_pkey" PRIMARY KEY ("id")
@@ -83,6 +90,7 @@ CREATE TABLE "dispute" (
     "client_id" INTEGER NOT NULL,
     "lawyer_id" INTEGER NOT NULL,
     "creator_email" TEXT NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "status" "DisputeStatus" NOT NULL DEFAULT 'PENDING',
     "content" TEXT NOT NULL,
 
@@ -99,6 +107,7 @@ CREATE TABLE "Case" (
     "description" TEXT NOT NULL,
     "price" DOUBLE PRECISION NOT NULL,
     "payment_id" TEXT,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Case_pkey" PRIMARY KEY ("id")
 );
@@ -132,6 +141,8 @@ CREATE TABLE "WithdrawRequest" (
     "id" SERIAL NOT NULL,
     "lawyer_id" INTEGER NOT NULL,
     "amount" DOUBLE PRECISION NOT NULL,
+    "status" "WithdrawRequestStatus" NOT NULL DEFAULT 'PENDING',
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "WithdrawRequest_pkey" PRIMARY KEY ("id")
 );
@@ -139,9 +150,9 @@ CREATE TABLE "WithdrawRequest" (
 -- CreateTable
 CREATE TABLE "Transaction" (
     "id" SERIAL NOT NULL,
-    "lawyer_id" INTEGER NOT NULL,
-    "client_id" INTEGER NOT NULL,
     "payment_id" TEXT NOT NULL,
+    "case_id" INTEGER NOT NULL,
+    "status" "TransactionStatus" NOT NULL DEFAULT 'PENDING',
 
     CONSTRAINT "Transaction_pkey" PRIMARY KEY ("id")
 );
@@ -150,6 +161,8 @@ CREATE TABLE "Transaction" (
 CREATE TABLE "Message" (
     "id" TEXT NOT NULL,
     "message" TEXT NOT NULL,
+    "messageType" TEXT NOT NULL,
+    "fileType" TEXT,
     "sender_email" TEXT NOT NULL,
     "reciver_email" TEXT NOT NULL,
     "clientId" INTEGER NOT NULL,
@@ -176,6 +189,9 @@ CREATE UNIQUE INDEX "admin_email_key" ON "admin"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Case_payment_id_key" ON "Case"("payment_id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Transaction_payment_id_key" ON "Transaction"("payment_id");
 
 -- CreateIndex
 CREATE INDEX "Message_clientId_lawyerId_idx" ON "Message"("clientId", "lawyerId");
@@ -208,10 +224,7 @@ ALTER TABLE "Rating" ADD CONSTRAINT "Rating_case_id_fkey" FOREIGN KEY ("case_id"
 ALTER TABLE "WithdrawRequest" ADD CONSTRAINT "WithdrawRequest_lawyer_id_fkey" FOREIGN KEY ("lawyer_id") REFERENCES "lawyer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_lawyer_id_fkey" FOREIGN KEY ("lawyer_id") REFERENCES "lawyer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_client_id_fkey" FOREIGN KEY ("client_id") REFERENCES "client"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_case_id_fkey" FOREIGN KEY ("case_id") REFERENCES "Case"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Message" ADD CONSTRAINT "Message_clientId_fkey" FOREIGN KEY ("clientId") REFERENCES "client"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

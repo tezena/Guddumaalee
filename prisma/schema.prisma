@@ -217,6 +217,8 @@ model Transaction {
   model Message {
     id        String    @id @default(uuid())
     message   String
+    messageType String
+    fileType   String?
     sender_email     String
     reciver_email    String
     clientId  Int
@@ -230,4 +232,3 @@ model Transaction {
 
     @@index([clientId, lawyerId])
   }
-

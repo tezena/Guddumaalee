@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 import { getServerAuthSession } from "@/server/auth";
 import { Console } from "console";
 
-export async function postData(formData: FormData) {
+export async function postData(formData?: FormData,fileData?:any) {
   "use server";
 
   // const {data:session}=useSession()
@@ -19,9 +19,22 @@ export async function postData(formData: FormData) {
 
   const Pusher = require("pusher");
   // const prisma2 = new db2();
+  let message
+  let recipentId
+  let messageType
+  let fileType
 
-  const message = formData.get("message");
-  const recipentId=Number(formData.get("recipient_id"))
+  if(formData){
+    message =formData.get("message");
+
+    recipentId=Number(formData?.get("recipient_id"))
+    messageType=formData.get("messageType")
+  }else{
+        message=fileData.message
+        recipentId=Number(fileData.recipient_id)
+        messageType=fileData.messageType
+        fileType=fileData.fileType
+  }
 
   const email = session?.user?.email;
 
@@ -58,6 +71,8 @@ export async function postData(formData: FormData) {
     
 
   // Create the message
+
+  console.log(`message type is ${fileType}`)
   
    const data  = await db.message.create({
     data: {
@@ -69,7 +84,13 @@ export async function postData(formData: FormData) {
       clientId ,
       reciver_email:'lla@gmail.com',
       //@ts-ignore
-      sender_email:email
+      sender_email:email,
+      //@ts-ignore
+
+      messageType,
+      //@ts-ignore
+      fileType,
+
     },
     include: {
       ...(userType === "client"
