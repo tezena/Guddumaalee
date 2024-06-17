@@ -34,6 +34,8 @@ const LawyersCard: React.FC<LawyerProps> = ({
         <Image
           src={imageUrl}
           alt="Mountain"
+          width={40}
+          height={40}
           className="w-full h-64 object-cover"
         />
 

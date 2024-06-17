@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { Icon } from '@iconify/react';
+import React, { useState } from "react";
+import { Icon } from "@iconify/react";
+import Image from "next/image";
 
 interface Language {
   name: string;
@@ -17,8 +18,13 @@ interface ProfileFormProps {
   onUpdateLanguage: (index: number, language: Language) => void;
 }
 
-const MAX_PHOTO_SIZE_MB = 2; 
-const PROFICIENCY_OPTIONS = ["Conversational", "native", "bilinguial", "Fluent"];
+const MAX_PHOTO_SIZE_MB = 2;
+const PROFICIENCY_OPTIONS = [
+  "Conversational",
+  "native",
+  "bilinguial",
+  "Fluent",
+];
 
 const ProfileForm: React.FC<ProfileFormProps> = ({
   languages,
@@ -35,8 +41,13 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
   const [isEditingPhoto, setIsEditingPhoto] = useState(false);
   const [newPhoto, setNewPhoto] = useState(profilePhoto);
 
-  const [newLanguage, setNewLanguage] = useState<Language>({ name: '', proficiency: '' });
-  const [editingLanguageIndex, setEditingLanguageIndex] = useState<number | null>(null);
+  const [newLanguage, setNewLanguage] = useState<Language>({
+    name: "",
+    proficiency: "",
+  });
+  const [editingLanguageIndex, setEditingLanguageIndex] = useState<
+    number | null
+  >(null);
 
   const handleBioSubmit = () => {
     onUpdateBio(newBio);
@@ -48,7 +59,9 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
     if (file) {
       const fileSizeMB = file.size / (1024 * 1024);
       if (fileSizeMB > MAX_PHOTO_SIZE_MB) {
-        alert(`The file size exceeds ${MAX_PHOTO_SIZE_MB}MB. Please upload a smaller photo.`);
+        alert(
+          `The file size exceeds ${MAX_PHOTO_SIZE_MB}MB. Please upload a smaller photo.`
+        );
         return;
       }
 
@@ -68,7 +81,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
     if (editingLanguageIndex !== null) {
       onUpdateLanguage(editingLanguageIndex, newLanguage);
       setEditingLanguageIndex(null);
-      setNewLanguage({ name: '', proficiency: '' });
+      setNewLanguage({ name: "", proficiency: "" });
     }
   };
 
@@ -83,8 +96,17 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
 
       <div className="mb-4 text-center">
         <div className="relative inline-block">
-          <img src={profilePhoto} alt="Profile" className="w-24 h-24 rounded-full mx-auto" />
-          <div className="absolute bottom-0 bg-white right-0 w-8 h-8 rounded-full outline outline-green-500 flex justify-center items-center cursor-pointer" onClick={() => setIsEditingPhoto(true)}>
+          <Image
+            width={200}
+            height={200}
+            src={profilePhoto}
+            alt="Profile"
+            className="w-24 h-24 rounded-full mx-auto"
+          />
+          <div
+            className="absolute bottom-0 bg-white right-0 w-8 h-8 rounded-full outline outline-green-500 flex justify-center items-center cursor-pointer"
+            onClick={() => setIsEditingPhoto(true)}
+          >
             <Icon icon="ic:outline-edit" color="green" width={20} height={20} />
           </div>
         </div>
@@ -113,9 +135,17 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
               >
                 Edit
               </button> */}
-               <div className="bottom-0 bg-white right-0 w-8 h-8 flex justify-center items-center cursor-pointer" onClick={() => startEditingLanguage(index)}>
-              <Icon icon="ri:edit-2-fill" color="#7B3B99" width={25} height={25} />
-            </div>
+              <div
+                className="bottom-0 bg-white right-0 w-8 h-8 flex justify-center items-center cursor-pointer"
+                onClick={() => startEditingLanguage(index)}
+              >
+                <Icon
+                  icon="ri:edit-2-fill"
+                  color="#7B3B99"
+                  width={25}
+                  height={25}
+                />
+              </div>
             </li>
           ))}
         </ul>
@@ -124,17 +154,23 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
             <input
               type="text"
               value={newLanguage.name}
-              onChange={(e) => setNewLanguage({ ...newLanguage, name: e.target.value })}
+              onChange={(e) =>
+                setNewLanguage({ ...newLanguage, name: e.target.value })
+              }
               placeholder="Language"
               className="border p-2 w-full mb-2"
             />
             <select
               value={newLanguage.proficiency}
-              onChange={(e) => setNewLanguage({ ...newLanguage, proficiency: e.target.value })}
+              onChange={(e) =>
+                setNewLanguage({ ...newLanguage, proficiency: e.target.value })
+              }
               className="border p-2 w-full mb-2"
             >
-              {PROFICIENCY_OPTIONS.map(option => (
-                <option key={option} value={option}>{option}</option>
+              {PROFICIENCY_OPTIONS.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
               ))}
             </select>
             <button
@@ -148,10 +184,14 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
       </div>
 
       <div className="mb-4">
-        <label className="block text-gray-700 font-semibold">Court Worked</label>
+        <label className="block text-gray-700 font-semibold">
+          Court Worked
+        </label>
         <ul>
           {courtWorked.map((court, index) => (
-            <li key={index} className="mb-2">{court}</li>
+            <li key={index} className="mb-2">
+              {court}
+            </li>
           ))}
         </ul>
       </div>
@@ -159,7 +199,9 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
         <label className="block text-gray-700 font-semibold">Experience</label>
         <ul>
           {experience.map((exp, index) => (
-            <li key={index} className="mb-2">{exp}</li>
+            <li key={index} className="mb-2">
+              {exp}
+            </li>
           ))}
         </ul>
       </div>
@@ -173,16 +215,22 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
               className="border p-2 w-full mb-2"
             />
             <div className="bg-[#7B3B99] hover:bg-purple-700 text-white font-bold py-2 px-4 rounded h-full">
-              <button onClick={handleBioSubmit}>
-                Submit
-              </button>
+              <button onClick={handleBioSubmit}>Submit</button>
             </div>
           </div>
         ) : (
           <div className="flex justify-between items-center">
             <p>{bio}</p>
-            <div className="bottom-0 bg-white right-0 w-8 h-8 flex justify-center items-center cursor-pointer" onClick={() => setIsEditingBio(true)}>
-              <Icon icon="ri:edit-2-fill" color="#7B3B99" width={25} height={25} />
+            <div
+              className="bottom-0 bg-white right-0 w-8 h-8 flex justify-center items-center cursor-pointer"
+              onClick={() => setIsEditingBio(true)}
+            >
+              <Icon
+                icon="ri:edit-2-fill"
+                color="#7B3B99"
+                width={25}
+                height={25}
+              />
             </div>
           </div>
         )}

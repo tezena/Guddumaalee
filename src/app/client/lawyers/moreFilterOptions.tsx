@@ -126,7 +126,7 @@ const FilteringOptions: React.FC<props> = ({
                       value={item.value}
                       id={`${index}`}
                       onClick={() => setSelectedCourt(item.value)}
-                      chacked={item.value}
+                      // chacked={item.value}
                     />
                     <Label htmlFor="r1">{item.label}</Label>
                   </div>
