@@ -25,7 +25,7 @@ const Sidebar: React.FC<SidebarProps> = ({ items, activeItem, onAddItem, onSubmi
         ))}
       </ul>
       {activeItem === 'Language' && <LanguageForm type="Language" initialData={initialData.language} onSubmit={onSubmit} />}
-      {activeItem === 'Experience' && <ExperienceForm type="Experience" initialData={initialData.experience} onSubmit={onSubmit} />}
+      {/* {activeItem === 'Experience' && <ExperienceForm type="Experience" initialData={initialData.experience} onSubmit={onSubmit} />} */}
     </div>
   );
 };

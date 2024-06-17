@@ -5,12 +5,14 @@ import ProfileForm from './UpdateProfile'; // Correct import
 
 const Home: React.FC = () => {
   const [activeItem, setActiveItem] = useState<string | null>(null);
-  const [languages, setLanguages] = useState<{ name: string; proficiency: string }[]>([]);
-  const [experience, setExperience] = useState<string[]>([]);
+  const [languages, setLanguages] = useState<{ name: string }[]>([]);
   const [profilePhoto, setProfilePhoto] = useState<string>('https://via.placeholder.com/150');
   const [bio, setBio] = useState<string>('This is a short bio.');
+  const [fullName, setFullName] = useState<string>('John Doe');
+  const [phoneNumber, setPhoneNumber] = useState<string>('123-456-7890');
+  const [resume, setResume] = useState<string>(''); // State to store resume URL
 
-  const sidebarItems = ['Language', 'Experience'];
+  const sidebarItems = ['Language'];
 
   const handleAddItem = (item: string) => {
     setActiveItem(item);
@@ -19,8 +21,8 @@ const Home: React.FC = () => {
   const handleSubmit = (data: { type: string; value: any }) => {
     if (data.type === 'Language') {
       setLanguages([...languages, data.value]);
-    } else if (data.type === 'Experience') {
-      setExperience([...experience, data.value]);
+    } else if (data.type === 'Resume') {
+      setResume(data.value);
     }
   };
 
@@ -32,10 +34,18 @@ const Home: React.FC = () => {
     setBio(newBio);
   };
 
-  const handleUpdateLanguage = (index: number, updatedLanguage: { name: string; proficiency: string }) => {
+  const handleUpdateLanguage = (index: number, updatedLanguage: { name: string }) => {
     const newLanguages = [...languages];
     newLanguages[index] = updatedLanguage;
     setLanguages(newLanguages);
+  };
+
+  const handleUpdateFullName = (newFullName: string) => {
+    setFullName(newFullName);
+  };
+
+  const handleUpdatePhoneNumber = (newPhoneNumber: string) => {
+    setPhoneNumber(newPhoneNumber);
   };
 
   return (
@@ -45,16 +55,20 @@ const Home: React.FC = () => {
         activeItem={activeItem}
         onAddItem={handleAddItem}
         onSubmit={handleSubmit}
-        initialData={{ language: languages, experience }}
+        initialData={{ language: languages, resume }}
       />
       <ProfileForm
         languages={languages}
-        experience={experience}
         profilePhoto={profilePhoto}
         bio={bio}
+        fullName={fullName}
+        phoneNumber={phoneNumber}
         onUpdatePhoto={handleUpdatePhoto}
         onUpdateBio={handleUpdateBio}
         onUpdateLanguage={handleUpdateLanguage}
+        onUpdateFullName={handleUpdateFullName}
+        onUpdatePhoneNumber={handleUpdatePhoneNumber}
+        onUpdateResume={setResume} // Pass function to update resume
       />
     </div>
   );
