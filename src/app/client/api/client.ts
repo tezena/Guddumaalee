@@ -3,13 +3,13 @@ import axios from "axios";
 export async function getClientById(id: number) {
     try {
       const response = await axios.get(
-        ``
+        `/api/clients/${id}`
       );
       if (response.status !== 200) {
         throw new Error(`Error: ${response.statusText}`);
       }
       const data = response;
-      console.log(data);
+      console.log('this is from clieant id',data.data.client);
   
       return data.data.client;
     } catch (err) {
