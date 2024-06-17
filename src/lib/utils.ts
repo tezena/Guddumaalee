@@ -13,6 +13,16 @@ export function slugify(str: string) {
     .replace(/--+/g, "-"); // collapses any consecutive hyphens into a single hyphen.
 }
 
+export function getTodayFormatted() {
+  const today = new Date();
+  const formattedDate = today.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+  return formattedDate;
+}
+
 export function isMacOs() {
   if (typeof window === "undefined") return false;
 

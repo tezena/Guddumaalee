@@ -4,26 +4,15 @@ import { useState, useEffect, useMemo } from "react";
 import { Icon } from "@iconify/react";
 import { getVerifiedLawyers } from "../api/lawyers";
 import { useQuery } from "@tanstack/react-query";
-// import getLawyers from "./api/lawyers"
+import { LoadingComponent, ErrorComponent } from '@/components/LoadingErrorComponents';
+
 export function Lawyers() {
   const { data, error, isLoading } = useQuery({
     queryKey: ["lawyers"],
     queryFn: getVerifiedLawyers,
   });
 
-  // const Lawyers = [
-  //   { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" ,status:'ACTIVE'},
-  //   { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" ,status:'INACTIVE'},
-  //   { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" ,status:'ACTIVE'},
-  //   { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" ,status:'INACTIVE'},
-  //   { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" ,status:'ACTIVE'},
-  //   { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" ,status:'INACTIVE'},
-  //   { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" ,status:'ACTIVE'},
-  //   { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" ,status:'INACTIVE'},
-  //   { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" ,status:'ACTIVE'},
-  //   { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" ,status:'INACTIVE'},
-  //   { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" ,status:'ACTIVE'},
-  // ];
+ 
 
   const pageSize = 5;
   const visiblePages = 3;
@@ -89,20 +78,10 @@ export function Lawyers() {
     }
   };
 
-  if (isLoading)
-    return (
-      <div className="w-full font-sans min-h-screen pt-24 pl-10 lg:pl-72 bg-[#f2f6fa]">
-        <div className="w-full h-full pt-28 flex gap-5 items-center justify-center m-auto">
-          <Icon icon="eos-icons:loading" width="80" height="80" color="green" />
-          <p className="text-2xl text-green-500">...Loading</p>
-        </div>
-      </div>
-    );
+  if (isLoading) return <LoadingComponent />;
   if (error)
     return (
-      <div className="w-full font-sans min-h-screen pt-24 pl-10 lg:pl-72 bg-[#f2f6fa]">
-        Error loading data
-      </div>
+      <ErrorComponent errorMessage="Failed to load data. Please try again." />
     );
   return (
     <>

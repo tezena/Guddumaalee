@@ -9,54 +9,18 @@ import {
   useMutation,
   UseMutationResult,
   useQuery,
+  useQueryClient,
 } from "@tanstack/react-query";
 import { verifyLawyer, getLawyerById, rejectLawyer } from "../../api/lawyers";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
+import { LoadingComponent, ErrorComponent } from '@/components/LoadingErrorComponents';
 
-// async function fetchLawyer(id: any) {
-//   const options = {
-//     method: "GET",
-//     headers: {
-//       accept: "application/json",
-//       Authorization: "Bearer ....",
-//     },
-//   };
 
-//   const response = await fetch(
-//     `http://localhost:3000/api/lawyers/${id}`,
-//     options
-//   );
-//   if (!response.ok) {
-//     throw new Error("Network response was not ok");
-//   }
-//   return response.json();
-// }
-
-// async function AcceptLawyer(id: string) {
-//   console.log("clecked");
-
-//   const options = {
-//     method: "POST",
-//     headers: {
-//       accept: "application/json",
-//       Authorization: "Bearer ....",
-//     },
-//   };
-
-//   const response = await fetch(
-//     `http://localhost:3000/api/lawyers/${id}/verify`,
-//     options
-//   );
-//   if (!response.ok) {
-//     throw new Error("Network response was not ok");
-//   }
-//   return response.json();
-// }
-
-const queryClient = new QueryClient();
 
 export function Detail() {
+
+  const queryClient = useQueryClient();
   const router = useRouter();
 
   const param = useParams();
@@ -106,16 +70,11 @@ export function Detail() {
     await rejectMutation.mutateAsync(id);
   };
 
-  if (isLoading)
+  if (isLoading) return <LoadingComponent />;
+  if (error)
     return (
-      <div className="w-full font-sans min-h-screen pt-24 pl-10 lg:pl-72 bg-[#f2f6fa]">
-        <div className="w-full h-full pt-28 flex gap-5 items-center justify-center m-auto">
-          <Icon icon="eos-icons:loading" width="80" height="80" color="green" />
-          <p className="text-2xl text-green-500">...Loading</p>
-        </div>
-      </div>
+      <ErrorComponent errorMessage="Failed to load data. Please try again." />
     );
-  if (error) return <div>Error loading data</div>;
 
   return (
     <div className="min-h-screen bg-[#f2f6fa] text-black flex items-center justify-center font-sans pt-24 px-10">

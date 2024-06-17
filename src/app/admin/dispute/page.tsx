@@ -1,52 +1,31 @@
 "use client";
-import { useState, useEffect, useMemo, use } from "react";
+import { useState, useMemo } from "react";
 import { Icon } from "@iconify/react";
-import Link from "next/link";
-import {
-  getDisputes,
-  submitDispute,
-  acceptDispute,
-  resolveDispute,
-} from "@/app/lawyer/api/dispute";
-import {
-  QueryClient,
-  useMutation,
-  useQuery,
-  UseMutationResult,
-  useQueryClient,
-} from "@tanstack/react-query";
-export function Dispute() {
+import { useMutation, useQuery, useQueryClient, UseMutationResult } from "@tanstack/react-query";
+import { getDisputes, acceptDispute, resolveDispute } from "@/app/lawyer/api/dispute";
+import { LoadingComponent, ErrorComponent } from '@/components/LoadingErrorComponents';
+
+function Dispute() {
   const queryClient = useQueryClient();
   const { data, isLoading, error } = useQuery({
     queryKey: ["disputes"],
     queryFn: () => getDisputes(),
+    refetchInterval: 3000,
   });
 
-  const acceptMutationFn = async (id: number) => {
-    return acceptDispute(id);
-  };
-
-  const resolveMutationFn = async (id: number) => {
-    return resolveDispute(id);
-  };
-
   const acceptMutation: UseMutationResult<void, unknown, number> = useMutation({
-    mutationFn: acceptMutationFn,
+    mutationFn: (id: number) => acceptDispute(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["disputes"] });
-      console.log("Dispute accepted.");
     },
   });
 
-  const resolveMutation: UseMutationResult<void, unknown, number> = useMutation(
-    {
-      mutationFn: resolveMutationFn,
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["disputes"] });
-        console.log("Dispute resolved.");
-      },
-    }
-  );
+  const resolveMutation: UseMutationResult<void, unknown, number> = useMutation({
+    mutationFn: (id: number) => resolveDispute(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["disputes"] });
+    },
+  });
 
   const handleResolve = async (id: number) => {
     await resolveMutation.mutateAsync(id);
@@ -58,7 +37,6 @@ export function Dispute() {
 
   const pageSize = 5;
   const visiblePages = 3;
-
   const [currentPage, setCurrentPage] = useState(1);
 
   const totalPages = useMemo(() => {
@@ -102,7 +80,7 @@ export function Dispute() {
     return array;
   }, [startPage, endPage, totalPages]);
 
-  const paginateddisputes = useMemo(() => {
+  const paginatedDisputes = useMemo(() => {
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = startIndex + pageSize;
     return data?.slice(startIndex, endIndex);
@@ -120,24 +98,27 @@ export function Dispute() {
     }
   };
 
+
+  if (isLoading) return <LoadingComponent />;
+  if (error)
+    return (
+      <ErrorComponent errorMessage="Failed to load data. Please try again." />
+    );
   return (
     <div className="w-full font-sans min-h-screen pt-28 pl-10 lg:pl-72 bg-[#f2f6fa] text-black overflow-auto">
-      dispute
       <div className="rounded-2xl overflow-auto py-10 pr-10">
         <table className="w-full text-left rounded-xl">
           <thead>
             <tr className="bg-white text-gray-600 rounded-xl">
-              <th className="py-3 px-6 text-center">lawyer_id</th>
-              <th className="py-3 px-6 text-center">client_id</th>
-              {/* <th className="py-3 px-6">TYPE</th> */}
-              <th className="py-3 px-6 text-center">DESCRIPTION</th>
-              {/* <th className="py-3  text-center px-6">DATE</th> */}
-              <th className="py-3 px-6 text-center">STATUS</th>
-              <td className="py-3 px-6 text-center">Actions</td>
+              <th className="py-3 px-6 text-center">Lawyer ID</th>
+              <th className="py-3 px-6 text-center">Client ID</th>
+              <th className="py-3 px-6 text-center">Description</th>
+              <th className="py-3 px-6 text-center">Status</th>
+              <th className="py-3 px-6 text-center">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {paginateddisputes?.map((dispute: any, index: any) => (
+            {paginatedDisputes?.map((dispute: any, index: any) => (
               <tr
                 className={
                   index % 2 === 0
@@ -152,24 +133,22 @@ export function Dispute() {
                 <td className="py-3 px-6 text-black text-center">
                   {dispute.client_id}
                 </td>
-                {/* <td className="py-3 px-6 text-black">{dispute.type}</td> */}
-                <td className="py-3 px-6 text-black max-w-28 text-center">
-                  {dispute.content}
+                <td className="py-3 px-6 text-black max-w-[200px] text-center truncate hover:text-clip">
+                  <span title={dispute.content}>{dispute.content}</span>
                 </td>
-                {/* <td className="py-3 px-6 text-black">{dispute.date}</td> */}
                 <td className="py-3 px-6 text-black text-center">
                   {dispute.status}
                 </td>
                 <td className="py-3 px-6 text-black text-center">
-                  <div className="flex gap-4 items-center justify-center ">
+                  <div className="flex gap-4 items-center justify-center">
                     <button
-                      className="rounded py-2 px-6 text-lg font-semibold outline-double outline-[#7B3B99]"
+                      className="rounded py-2 px-6 text-lg font-semibold outline-double outline-[#7B3B99] hover:bg-gray-200 transition"
                       onClick={() => handleAccept(dispute.id)}
                     >
                       Accept
                     </button>
                     <button
-                      className="rounded py-2 px-6 text-lg font-semibold bg-[#7B3B99] text-white"
+                      className="rounded py-2 px-6 text-lg font-semibold bg-[#7B3B99] text-white hover:bg-[#5a2e7a] transition"
                       onClick={() => handleResolve(dispute.id)}
                     >
                       Resolve
@@ -180,7 +159,7 @@ export function Dispute() {
             ))}
           </tbody>
         </table>
-        <div className="flex justify-between w-full text-black bg-white p-3">
+        <div className="flex justify-between w-full text-black bg-white p-3 mt-4 rounded-lg">
           <div className="flex items-center gap-4">
             <p>Showing Page</p>
             <div className="px-2 h-fit text-[#7B3B99] border-2">
@@ -195,11 +174,8 @@ export function Dispute() {
             {pages.map((page, index) => (
               <div
                 key={index}
-                className={
-                  currentPage === page
-                    ? "px-1 bg-[#7B3B99]  border-2 rounded-lg text-white"
-                    : "px-1 text-black"
-                }
+                onClick={() => setCurrentPage(Number(page))}
+                className={`px-1 cursor-pointer ${currentPage === page ? "bg-[#7B3B99] border-2 rounded-lg text-white" : "text-black"}`}
               >
                 {page}
               </div>
@@ -215,94 +191,3 @@ export function Dispute() {
 }
 
 export default Dispute;
-
-// const disputes = [
-//   {
-//     from: "Client",
-//     on: "Lawyer",
-//     type: "Money",
-//     date: "3/16/2023",
-//     status: "New",
-//     desc: "American Main Chain Shot bowsprit to go on account.",
-//   },
-//   {
-//     from: "Client",
-//     on: "Lawyer",
-//     type: "Money",
-//     date: "3/16/2023",
-//     status: "New",
-//     desc: "American Main Chain Shot bowsprit to go on account.",
-//   },
-//   {
-//     from: "Client",
-//     on: "Lawyer",
-//     type: "Money",
-//     date: "3/16/2023",
-//     status: "New",
-//     desc: "American Main Chain Shot bowsprit to go on account.",
-//   },
-//   {
-//     from: "Client",
-//     on: "Lawyer",
-//     type: "Money",
-//     date: "3/16/2023",
-//     status: "New",
-//     desc: "American Main Chain Shot bowsprit to go on account.",
-//   },
-//   {
-//     from: "Client",
-//     on: "Lawyer",
-//     type: "Money",
-//     date: "3/16/2023",
-//     status: "New",
-//     desc: "American Main Chain Shot bowsprit to go on account.",
-//   },
-//   {
-//     from: "Client",
-//     on: "Lawyer",
-//     type: "Money",
-//     date: "3/16/2023",
-//     status: "New",
-//     desc: "American Main Chain Shot bowsprit to go on account.",
-//   },
-//   {
-//     from: "Client",
-//     on: "Lawyer",
-//     type: "Money",
-//     date: "3/16/2023",
-//     status: "New",
-//     desc: "American Main Chain Shot bowsprit to go on account.",
-//   },
-//   {
-//     from: "Client",
-//     on: "Lawyer",
-//     type: "Money",
-//     date: "3/16/2023",
-//     status: "New",
-//     desc: "American Main Chain Shot bowsprit to go on account.",
-//   },
-//   {
-//     from: "Client",
-//     on: "Lawyer",
-//     type: "Money",
-//     date: "3/16/2023",
-//     status: "New",
-//     desc: "American Main Chain Shot bowsprit to go on account.",
-//   },
-//   {
-//     from: "Client",
-//     on: "Lawyer",
-//     type: "Money",
-//     date: "3/16/2023",
-//     status: "New",
-//     desc: "American Main Chain Shot bowsprit to go on account.",
-//   },
-//   {
-//     from: "Client",
-//     on: "Lawyer",
-//     type: "Money",
-//     date: "3/16/2023",
-//     status: "New",
-//     desc: "American Main Chain Shot bowsprit to go on account.",
-//   },
-// ];

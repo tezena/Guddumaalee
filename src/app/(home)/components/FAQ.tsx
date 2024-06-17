@@ -18,13 +18,15 @@ import {
   useQuery,
   UseMutationResult,
   Mutation,
+  useQueryClient,
 } from "@tanstack/react-query";
 
 import mokeData from "./FAQMokeData";
 
-const queryClient = new QueryClient();
+
 
 const FAQ = () => {
+  const queryClient= useQueryClient()
   const [question, setQuestion] = useState("");
 
   const { data, isLoading, error } = useQuery({
