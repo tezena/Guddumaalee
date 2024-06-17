@@ -1,9 +1,5 @@
 import React, { useState } from 'react';
 
-interface Language {
-  name: string;
-}
-
 interface FormsProps {
   type: string;
   initialData: any;
