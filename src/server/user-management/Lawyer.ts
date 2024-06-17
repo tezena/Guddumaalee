@@ -47,6 +47,37 @@ export class Lawyer extends Account {
     return newUser;
   }
 
+  static async dashboard() {
+    const lawyerSession = await isLawyer();
+    const lawyer = await db.lawyer.findUnique({
+      where: {
+        //@ts-ignore
+        id: lawyerSession.user.image.id,
+      },
+    });
+    const totalCases = await db.case.count({
+      where: {
+        lawyer_id: lawyer?.id,
+      },
+    });
+    const completedCases = await db.case.count({
+      where: {
+        lawyer_id: lawyer?.id,
+        status: "FINISHED",
+      },
+    });
+
+    const inProgressCases = await db.case.count({
+      where: {
+        lawyer_id: lawyer?.id,
+        status: "ACCEPTED",
+      },
+    });
+
+    // const incomePerMonth =
+
+    return { inProgressCases, completedCases, totalCases };
+  }
   static async getUnverified() {
     await isAdmin();
     const lawyers = await db.lawyer.findMany({
