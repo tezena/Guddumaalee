@@ -56,7 +56,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
   };
 
   return (
-    <div className="p-4">
+    <div className="p-4 mx-auto">
       <h2 className="text-2xl mb-4">Update Profile</h2>
 
       <div className="mb-4 text-center">
