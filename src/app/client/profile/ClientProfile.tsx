@@ -1,7 +1,8 @@
 "use client";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { UploadDropzone } from "@/lib/uploadthing";
+
 
 import {
   useMutation,
@@ -23,7 +24,11 @@ const ClientProfileForm = () => {
   // @ts-ignore
   const client_id = session?.user?.image?.id;
 
-  const { data, isLoading, error } = useQuery({
+  const {
+    data: profileData,
+    isLoading: profileLoading,
+    error: profileError,
+  } = useQuery({
     queryKey: ["profile"],
     queryFn: () => getClientById(client_id),
   });
@@ -32,24 +37,29 @@ const ClientProfileForm = () => {
     mutationFn: (data: object) => updateClient(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["profile"] });
+      toast({ title: `Profile Updated successfully!` });
+    },
+    onError: (error: any) => {
+      toast({ title: `ERROR! "Failed to update profile."` });
     },
   });
-
-  // const [newPhoto, setNewPhoto] = useState(
-  //   "https://utfs.io/f/2af8c841-20cc-4696-aae6-33cfb4271fa2-1t0lc7.jpg"
-  // );
-
-
 
   const [isEditingPhoneNumber, setIsEditingPhoneNumber] = useState(false);
   const [isEditingFullName, setIsEditingFullName] = useState(false);
   const { toast } = useToast();
 
+  const [profilePhoto, setProfilePhoto] = useState<string>(profileData?.photo);
+  const [phoneNumber, setPhoneNumber] = useState<string>(
+    profileData?.phone_number
+  );
+  const [newFullName, setNewFullName] = useState(profileData?.full_name);
 
-  const [profilePhoto, setProfilePhoto] = useState<string>(data?.photo);
-  const [phoneNumber, setPhoneNumber] = useState<string>(data?.phone_number);
-  const [newFullName, setNewFullName] = useState(data?.full_name);
-  
+  useEffect(() => {
+    console.log("thi if fuck", profileData?.phone_number);
+    setProfilePhoto(profileData?.photo);
+    setPhoneNumber(profileData?.phone_number);
+    setNewFullName(profileData?.full_name);
+  }, [profileData]);
 
   const handleUpdateSubmit = async () => {
     const data = {
@@ -142,7 +152,6 @@ const ClientProfileForm = () => {
               onChange={(e) => setPhoneNumber(e.target.value)}
               className="border p-2 w-full mb-2"
             />
-          
           </div>
         ) : (
           <div className="flex justify-between items-center">
@@ -163,13 +172,14 @@ const ClientProfileForm = () => {
       </div>
 
       {isEditingPhoneNumber && (
-          <button
-            onClick={handleUpdateSubmit}
-            className="bg-[#7B3B99] hover:bg-purple-700 text-white font-bold py-2 px-4 rounded ml-2"
-          >
-            Update
-          </button>
-        )}
+        <button
+          onClick={handleUpdateSubmit}
+          className="bg-[#7B3B99] hover:bg-purple-700 text-white font-bold py-2 px-4 rounded ml-2"
+        >
+          Update
+        </button>
+      )}
+      
     </div>
   );
 };
