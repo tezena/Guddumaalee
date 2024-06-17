@@ -30,8 +30,8 @@ function Withdraw() {
     useMutation({
       mutationFn: withdrawMutationFn,
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["disputes"] });
-        toast.success("Question submitted successfully!");
+        queryClient.invalidateQueries({ queryKey: ["cases"] });
+        toast.success("Withdraw submitted successfully!");
       },
       onError:(e:any)=>{
         console.log(e?.response?.data?.error  );

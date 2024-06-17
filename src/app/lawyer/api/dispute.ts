@@ -3,7 +3,7 @@ import axios from "axios";
 export async function submitDispute(data: object) {
   try {
     const response = await axios.post(
-      "http://localhost:3000/api/dispute",
+      "/api/dispute",
       data
     );
     if (response.status < 200 || response.status >= 300) {
@@ -19,7 +19,7 @@ export async function submitDispute(data: object) {
 
 export async function getDisputes() {
   try {
-    const response = await axios.get("http://localhost:3000/api/dispute");
+    const response = await axios.get("/api/dispute");
     if (response.status !== 200) {
       throw new Error(`Error: ${response.statusText}`);
     }
@@ -36,7 +36,7 @@ export async function getDisputes() {
 
 export async function getLawyerDisputes(id:any) {
   try {
-    const response = await axios.get(`http://localhost:3000/api/dispute/lawyer/${id}`);
+    const response = await axios.get(`/api/dispute/lawyer/${id}`);
     if (response.status !== 200) {
       throw new Error(`Error: ${response.statusText}`);
     }
@@ -52,7 +52,7 @@ export async function getLawyerDisputes(id:any) {
 
 export async function geClientDisputes(id:any) {
   try {
-    const response = await axios.get(`http://localhost:3000/api/dispute/client/${id}`);
+    const response = await axios.get(`/api/dispute/client/${id}`);
     if (response.status !== 200) {
       throw new Error(`Error: ${response.statusText}`);
     }
@@ -69,7 +69,7 @@ export async function geClientDisputes(id:any) {
 export async function acceptDispute(id: number) {
   try {
     const response = await axios.put(
-      `http://localhost:3000/api/dispute/${id}/accept`
+      `/api/dispute/${id}/accept`
     );
     if (response.status < 200 || response.status >= 300) {
       throw new Error(`Error: ${response.statusText}`);
@@ -85,7 +85,7 @@ export async function acceptDispute(id: number) {
 export async function resolveDispute(id: number) {
   try {
     const response = await axios.put(
-      `http://localhost:3000/api/dispute/${id}/resolve`
+      `/api/dispute/${id}/resolve`
     );
     if (response.status < 200 || response.status >= 300){
       throw new Error(`Error: ${response.statusText}`);

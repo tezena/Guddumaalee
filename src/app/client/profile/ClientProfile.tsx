@@ -3,6 +3,9 @@ import React, { useState } from "react";
 import { UploadDropzone } from "@/lib/uploadthing"
 import Image from "next/image";
 import { useToast } from "@/components/ui/use-toast";
+import { useMutation, useQuery, useQueryClient, UseMutationResult } from "@tanstack/react-query";
+import { getClientById, updateClient } from "../api/client";
+import { useSession } from "next-auth/react";
 
 interface ClientProfileFormProps {
   profilePhoto: string;
@@ -21,12 +24,49 @@ const ClientProfileForm: React.FC<ClientProfileFormProps> = ({
   onUpdatePhoneNumber,
   onUpdateFullName,
 }) => {
-  const [newPhoto, setNewPhoto] = useState('https://utfs.io/f/2af8c841-20cc-4696-aae6-33cfb4271fa2-1t0lc7.jpg');
+  const queryClient = useQueryClient();
+  const {data:session}= useSession()
+
+// @ts-ignore
+  const client_id = session?.user?.image?.id
+
+const {data,isLoading,error} = useQuery({
+queryKey:['client'],
+queryFn:()=>getClientById(client_id)
+})
+
+const updateMutation: UseMutationResult<void, unknown, object> = useMutation({
+  mutationFn: (data:object) => updateClient(data,client_id),
+  onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ["disputes"] });
+  },
+});
+
+const [newPhoto, setNewPhoto] = useState('https://utfs.io/f/2af8c841-20cc-4696-aae6-33cfb4271fa2-1t0lc7.jpg');
   const [newFullName, setNewFullName] = useState(fullName);
+  
+ 
   const [newPhoneNumber, setNewPhoneNumber] = useState(phoneNumber);
   const [isEditingPhoneNumber, setIsEditingPhoneNumber] = useState(false);
   const [isEditingFullName, setIsEditingFullName] = useState(false);
   const { toast } = useToast();
+  const [isEditingFirstName, setIsEditingFirstName] = useState(false);
+  const [isEditingLastName, setIsEditingLastName] = useState(false);
+
+  const handlePhotoSubmit =async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const data ={ 
+      photo:newPhoto,
+      phone_number:newPhoneNumber,
+      full_name:newFullName
+    }
+
+     await updateMutation.mutateAsync(data)
+
+    
+  };
+
+  
+
   const handlePhoneNumberSubmit = () => {
     onUpdatePhoneNumber(newPhoneNumber);
     setIsEditingPhoneNumber(false);

@@ -4,6 +4,7 @@ import { data } from "@/app/data/lawyersMockData";
 import { useQuery } from "@tanstack/react-query";
 import { getVerifiedLawyers } from "@/app/admin/api/lawyers";
 import { useEffect } from "react";
+import { LoadingComponent, ErrorComponent } from '@/components/LoadingErrorComponents';
 
 interface Props {
   selectedSpecialization: string;
@@ -33,21 +34,11 @@ useEffect(()=>{
       (!selectedCourt || lawyer.courts.includes(selectedCourt))
     );
   });
-
-  //   const { isPending, error, data } = useQuery({
-  //     queryKey: ['repoData'],
-  //     queryFn: () =>
-  //       fetch('http://localhost:3000/api/lawyers/verified').then((res) =>
-  //         res.json(),
-  //       ),
-  //   })
-
-  //   console.log(data)
-
-  //   if (isPending) return 'Loading...'
-
-  //   if (error) return 'An error has occurred: ' + error.message
-
+  if (isLoading) return <LoadingComponent />;
+  if (error)
+    return (
+      <ErrorComponent errorMessage="Failed to load data. Please try again." />
+    );
   return (
     <div className="container px-5 py-5 mx-auto mt-4">
       <div className="flex flex-wrap -m-4 text-center mx-auto justify-center">

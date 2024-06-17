@@ -2,7 +2,7 @@ import axios from "axios";
 
 export async function getFaqs() {
   try {
-    const response = await axios.get("http://localhost:3000/api/faq");
+    const response = await axios.get("/api/faq");
     if (response.status !== 200) {
       throw new Error(`Error: ${response.statusText}`);
     }

@@ -60,7 +60,7 @@ export function ProfileDropdown() {
           <DropdownMenuGroup>
             <DropdownMenuItem>
               <User className="mr-2 h-4 w-4" />
-              <Link href={userType == "client" ? "" : "/lawyer/updateProfile"}>
+              <Link href={userType == "client" ? "/client/profile" : "/lawyer/profile"}>
                 {" "}
                 Profile
               </Link>
