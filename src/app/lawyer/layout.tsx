@@ -18,10 +18,11 @@ export default function RootLayout({
   const pathname = usePathname();
 
   const noSidebarRoutes = [
-    "/lawyer/updateProfile",
+    "/lawyer/profile",
     /^\/lawyer\/cases\/\d+$/,
     /^\/lawyer\/cases\/\d\/dispute+$/,
     "/lawyer/notification",
+    '/lawyer/withdraw'
   ];
   const shouldHideSidebar = (path: string) => {
     return noSidebarRoutes.some((route) =>

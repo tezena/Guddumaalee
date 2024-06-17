@@ -7,18 +7,21 @@ import {
   useMutation,
   useQuery,
   UseMutationResult,
+  useQueryClient,
 } from "@tanstack/react-query";
 import { answerFaq, getFaqs } from "../api/faq";
 
-const queryClient = new QueryClient();
+import { LoadingComponent, ErrorComponent } from '@/components/LoadingErrorComponents';
 
 export function FAQ() {
+  const queryClient = useQueryClient()
   const [activeFAQ, setActiveFAQ] = useState<number | null>(null);
   const [answer, setAnswer] = useState<string>("");
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["faqs"],
     queryFn: () => getFaqs(),
+    refetchInterval: 3000,
   });
 
   const mutationFn = async ({ id, answer }: { id: number; answer: string }): Promise<void> => {
@@ -53,6 +56,12 @@ export function FAQ() {
       }
     }
   };
+
+  if (isLoading) return <LoadingComponent />;
+  if (error)
+    return (
+      <ErrorComponent errorMessage="Failed to load data. Please try again." />
+    );
 
   return (
     <div className="w-full font-sans min-h-screen pt-28 pl-10 lg:pl-72 bg-[#f2f6fa] text-black overflow-auto flex flex-col gap-4">

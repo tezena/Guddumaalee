@@ -1,51 +1,29 @@
-'use client'
-'use client'
-import { useEffect, useState } from 'react';
-
-interface Transaction {
-  id: number;
-  lawyer_id: number;
-  client_id: number;
-  payment_id: string;
-  amount: number;
-  lawyer: {
-    name: string;
-  };
-  client: {
-    name: string;
-  };
-}
+"use client";
+"use client";
+import { useEffect, useState } from "react";
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+  UseMutationResult,
+} from "@tanstack/react-query";
+import { getTransaction } from "../api/finance";
+import {
+  LoadingComponent,
+  ErrorComponent,
+} from "@/components/LoadingErrorComponents";
 
 const TransactionsPage = () => {
-  const [transactions, setTransactions] = useState<Transaction[]>([
-    {
-      id: 1,
-      lawyer_id: 1,
-      client_id: 1,
-      payment_id: 'PAY123',
-      amount: 500.0,
-      lawyer: { name: 'John Doe' },
-      client: { name: 'Jane Smith' },
-    },
-    {
-      id: 2,
-      lawyer_id: 2,
-      client_id: 2,
-      payment_id: 'PAY456',
-      amount: 750.0,
-      lawyer: { name: 'Alice Johnson' },
-      client: { name: 'Bob Brown' },
-    },
-    {
-      id: 3,
-      lawyer_id: 3,
-      client_id: 3,
-      payment_id: 'PAY789',
-      amount: 300.0,
-      lawyer: { name: 'Michael White' },
-      client: { name: 'Sara Black' },
-    },
-  ]);
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["finance"],
+    queryFn: () => getTransaction(),
+  });
+
+  if (isLoading) return <LoadingComponent />;
+  if (error)
+    return (
+      <ErrorComponent errorMessage="Failed to load data. Please try again." />
+    );
 
   return (
     <div className="w-full font-sans min-h-screen pt-28 pl-10 lg:pl-72 bg-[#f2f6fa] text-black overflow-auto">
@@ -62,16 +40,26 @@ const TransactionsPage = () => {
             </tr>
           </thead>
           <tbody>
-            {transactions.map((transaction, index) => (
+            {data?.map((transaction: any, index: any) => (
               <tr
                 key={transaction.id}
-                className={`border-t ${index % 2 === 0 ? 'bg-gray-100' : 'bg-white'} hover:bg-gray-200`}
+                className={`border-t ${
+                  index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                } hover:bg-gray-200`}
               >
-                <td className="py-2 px-4 border-b">{transaction.id}</td>
-                <td className="py-2 px-4 border-b">{transaction.lawyer.name}</td>
-                <td className="py-2 px-4 border-b">{transaction.client.name}</td>
-                <td className="py-2 px-4 border-b">{transaction.payment_id}</td>
-                <td className="py-2 px-4 border-b">${transaction.amount.toFixed(2)}</td>
+                <td className="py-2 px-4 border-b">{transaction?.id}</td>
+                <td className="py-2 px-4 border-b">
+                  {transaction?.lawyer.name}
+                </td>
+                <td className="py-2 px-4 border-b">
+                  {transaction?.client.name}
+                </td>
+                <td className="py-2 px-4 border-b">
+                  {transaction?.payment_id}
+                </td>
+                <td className="py-2 px-4 border-b">
+                  ${transaction?.amount.toFixed(2)}
+                </td>
               </tr>
             ))}
           </tbody>

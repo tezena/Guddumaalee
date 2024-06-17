@@ -3,25 +3,15 @@ import { useState, useEffect, useMemo } from "react";
 import { Icon } from "@iconify/react";
 import { getClients } from "../api/clients";
 import { useQuery } from "@tanstack/react-query";
+import {
+  LoadingComponent,
+  ErrorComponent,
+} from "@/components/LoadingErrorComponents";
 export function Clients() {
   const { data, isLoading, error } = useQuery({
     queryKey: ["client"],
     queryFn: getClients,
   });
-
-  // const clients = [
-  //   { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" },
-  //   { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" },
-  //   { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" },
-  //   { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" },
-  //   { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" },
-  //   { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" },
-  //   { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" },
-  //   { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" },
-  //   { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" },
-  //   { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" },
-  //   { name: "Abebe Kebede", phone: "0912345467", email: "abebe33@gmail.com" },
-  // ];
 
   const pageSize = 5;
   const visiblePages = 3;
@@ -66,6 +56,7 @@ export function Clients() {
       }
       array.push(totalPages);
     }
+
     return array;
   }, [startPage, endPage, totalPages]);
 
@@ -86,16 +77,13 @@ export function Clients() {
       setCurrentPage((prevPage) => prevPage - 1);
     }
   };
-  if (isLoading) return <div className="w-full font-sans min-h-screen pt-24 pl-10 lg:pl-72 bg-[#f2f6fa]">
-     <div
-      
-          className="w-full h-full pt-28 flex gap-5 items-center justify-center m-auto"
-        >
-          <Icon icon="eos-icons:loading" width="80" height="80" color="green" />
-          <p className="text-2xl text-green-500">...Loading</p>
-        </div>
-  </div>;
-  if (error) return <div>Error loading data</div>;
+
+  if (isLoading) return <LoadingComponent />;
+  if (error)
+    return (
+      <ErrorComponent errorMessage="Failed to load data. Please try again." />
+    );
+ 
   return (
     <div className="w-full font-sans min-h-screen pt-24 pl-10 lg:pl-72 bg-[#f2f6fa]">
       <div className="w-full p-4">
@@ -134,7 +122,7 @@ export function Clients() {
             </tr>
           </thead>
           <tbody>
-            {paginatedClients.map((client:any, index:any) => (
+            {paginatedClients.map((client: any, index: any) => (
               <tr
                 className={
                   index % 2 === 0

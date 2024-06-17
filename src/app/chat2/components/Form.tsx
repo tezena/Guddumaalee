@@ -16,6 +16,7 @@ interface Props {
 }
 
 const Form: React.FC<Props> = ({ recipent_id }) => {
+
   const { toast } = useToast();
   const formRef = useRef<HTMLFormElement>(null);
   const [link, setLink] = useState("");
@@ -43,7 +44,9 @@ const Form: React.FC<Props> = ({ recipent_id }) => {
       action={async (formData) => {
         //@ts-ignore
         formData.append("recipient_id", recipent_id);
+
         formData.append("messageType", "text");
+
         await postData(formData);
         formRef.current?.reset();
       }}

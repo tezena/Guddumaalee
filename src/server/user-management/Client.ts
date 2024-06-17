@@ -3,7 +3,7 @@ import { Account } from "./Account";
 import bcrypt from "bcrypt";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth";
-import { isAdmin, isAuthenticated } from "../checkRole";
+import { isAdmin, isAuthenticated, isClient, isLawyer } from "../checkRole";
 
 export class Client extends Account {
   static async add(
@@ -29,6 +29,16 @@ export class Client extends Account {
     });
     return newUser;
   }
+  static async getById() {
+    const clientSession = await isClient();
+    const client = await db.client.findUnique({
+      where: {
+        //@ts-ignore
+        id: clientSession.user.image.id,
+      },
+    });
+    return client;
+  }
 
   static async getAll() {
     await isAdmin();
@@ -43,5 +53,24 @@ export class Client extends Account {
       },
     });
     return clients;
+  }
+  static async update(
+    full_name: string | undefined,
+    phone_number: string | undefined,
+    photo: string | undefined
+  ) {
+    const client = await isClient();
+    const clientUpdated = await db.client.update({
+      data: {
+        ...(full_name && { full_name }),
+        ...(phone_number && { phone_number }),
+        ...(photo && { photo }),
+      },
+      where: {
+        //@ts-ignore
+        id: client.user.image.id,
+      },
+    });
+    return clientUpdated;
   }
 }
