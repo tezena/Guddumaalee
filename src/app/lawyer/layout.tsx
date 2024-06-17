@@ -18,7 +18,7 @@ export default function RootLayout({
   const pathname = usePathname();
 
   const noSidebarRoutes = [
-    "/lawyer/updateProfile",
+    "/lawyer/profile",
     /^\/lawyer\/cases\/\d+$/,
     /^\/lawyer\/cases\/\d\/dispute+$/,
     "/lawyer/notification",

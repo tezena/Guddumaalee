@@ -16,13 +16,28 @@ import { ChatDropdown } from "./chatDropDown";
 import { Icon } from "@iconify/react";
 import { useNotifications } from "@/app/context/NotificationContext";
 import Notification from "./header/Notification";
+import { useQuery } from "@tanstack/react-query";
+import { getLawyerById } from "@/app/admin/api/lawyers";
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
   const { data: session } = useSession();
   //@ts-ignore
   const userType = session?.user?.image?.type;
+   //@ts-ignore
+  const lawyer_id = session?.user?.image?.id;
   const [visted, setVisted] = useState(false);
+
+  const {
+    data: lawyerData,
+    isLoading: lawyerLoading,
+    error: lawyerError,
+  } = useQuery({
+    queryKey: ["lawyer"],
+    queryFn: () => getLawyerById(lawyer_id),
+    
+  });
+
 
   const { handleClosePopup, handleNotificationClick } = useNotifications();
 
@@ -81,14 +96,6 @@ const Navbar = () => {
                       </Link>
                     ) : (
                       <div className="flex gap-4">
-                        <div
-                          onClick={() => router.push("/lawyer/withdraw")}
-                          className="  hover:text-white rounded-full p-1  hover:opacity-100 transition-opacity duration-300"
-                        >
-                          <p className="text-gray-400  hover:text-[#7B3B99]">
-                            $ 455
-                          </p>
-                        </div>
                         <Link href="/lawyer">
                           <h3 className="text-xl group-hover:font-bolder hover:text-[#7B3B99]">
                             MyPage
@@ -99,6 +106,17 @@ const Navbar = () => {
                   </>
                 ) : (
                   <div className="flex gap-4">
+                    {userType == "lawyer" && (
+                      <div
+                        onClick={() => router.push("/lawyer/withdraw")}
+                        className="  hover:text-white rounded-full p-1  hover:opacity-100 transition-opacity duration-300"
+                      >
+                        <p className="text-gray-400  hover:text-[#7B3B99]">
+                         {lawyerData?.balance} ETB
+                        </p>
+                      </div>
+                    )}
+
                     <Link href="/">
                       <h3 className="text-xl group-hover:font-bolder hover:text-[#7B3B99]">
                         Home
