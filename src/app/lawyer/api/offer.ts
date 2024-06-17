@@ -2,7 +2,7 @@ import axios from "axios";
 
 export async function createOffer(data: object) {
   try {
-    const response = await axios.post("http://localhost:3000/api/case", data);
+    const response = await axios.post("/api/case", data);
     if (response.status < 200 || response.status >= 300) {
       throw new Error(`Error: ${response.statusText}`);
     }
@@ -17,7 +17,7 @@ export async function createOffer(data: object) {
 export async function deliver(id: number) {
   try {
     const response = await axios.post(
-      `http://localhost:3000/api/case/${id}/deliver`
+      `/api/case/${id}/deliver`
     );
     if (response.status < 200 || response.status >= 300) {
       throw new Error(`Error: ${response.statusText}`);
@@ -34,7 +34,7 @@ export async function deliver(id: number) {
 export async function accept(id: number) {
   try {
     const response = await axios.post(
-      `http://localhost:3000/api/case/${id}/accept`
+      `/api/case/${id}/accept`
     );
     if (response.status < 200 || response.status >= 300) {
       throw new Error(`Error: ${response.statusText}`);
@@ -50,13 +50,13 @@ export async function accept(id: number) {
 export async function getLawyerCaeses(id: number) {
   try {
     const response = await axios.get(
-      `http://localhost:3000/api/case/lawyer/${id}`
+      `/api/case/lawyer/${id}`
     );
     if (response.status !== 200) {
       throw new Error(`Error: ${response.statusText}`);
     }
     const data = response;
-    console.log(data);
+    console.log('this is from lawyer case',data);
 
     return data.data.cases;
   } catch (err) {
@@ -70,13 +70,13 @@ export async function getCaesesById(id: number) {
     console.log(id);
     
     const response = await axios.get(
-      `http://localhost:3000/api/case/${id}`
+      `/api/case/${id}`
     );
     if (response.status !== 200) {
       throw new Error(`Error: ${response.statusText}`);
     }
     const data = response;
-    console.log(data);
+    console.log('this is from case by id',data);
 
     return data.data.caseById;
   } catch (err) {

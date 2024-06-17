@@ -3,12 +3,14 @@ import { useState, useMemo } from "react";
 import { Icon } from "@iconify/react";
 import { useMutation, useQuery, useQueryClient, UseMutationResult } from "@tanstack/react-query";
 import { getDisputes, acceptDispute, resolveDispute } from "@/app/lawyer/api/dispute";
+import { LoadingComponent, ErrorComponent } from '@/components/LoadingErrorComponents';
 
 function Dispute() {
   const queryClient = useQueryClient();
   const { data, isLoading, error } = useQuery({
     queryKey: ["disputes"],
     queryFn: () => getDisputes(),
+    refetchInterval: 6000,
   });
 
   const acceptMutation: UseMutationResult<void, unknown, number> = useMutation({
@@ -96,6 +98,12 @@ function Dispute() {
     }
   };
 
+
+  if (isLoading) return <LoadingComponent />;
+  if (error)
+    return (
+      <ErrorComponent errorMessage="Failed to load data. Please try again." />
+    );
   return (
     <div className="w-full font-sans min-h-screen pt-28 pl-10 lg:pl-72 bg-[#f2f6fa] text-black overflow-auto">
       <div className="rounded-2xl overflow-auto py-10 pr-10">

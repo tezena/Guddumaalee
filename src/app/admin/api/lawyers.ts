@@ -1,28 +1,3 @@
-// async function getData() {
-//     const options = {
-//       method: "GET",
-//       headers: {
-//         accept: "application/json",
-//         Authorization:
-//           "Bearer ....",
-//       },
-//     };
-
-//     const response = fetch(
-//       "http://localhost:3000/api/lawyers",
-//       options
-//     )
-//       .then((response) => response.json())
-//       .catch((err) => console.error(err));
-
-//     return response;
-//   }
-
-//   export default async function getLawyers() {
-//     const data = await getData();
-//     return data;
-//   }
-
 import axios from "axios";
 async function getData() {
   const options = {
@@ -33,7 +8,7 @@ async function getData() {
     },
   };
 
-  const response = fetch("http://localhost:3000/api/lawyers/verified", options)
+  const response = fetch("/api/lawyers/verified", options)
     .then((response) => {
       console.log(response);
 
@@ -46,7 +21,7 @@ async function getData() {
 
 export async function getNewLawyers() {
   try {
-    const response = await axios.get("http://localhost:3000/api/lawyers");
+    const response = await axios.get("/api/lawyers");
     if (response.status !== 200) {
       throw new Error(`Error: ${response.statusText}`);
     }
@@ -63,7 +38,7 @@ export async function getNewLawyers() {
 export async function getVerifiedLawyers() {
   try {
     const response = await axios.get(
-      "http://localhost:3000/api/lawyers/verified"
+      "/api/lawyers/verified"
     );
     if (response.status !== 200) {
       throw new Error(`Error: ${response.statusText}`);
@@ -81,7 +56,7 @@ export async function getVerifiedLawyers() {
 export async function getLawyerById(id: any) {
  
   try {
-    const response = await axios.get(`http://localhost:3000/api/lawyers/${id}`);
+    const response = await axios.get(`/api/lawyers/${id}`);
     if (response.status < 200 || response.status >= 300) {
       throw new Error(`Error: ${response.statusText}`);
     }
@@ -99,7 +74,7 @@ export async function getLawyerById(id: any) {
 
 export async function verifyLawyer(id: any) {
   axios
-    .put(`http://localhost:3000/api/lawyers/${id}/verify`)
+    .put(`/api/lawyers/${id}/verify`)
     .then((res: any) => {
       console.log(res);
 
@@ -114,7 +89,7 @@ export async function verifyLawyer(id: any) {
 
 export function rejectLawyer(id: any) {
   axios
-    .put(`http://localhost:3000/api/lawyers/${id}/reject`)
+    .put(`/api/lawyers/${id}/reject`)
     .then((res: any) => {
       console.log(res);
 

@@ -1,15 +1,15 @@
 import axios from "axios";
 
-export async function getTransaction() {
+export async function getDashboard() {
   try {
-    const response = await axios.get("/api/transaction");
+    const response = await axios.get("");
     if (response.status !== 200) {
       throw new Error(`Error: ${response.statusText}`);
     }
     const data = response;
-    console.log('this is from finance',data);
+    console.log(data);
 
-    return data.data.transactionHistory;
+    return data.data.trials;
   } catch (err) {
     console.error(err);
     throw err; // Ensure errors are propagated correctly
