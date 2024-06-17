@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import Pusher from "pusher-js";
 import { useSession } from "next-auth/react";
+//@ts-ignore
 import FileViewer from "react-file-viewer";
 import FileDownloader from "./fileDownloader";
 
@@ -107,7 +108,7 @@ export default function ChatComponent({ data }: iAppProps) {
                   ) : (
                     <div className="flex p-1 bg-[#7B3B99] cursor-pointer items-center justify-center h-[40px] w-[40px] rounded-full ">
                       <span className="text-xl text-white font-semibold capitalize ">
-                        {message.client.full_name.slice(0, 1)}
+                        {message.client?.full_name?.slice(0, 1)}
                       </span>
                     </div>
                   )}
@@ -116,7 +117,7 @@ export default function ChatComponent({ data }: iAppProps) {
                 <div className="flex items-center  ">
                   {userType === "lawyer" ? (
                     <img
-                      src={message.lawyer.photo}
+                      src={message?.lawyer.photo}
                       alt="Profile image of user"
                       className="w-12 h-12 object-cover rounded-lg "
                       width={50}
@@ -125,7 +126,7 @@ export default function ChatComponent({ data }: iAppProps) {
                   ) : (
                     <div className="flex p-1 bg-[#7B3B99] cursor-pointer items-center justify-center h-[40px] w-[40px] rounded-full ">
                       <span className="text-xl text-white font-semibold capitalize ">
-                        {message.client.full_name.slice(0, 1)}
+                        {message.client?.full_name?.slice(0, 1)}
                       </span>
                     </div>
                   )}
