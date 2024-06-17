@@ -97,11 +97,11 @@ model client {
   created_at     DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
   full_name      String
+  photo String?
   phone_number   String @unique
   disputes dispute[]
   cases Case[] @relation("case_for")
   ratings Rating[]
-  transactions Transaction[]
   Message       Message[] @relation(name: "ClientMessages")
 }
 
@@ -129,7 +129,6 @@ model lawyer {
   cases Case[] @relation("case_from")
   ratings Rating[]
   withdrawRequests WithdrawRequest[]
-  transactions Transaction[]
   Message       Message[] @relation(name: "LawyerMessages")
 }
 
@@ -171,6 +170,7 @@ model Case{
     client client @relation(name: "case_for", fields: [client_id],references: [id])
     trials Trial[]
     ratings Rating[]
+    created_at     DateTime  @default(now())
     transactions Transaction[]
 }
 
@@ -206,7 +206,7 @@ model WithdrawRequest {
 }
 
 model Transaction {
-  id             Int       @id @default(autoincrement)
+  id             Int       @id @default(autoincrement())
   payment_id String @unique
   case_id Int
   case Case @relation(fields: [case_id], references: [id])
@@ -217,6 +217,8 @@ model Transaction {
   model Message {
     id        String    @id @default(uuid())
     message   String
+    messageType String
+    fileType   String?
     sender_email     String
     reciver_email    String
     clientId  Int
@@ -230,4 +232,3 @@ model Transaction {
 
     @@index([clientId, lawyerId])
   }
-

@@ -4,9 +4,13 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import Pusher from "pusher-js";
 import { useSession } from "next-auth/react";
+import FileViewer from "react-file-viewer";
+import FileDownloader from "./fileDownloader";
 
 interface iAppProps {
   data: {
+    messageType: string;
+    fileType: string;
     clientId: number;
     message: string;
     lawyerId: number;
@@ -57,6 +61,10 @@ export default function ChatComponent({ data }: iAppProps) {
     scrollTobottom();
   }, [totalComments]);
 
+  const onError = (e: any) => {
+    console.log(e, "error in file-viewer");
+  };
+
   return (
     <div className="p-6 flex-grow max-h-screen overflow-y-auto py-24">
       <div className="flex flex-col gap-4">
@@ -66,10 +74,29 @@ export default function ChatComponent({ data }: iAppProps) {
               //@ts-ignore
               message.sender_email == userEmail ? (
                 <div className="flex items-center justify-end ">
-                  <div className="rounded-lg bg-white p-4 shadow-md self-start mr-4">
-                    {message.message}
-                  </div>
-                  {userType =="lawyer"? (
+                  {
+                    //@ts-ignore
+                    message.messageType == "text" ? (
+                      <div className="rounded-lg bg-white p-4 shadow-md self-start mr-4">
+                        {message.message}
+                      </div>
+                    ) : (
+                      //@ts-ignore
+                      <div className="flex flex-col">
+                        <FileViewer
+                          fileType={message.fileType}
+                          filePath={message.message}
+                          onError={onError}
+                          style={{ width: "300px", height: "200px" }}
+                          className="rounded-md"
+                        />{
+                        //@ts-ignore
+                        <FileDownloader fileUrl={message.message} />}
+                      </div>
+                    )
+                  }
+
+                  {userType == "lawyer" ? (
                     <img
                       src={message.lawyer.photo}
                       alt="Profile image of user"
@@ -87,7 +114,7 @@ export default function ChatComponent({ data }: iAppProps) {
                 </div>
               ) : (
                 <div className="flex items-center  ">
-                  {userType ==="lawyer" ? (
+                  {userType === "lawyer" ? (
                     <img
                       src={message.lawyer.photo}
                       alt="Profile image of user"
@@ -102,9 +129,27 @@ export default function ChatComponent({ data }: iAppProps) {
                       </span>
                     </div>
                   )}
-                  <div className="rounded-lg bg-white p-4 shadow-md self-start">
-                    {message.message}
-                  </div>
+                  {
+                    //@ts-ignore
+                    message.messageType == "text" ? (
+                      <div className="rounded-lg bg-white p-4 shadow-md self-start mr-4">
+                        {message.message}
+                      </div>
+                    ) : (
+                      //@ts-ignore
+                      <div className="flex flex-col">
+                        <FileViewer
+                          fileType={message.fileType}
+                          filePath={message.message}
+                          onError={onError}
+                          style={{ width: "300px", height: "200px" }}
+                          className="rounded-md"
+                        />{
+                        //@ts-ignore
+                        <FileDownloader fileUrl={message.message} />}
+                      </div>
+                    )
+                  }
                 </div>
               )
             }
