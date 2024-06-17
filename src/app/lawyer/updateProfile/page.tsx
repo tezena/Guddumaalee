@@ -66,7 +66,7 @@ const Home: React.FC = () => {
           bio={bio}
           onUpdatePhoto={handleUpdatePhoto}
           onUpdateBio={handleUpdateBio}
-          onUpdateLanguage={handleUpdateLanguage} // Pass the handleUpdateLanguage function
+          onUpdateLanguage={handleUpdateLanguage} 
         />
       </div>
     </div>
