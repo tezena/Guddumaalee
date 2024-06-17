@@ -1,28 +1,18 @@
-'use client'
+"use client";
 import React, { useEffect, useState } from "react";
 import LawyerDetail from "./LawyerDetail";
-import { useParams } from "next/navigation";
-import { data } from "@/app/data/lawyersMockData";
-import { LawyerProps } from "@/components/lawyersCard";
+import { useQuery } from "@tanstack/react-query";
+import { getVerifiedLawyers } from "@/app/admin/api/lawyers";
 
 const Page: React.FC = () => {
-  const [lawyer, setLawyer] = useState<LawyerProps>({} as LawyerProps);
-  const params = useParams();
-
-  function searchById(id: string) {
-    const lyr = data.find((indi) => indi.id === id);
-    if (lyr) {
-      setLawyer(lyr);
-    }
-  }
-
-  useEffect(() => {
-    searchById(params.id as string);
-  }, [params]);
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["clientlawyers"],
+    queryFn: () => getVerifiedLawyers(),
+  });
 
   return (
     <div>
-      <LawyerDetail lawyer={lawyer} lawyers={data} />
+      <LawyerDetail lawyers={data} />
     </div>
   );
 };

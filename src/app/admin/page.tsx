@@ -4,11 +4,26 @@ import React, { useEffect } from "react";
 import BarChart from "@/components/admincomponentd/BarChart";
 
 import { useState } from "react";
+import {
+  QueryClient,
+  useMutation,
+  useQuery,
+  UseMutationResult,
+  useQueryClient
+} from "@tanstack/react-query";
+import { getDashboard } from "./api/dashboard";
 
 export function Admin() {
-  useEffect(() => {}, []);
 
-  const data = [200, 300, 400];
+  const queryClient = useQueryClient()
+  
+  // const { data, isLoading, error } = useQuery({
+  //   queryKey: ["faqs"],
+  //   queryFn: () => getDashboard(),
+  //   refetchInterval: 120000,
+  // });
+
+  const data1 = [200, 300, 400];
 
   // const [count, setCount] = useState(0);
   return (
@@ -19,7 +34,7 @@ export function Admin() {
 
       <div className="w-full h-[400px] lg:h-72 flex  flex-col lg:flex-row gap-4 justify-between">
         <div className="w-3/4 lg:w-1/2 h-full border-2 border-gray-300 px-10 p-2 bg-white">
-          <BarChart data={data} />
+          <BarChart data={data1} />
         </div>
 
         <div className="flex flex-col gap-4 w-full lg:w-1/2 lg:px-10">

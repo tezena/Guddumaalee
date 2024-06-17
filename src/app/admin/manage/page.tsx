@@ -8,8 +8,9 @@ import { useNotifications } from "@/app/context/NotificationContext";
 
 export function Manage() {
   const { data, error, isLoading } = useQuery({
-    queryKey: ["lawyers"],
+    queryKey: ['lawyers'],
     queryFn: getNewLawyers,
+    refetchInterval: 6000, // Refetch every 2 minutes
   });
 
   const { setLawyerNotifications } = useNotifications();

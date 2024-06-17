@@ -9,6 +9,7 @@ function Dispute() {
   const { data, isLoading, error } = useQuery({
     queryKey: ["disputes"],
     queryFn: () => getDisputes(),
+    refetchInterval: 6000,
   });
 
   const acceptMutation: UseMutationResult<void, unknown, number> = useMutation({
