@@ -6,12 +6,11 @@ import ProfileForm from './UpdateProfile'; // Correct import
 const Home: React.FC = () => {
   const [activeItem, setActiveItem] = useState<string | null>(null);
   const [languages, setLanguages] = useState<{ name: string; proficiency: string }[]>([]);
-  const [courtWorked, setCourtWorked] = useState<string[]>([]);
   const [experience, setExperience] = useState<string[]>([]);
   const [profilePhoto, setProfilePhoto] = useState<string>('https://via.placeholder.com/150');
   const [bio, setBio] = useState<string>('This is a short bio.');
 
-  const sidebarItems = ['Language', 'Court Worked', 'Experience'];
+  const sidebarItems = ['Language', 'Experience'];
 
   const handleAddItem = (item: string) => {
     setActiveItem(item);
@@ -20,32 +19,23 @@ const Home: React.FC = () => {
   const handleSubmit = (data: { type: string; value: any }) => {
     if (data.type === 'Language') {
       setLanguages([...languages, data.value]);
-    } else if (data.type === 'Court Worked') {
-      setCourtWorked([...courtWorked, data.value]);
     } else if (data.type === 'Experience') {
       setExperience([...experience, data.value]);
     }
-    setActiveItem(null); // Close the form after submission
   };
 
-  const handleUpdatePhoto = (photo: string) => {
-    setProfilePhoto(photo);
+  const handleUpdatePhoto = (newPhoto: string) => {
+    setProfilePhoto(newPhoto);
   };
 
-  const handleUpdateBio = (bio: string) => {
-    setBio(bio);
+  const handleUpdateBio = (newBio: string) => {
+    setBio(newBio);
   };
 
-  const handleUpdateLanguage = (index: number, language: { name: string; proficiency: string }) => {
-    const updatedLanguages = [...languages];
-    updatedLanguages[index] = language;
-    setLanguages(updatedLanguages);
-  };
-
-  const initialData = {
-    language: languages.length > 0 ? languages[languages.length - 1] : null,
-    courtWorked: courtWorked.length > 0 ? courtWorked[courtWorked.length - 1] : null,
-    experience: experience.length > 0 ? experience[experience.length - 1] : null,
+  const handleUpdateLanguage = (index: number, updatedLanguage: { name: string; proficiency: string }) => {
+    const newLanguages = [...languages];
+    newLanguages[index] = updatedLanguage;
+    setLanguages(newLanguages);
   };
 
   return (
@@ -55,20 +45,17 @@ const Home: React.FC = () => {
         activeItem={activeItem}
         onAddItem={handleAddItem}
         onSubmit={handleSubmit}
-        initialData={initialData}
+        initialData={{ language: languages, experience }}
       />
-      <div className="flex-grow p-4">
-        <ProfileForm
-          languages={languages}
-          courtWorked={courtWorked}
-          experience={experience}
-          profilePhoto={profilePhoto}
-          bio={bio}
-          onUpdatePhoto={handleUpdatePhoto}
-          onUpdateBio={handleUpdateBio}
-          onUpdateLanguage={handleUpdateLanguage} 
-        />
-      </div>
+      <ProfileForm
+        languages={languages}
+        experience={experience}
+        profilePhoto={profilePhoto}
+        bio={bio}
+        onUpdatePhoto={handleUpdatePhoto}
+        onUpdateBio={handleUpdateBio}
+        onUpdateLanguage={handleUpdateLanguage}
+      />
     </div>
   );
 };

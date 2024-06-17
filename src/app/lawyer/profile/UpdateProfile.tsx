@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { Icon } from '@iconify/react';
+import { UploadDropzone } from '@/lib/uploadthing';
+import { useToast } from '@/components/ui/use-toast';
+
 
 interface Language {
   name: string;
@@ -8,7 +11,6 @@ interface Language {
 
 interface ProfileFormProps {
   languages: Language[];
-  courtWorked: string[];
   experience: string[];
   profilePhoto: string;
   bio: string;
@@ -17,12 +19,10 @@ interface ProfileFormProps {
   onUpdateLanguage: (index: number, language: Language) => void;
 }
 
-const MAX_PHOTO_SIZE_MB = 2; 
-const PROFICIENCY_OPTIONS = ["Conversational", "native", "bilinguial", "Fluent"];
+const PROFICIENCY_OPTIONS = ["Conversational", "Native", "Bilingual", "Fluent"];
 
 const ProfileForm: React.FC<ProfileFormProps> = ({
   languages,
-  courtWorked,
   experience,
   profilePhoto,
   bio,
@@ -33,35 +33,13 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
   const [isEditingBio, setIsEditingBio] = useState(false);
   const [newBio, setNewBio] = useState(bio);
   const [isEditingPhoto, setIsEditingPhoto] = useState(false);
-  const [newPhoto, setNewPhoto] = useState(profilePhoto);
-
   const [newLanguage, setNewLanguage] = useState<Language>({ name: '', proficiency: '' });
   const [editingLanguageIndex, setEditingLanguageIndex] = useState<number | null>(null);
+  const { toast } = useToast();
 
   const handleBioSubmit = () => {
     onUpdateBio(newBio);
     setIsEditingBio(false);
-  };
-
-  const handlePhotoSubmit = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const fileSizeMB = file.size / (1024 * 1024);
-      if (fileSizeMB > MAX_PHOTO_SIZE_MB) {
-        alert(`The file size exceeds ${MAX_PHOTO_SIZE_MB}MB. Please upload a smaller photo.`);
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        if (reader.result) {
-          onUpdatePhoto(reader.result as string);
-          setNewPhoto(reader.result as string);
-        }
-      };
-      reader.readAsDataURL(file);
-    }
-    setIsEditingPhoto(false);
   };
 
   const handleUpdateLanguage = () => {
@@ -90,11 +68,17 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
         </div>
         {isEditingPhoto && (
           <div className="mt-4">
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handlePhotoSubmit}
-              className="border p-2 w-full mb-2"
+            <UploadDropzone
+              className="p-2 border border-gray-600"
+              endpoint="fileUploader"
+              onClientUploadComplete={(res) => {
+                const photoUrl = res[0].url;
+                onUpdatePhoto(photoUrl);
+                setIsEditingPhoto(false);
+              }}
+              onUploadError={(error: Error) => {
+                toast({ title: `ERROR! ${error.message}` });
+              }}
             />
           </div>
         )}
@@ -107,15 +91,9 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
             <li key={index} className="flex justify-between items-center mb-2">
               <span>{language.name}</span>
               <span>{language.proficiency}</span>
-              {/* <button
-                className="ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
-                onClick={() => startEditingLanguage(index)}
-              >
-                Edit
-              </button> */}
-               <div className="bottom-0 bg-white right-0 w-8 h-8 flex justify-center items-center cursor-pointer" onClick={() => startEditingLanguage(index)}>
-              <Icon icon="ri:edit-2-fill" color="#7B3B99" width={25} height={25} />
-            </div>
+              <div className="bottom-0 bg-white right-0 w-8 h-8 flex justify-center items-center cursor-pointer" onClick={() => startEditingLanguage(index)}>
+                <Icon icon="ri:edit-2-fill" color="#7B3B99" width={25} height={25} />
+              </div>
             </li>
           ))}
         </ul>
@@ -148,14 +126,6 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
       </div>
 
       <div className="mb-4">
-        <label className="block text-gray-700 font-semibold">Court Worked</label>
-        <ul>
-          {courtWorked.map((court, index) => (
-            <li key={index} className="mb-2">{court}</li>
-          ))}
-        </ul>
-      </div>
-      <div className="mb-4">
         <label className="block text-gray-700 font-semibold">Experience</label>
         <ul>
           {experience.map((exp, index) => (
@@ -163,6 +133,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
           ))}
         </ul>
       </div>
+
       <div className="mb-4">
         <label className="block text-gray-700 font-semibold">Bio</label>
         {isEditingBio ? (

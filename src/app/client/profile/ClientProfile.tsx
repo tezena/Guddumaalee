@@ -2,17 +2,11 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import React, { useState } from "react";
 import { UploadDropzone } from "@/lib/uploadthing"
 import Image from "next/image";
-import { useToast } from "@/components/ui/use-toast";
+
 import { useMutation, useQuery, useQueryClient, UseMutationResult } from "@tanstack/react-query";
-import { UploadDropzone } from "@/lib/uploadthing";
-import Image from "next/image";
+
 import { useToast } from "@/components/ui/use-toast";
-import {
-  useMutation,
-  useQuery,
-  useQueryClient,
-  UseMutationResult,
-} from "@tanstack/react-query";
+
 import { getClientById, updateClient } from "../api/client";
 import { useSession } from "next-auth/react";
 
