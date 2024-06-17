@@ -10,6 +10,10 @@ import {
 import { UploadButton, UploadDropzone } from "@/lib/uploadthing";
 import { useToast } from "@/components/ui/use-toast";
 import { useState } from "react";
+import { useSession } from "next-auth/react"
+import { Button } from "@/components/ui/button";
+import OfferModal from "@/app/lawyer/offer/offer";
+
 
 interface Props {
   recipent_id: number;
@@ -21,6 +25,11 @@ const Form: React.FC<Props> = ({ recipent_id }) => {
   const formRef = useRef<HTMLFormElement>(null);
   const [link, setLink] = useState("");
   const [open, setOpen] = useState(false);
+  const {data:session}=useSession()
+
+  //@ts-ignore
+  const userType=session?.user?.image?.type
+
   const HandleFileSend = (url: string, fileType: string) => {
     if (fileType === "image/png") {
       console.log("file type");
@@ -38,6 +47,16 @@ const Form: React.FC<Props> = ({ recipent_id }) => {
     };
     //@ts-ignore
     postData(undefined, fileData);
+  };
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
   };
   return (
     <form
@@ -80,13 +99,23 @@ const Form: React.FC<Props> = ({ recipent_id }) => {
           placeholder="Type your message..."
           className="flex-grow py-2 px-4 outline-none"
         />
+        <div className="flex items-center ">
         <button
           type="submit"
-          className="bg-teal-500 hover:bg-teal-600 text-white py-2 px-4 rounded-full"
+          className="bg-teal-500 hover:bg-teal-600 text-white py-2 px-4 rounded-full mr-2"
         >
           Send
         </button>
+        {
+          userType ==="lawyer"? <Button 
+          onClick={handleOpenModal}
+          
+          className="bg-teal-500 hover:bg-teal-600 text-white py-2 px-4 rounded-full">Create Offer</Button>:""
+        }
+        </div>
+       
       </div>
+      <OfferModal isOpen={isModalOpen} onClose={handleCloseModal}/>
     </form>
   );
 };
