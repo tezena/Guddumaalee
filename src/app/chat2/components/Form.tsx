@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { postData } from "./action";
+import { Paperclip } from "lucide-react";
 
 interface Props {
   recipent_id: number;
@@ -18,9 +19,13 @@ const Form: React.FC<Props> = ({ recipent_id }) => {
         formRef.current?.reset();
       }}
       ref={formRef}
-      className="p-6 fixed bottom-0 left-0 w-full bg-white"
+      className="p-6 absolute bottom-0 left-0 w-full bg-white"
     >
-      <div className="flex">
+      <div className="flex flex-row items-center ">
+        <div className=" cursor-pointer">
+        <Paperclip/>
+           
+        </div>
         <input
           type="text"
           name="message"

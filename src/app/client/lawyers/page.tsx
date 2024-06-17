@@ -6,13 +6,13 @@ import LawyersList from "./lawyersList";
 const Lawyers = () => {
   const MenuItems = [
     { id: 1, text: "All", type: "" },
-    { id: 2, text: "Family", type: "family" },
-    { id: 3, text: "Personal Injury", type: "personal" },
-    { id: 4, text: "Adoption", type: "adoption" },
-    { id: 5, text: "Banking", type: "banking" },
-    { id: 6, text: "Assault", type: "assault" },
-    { id: 7, text: "Housing", type: "housing" },
-    { id: 8, text: "Criminal", type: "criminal" },
+    { id: 2, text: "FAMILY_LAW", type: "FAMILY_LAW" },
+    // { id: 3, text: "Personal Injury", type: "personal" },
+    // { id: 4, text: "Adoption", type: "adoption" },
+    { id: 5, text: "REAL_ESTATE_LAW", type: "REAL_ESTATE_LAW" },
+    { id: 6, text: "INTELLECTUAL_PROPERTY_LAW", type: "INTELLECTUAL_PROPERTY_LAW" },
+    { id: 7, text: "ENVIRONMENTAL_LAW", type: "ENVIRONMENTAL_LAW" },
+    { id: 8, text: "CRIMINAL_LAW", type: "CRIMINAL_LAW" },
   ];
 
   const [selectedType, setSelectedType] = useState("");

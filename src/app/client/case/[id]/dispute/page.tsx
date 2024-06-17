@@ -131,16 +131,16 @@ const Disputes = () => {
           <div className="flex  gap-8">
             <p className="flex gap-4 items-center">
               <span className="text-xl font-bold text-[#60287a]">
-                Client Name:
+                Lawyer_Name:
               </span>
-              {data?.[0]?.client?.full_name}
+              {data?.[0]?.lawyer?.full_name}
             </p>
-            <p className="flex gap-4 items-center">
+            {/* <p className="flex gap-4 items-center">
               <span className="text-xl font-bold text-[#60287a]">
-                Client ID:
+                Lawyer_ID:
               </span>
-              {data?.[0]?.client_id}
-            </p>
+              {data?.[0]?.lawyer?.lawyer_id}
+            </p> */}
           </div>
           <p className="flex gap-4 items-center">
             <span className="text-xl font-bold text-[#60287a]">
@@ -153,7 +153,7 @@ const Disputes = () => {
             <span className="text-xl font-bold text-[#60287a]">
               Client_Email:
             </span>
-            {data?.[0]?.client?.email}
+            {session?.user?.email}
           </p>
         </div>
 

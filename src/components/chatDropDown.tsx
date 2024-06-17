@@ -17,39 +17,9 @@ import { useRouter } from "next/navigation";
 
 export function ChatDropdown() {
   const { data: session } = useSession();
+  //@ts-ignore
   const userType = session?.user?.image?.type;
   const privateKey =process.env.NEXT_PUBLIC_CHAT_KEY
-
- 
-
-  const router = useRouter();
-
-  const HandleChat = async () => {
-    console.log("handle clicked")
-    console.log(privateKey)
-    console.log(session?.user)
-    
-    await axios
-      .post(
-        "https://api.chatengine.io/users/",
-        {
-          "username": "adam_la_morre",
-          "first_name": "Adam",
-          "last_name": "La Morre",
-          "secret": "pass1234",
-          "custom_json": {"high_score": 2000}
-      },
-        { headers: { "PRIVATE-KEY": `fd952a71-8ae3-4a5b-a090-d59b25f7e04a` } }
-      )
-      .then((res) => {
-        console.log(res.data);
-
-        router.push("/chat");
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
 
   return (
     <DropdownMenu>
@@ -61,8 +31,11 @@ export function ChatDropdown() {
       <DropdownMenuContent className="w-32">
         <DropdownMenuGroup>
           <DropdownMenuItem>
+            <Link href="/chat2">
             <MessageSquareText className="mr-2 h-4 w-4" />
-            <span onClick={()=>HandleChat()}> Chat </span>
+            <span > Chat </span>
+            </Link>
+            
           </DropdownMenuItem>
           <DropdownMenuItem>
             <Video className="mr-2 h-4 w-4" />
