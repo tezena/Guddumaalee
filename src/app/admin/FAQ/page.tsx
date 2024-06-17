@@ -21,7 +21,7 @@ export function FAQ() {
   const { data, isLoading, error } = useQuery({
     queryKey: ["faqs"],
     queryFn: () => getFaqs(),
-    refetchInterval: 6000,
+    refetchInterval: 3000,
   });
 
   const mutationFn = async ({ id, answer }: { id: number; answer: string }): Promise<void> => {

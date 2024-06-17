@@ -7,7 +7,11 @@ import { useNotifications } from "@/app/context/NotificationContext";
 import { useSession } from "next-auth/react";
 import { ProfileDropdown } from "./profileDropDown";
 
-export function AdminNavbar() {
+interface Props {
+  toggleShowSideBar: () => void;
+}
+
+const AdminNavbar: React.FC<Props> = ({ toggleShowSideBar }) => {
   const [isClient, setIsClient] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showProfileDrop, setShowProfileDrop] = useState(false);
@@ -23,7 +27,6 @@ export function AdminNavbar() {
 
   useEffect(() => {
     setIsClient(true);
-
     fetchNotifications(); // Fetch notifications when the component mounts
   }, [fetchNotifications]);
 
@@ -31,6 +34,7 @@ export function AdminNavbar() {
     setShowDropdown((prev) => !prev);
     setShowProfileDrop(false);
   };
+
   const toggleProfDropDown = () => {
     setShowProfileDrop((prev) => !prev);
     setShowDropdown(false);
@@ -43,7 +47,7 @@ export function AdminNavbar() {
   return (
     <div className="fixed top-4 left-10 lg:left-72 right-10 lg:mx-auto rounded-xl shadow-lg z-40 p-2 w-[95vw] lg:w-[80vw] h-fit bg-white border-gray-200">
       <div className="min-w-screen flex gap-2 items-center justify-between mx-auto">
-        <div className="flex gap-4 items-center h-fit">
+        <div onClick={toggleShowSideBar} className="flex gap-4 items-center h-fit cursor-pointer">
           <svg
             width="18"
             height="12"
@@ -56,38 +60,6 @@ export function AdminNavbar() {
               fill="black"
             />
           </svg>
-
-          <div className="relative rounded-lg h-fit w-fit bg-[#F2F6FA]">
-            <svg
-              className="absolute left-2 top-2 "
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M11.5 21C16.7467 21 21 16.7467 21 11.5C21 6.25329 16.7467 2 11.5 2C6.25329 2 2 6.25329 2 11.5C2 16.7467 6.25329 21 11.5 21Z"
-                stroke="#171625"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M22 22L20 20"
-                stroke="#171625"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-
-            <input
-              type="text"
-              placeholder="       Search here..."
-              className="bg-[#F2F6FA] p-2 rounded-lg w-72"
-            />
-          </div>
         </div>
 
         <div className="flex gap-4 items-center cursor-pointer ">
@@ -96,14 +68,13 @@ export function AdminNavbar() {
             onClick={toggleDropDown}
           >
             <div className="relative p-2 ">
-              <div className="  hover:text-white rounded-full p-1  hover:opacity-100 transition-opacity duration-300">
+              <div className="hover:text-white rounded-full p-1 hover:opacity-100 transition-opacity duration-300">
                 <Icon
                   icon="iconamoon:notification-bold"
-                  className="text-gray-400  hover:text-[#7B3B99]"
+                  className="text-gray-400 hover:text-[#7B3B99]"
                   width={30}
                   height={30}
                 />
-                {/* <div className="w-8 h-8 rounded-full absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div> */}
                 {lawyerNotifications > 0 ||
                 faqNotifications > 0 ||
                 disputeNotifications > 0 ? (
@@ -161,10 +132,10 @@ export function AdminNavbar() {
               </div>
             )}
           </div>
-          <div className="  hover:text-white rounded-full p-1  hover:opacity-100 transition-opacity duration-300">
-            <p className="text-gray-400  hover:text-[#7B3B99]">$ 455</p>
+          <div className="hover:text-white rounded-full p-1 hover:opacity-100 transition-opacity duration-300">
+            <p className="text-gray-400 hover:text-[#7B3B99]">$ 455</p>
           </div>
-          <div className="flex flex-col gap-1 text-black ">
+          <div className="flex flex-col gap-1 text-black">
             <p>{session?.user?.email}</p>
           </div>
 
@@ -173,6 +144,6 @@ export function AdminNavbar() {
       </div>
     </div>
   );
-}
+};
 
 export default AdminNavbar;

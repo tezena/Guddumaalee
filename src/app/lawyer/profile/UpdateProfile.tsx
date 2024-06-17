@@ -1,13 +1,23 @@
-import React, { useState } from 'react';
-import { Icon } from '@iconify/react';
-import { UploadDropzone } from '@/lib/uploadthing';
-import { useToast } from '@/components/ui/use-toast';
+import React, { useEffect, useState } from "react";
+import { Icon } from "@iconify/react";
+import { UploadDropzone } from "@/lib/uploadthing";
+import { useToast } from "@/components/ui/use-toast";
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+  UseMutationResult,
+} from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
+import { getLawyerById } from "@/app/admin/api/lawyers";
+import { updateLawyer } from "../api/profile";
 
 interface Language {
   name: string;
 }
 
 interface ProfileFormProps {
+  setLanguages: React.Dispatch<React.SetStateAction<{ name: string }[]>>;
   languages: Language[];
   profilePhoto: string;
   bio: string;
@@ -22,6 +32,7 @@ interface ProfileFormProps {
 }
 
 const ProfileForm: React.FC<ProfileFormProps> = ({
+  setLanguages,
   languages,
   profilePhoto,
   bio,
@@ -34,15 +45,44 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
   onUpdatePhoneNumber,
   onUpdateResume,
 }) => {
+  const queryClient = useQueryClient();
+  const { data: session } = useSession();
+
+  // @ts-ignore
+  const lawyer_id = session?.user?.image?.id;
+
+  const {
+    data: profileData,
+    isLoading: profileLoading,
+    error: profileError,
+  } = useQuery({
+    queryKey: ["profile"],
+    queryFn: () => getLawyerById(lawyer_id),
+  });
+
+  const updateMutation: UseMutationResult<void, unknown, object> = useMutation({
+    mutationFn: (data: object) => updateLawyer(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
+      toast({ title: `Profile Updated successfully!` });
+    },
+    onError: (error: any) => {
+      toast({ title: `ERROR! "Failed to update profile."` });
+    },
+  });
+
   const [isEditingBio, setIsEditingBio] = useState(false);
-  const [newBio, setNewBio] = useState(bio);
+  const [newBio, setNewBio] = useState('');
   const [isEditingPhoto, setIsEditingPhoto] = useState(false);
-  const [newLanguage, setNewLanguage] = useState<Language>({ name: '' });
-  const [editingLanguageIndex, setEditingLanguageIndex] = useState<number | null>(null);
-  const [newFullName, setNewFullName] = useState(fullName);
-  const [newPhoneNumber, setNewPhoneNumber] = useState(phoneNumber);
+  const [newLanguage, setNewLanguage] = useState<Language>({ name: "" });
+  const [editingLanguageIndex, setEditingLanguageIndex] = useState<
+    number | null
+  >(null);
+  const [profilePhoto1, setProfilePhoto] = useState<string>();
+  const [newFullName, setNewFullName] = useState('');
+  const [newPhoneNumber, setNewPhoneNumber] = useState('');
   const [isEditingResume, setIsEditingResume] = useState(false);
-  const [newResume, setNewResume] = useState<string>(''); // Stores the resume URL
+  const [newResume, setNewResume] = useState<string>(""); // Stores the resume URL
   const { toast } = useToast();
 
   const handleBioSubmit = () => {
@@ -52,13 +92,31 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
 
   const handleUpdateLanguage = () => {
     if (editingLanguageIndex !== null) {
-      onUpdateLanguage(editingLanguageIndex, { ...newLanguage, name: newLanguage.name.toUpperCase() });
+      onUpdateLanguage(editingLanguageIndex, {
+        ...newLanguage,
+        name: newLanguage.name.toUpperCase(),
+      });
       setEditingLanguageIndex(null);
-      setNewLanguage({ name: '' });
+      setNewLanguage({ name: "" });
     }
   };
 
-  const handleUpdateProfile = () => {
+
+  useEffect(() => {
+    console.log("thi if fuck", profileData?.phone_number);
+    setProfilePhoto(profileData?.photo);
+    setNewPhoneNumber(profileData?.phone_number);
+    setNewFullName(profileData?.full_name);
+    setNewBio(profileData?.description)
+    setNewResume(profileData?.resume)
+    setLanguages(profileData?.languages)
+
+    console.log('this is another fuck',profileData?.language);
+    
+  }, [profileData,languages]);
+
+  const handleUpdateProfile = async () => {
+    console.log('ezih neg3');
     if (isEditingBio) handleBioSubmit();
     if (editingLanguageIndex !== null) handleUpdateLanguage();
     if (isEditingPhoto) setIsEditingPhoto(false);
@@ -68,16 +126,24 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
       onUpdateResume(newResume); // Assuming newResume holds the URL of the uploaded resume
       setIsEditingResume(false);
     }
+    console.log('ezih negn1');
 
+
+// .map((lang) => ({ name: lang.name.toUpperCase() }))
     const updatedProfile = {
-      fullName: newFullName.toUpperCase(),
-      phoneNumber: newPhoneNumber.toUpperCase(),
-      bio: newBio.toUpperCase(),
-      languages: languages.map(lang => ({ name: lang.name.toUpperCase() })),
-      profilePhoto,
+      full_name: newFullName.toUpperCase(),
+      phone_number: newPhoneNumber,
+      description: newBio,
+      language:  languages,
+      photo:profilePhoto1,
+      resume:newResume
     };
 
-    console.log('Updated Profile:', updatedProfile);
+    console.log('ezih negn');
+    
+
+    // console.log("Updated Profile:", updatedProfile);
+    await updateMutation.mutateAsync(updatedProfile);
   };
 
   const startEditingLanguage = (index: number) => {
@@ -93,7 +159,11 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
 
       <div className="mb-4 text-center">
         <div className="relative inline-block">
-          <img src={profilePhoto} alt="Profile" className="w-24 h-24 rounded-full mx-auto" />
+          <img
+            src={profilePhoto1}
+            alt="Profile"
+            className="w-24 h-24 rounded-full mx-auto"
+          />
           <div
             className="absolute bottom-0 bg-white right-0 w-8 h-8 rounded-full outline outline-green-500 flex justify-center items-center cursor-pointer"
             onClick={() => setIsEditingPhoto(true)}
@@ -113,7 +183,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
               onUploadError={(error: Error) => {
                 toast({ title: `ERROR! ${error.message}` });
               }}
-            />                                      
+            />
           </div>
         )}
       </div>
@@ -128,7 +198,9 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
           />
         </div>
         <div className="w-1/2 pl-2">
-          <label className="block text-gray-700 font-semibold">Phone Number</label>
+          <label className="block text-gray-700 font-semibold">
+            Phone Number
+          </label>
           <input
             type="text"
             value={newPhoneNumber}
@@ -140,14 +212,19 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
       <div className="mb-4">
         <label className="block text-gray-700 font-semibold">Languages</label>
         <ul>
-          {languages.map((language, index) => (
+          {languages?.map((language:any, index:any) => (
             <li key={index} className="flex justify-between items-center mb-2">
-              <span>{language.name.toUpperCase()}</span>
+              <span>{language}</span>
               <div
                 className="bottom-0 bg-white right-0 w-8 h-8 flex justify-center items-center cursor-pointer"
                 onClick={() => startEditingLanguage(index)}
               >
-                <Icon icon="ri:edit-2-fill" color="#7B3B99" width={25} height={25} />
+                <Icon
+                  icon="ri:edit-2-fill"
+                  color="#7B3B99"
+                  width={25}
+                  height={25}
+                />
               </div>
             </li>
           ))}
@@ -157,7 +234,12 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
             <input
               type="text"
               value={newLanguage.name}
-              onChange={(e) => setNewLanguage({ ...newLanguage, name: e.target.value.toUpperCase() })}
+              onChange={(e) =>
+                setNewLanguage({
+                  ...newLanguage,
+                  name: e.target.value.toUpperCase(),
+                })
+              }
               placeholder="Language"
               className="border p-2 w-full mb-2"
             />
@@ -168,12 +250,17 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
       <div className="mb-4">
         <label className="block text-gray-700 font-semibold">Resume</label>
         <div className="flex justify-between items-center">
-          <p>{newResume ? 'Resume Uploaded' : 'No Resume Uploaded'}</p>
+          <p>{newResume ? "Resume Uploaded" : "No Resume Uploaded"}</p>
           <div
             className="bottom-0 bg-white right-0 w-8 h-8 flex justify-center items-center cursor-pointer"
             onClick={() => setIsEditingResume(true)}
           >
-            <Icon icon="ri:edit-2-fill" color="#7B3B99" width={25} height={25} />
+            <Icon
+              icon="ri:edit-2-fill"
+              color="#7B3B99"
+              width={25}
+              height={25}
+            />
           </div>
         </div>
         {isEditingResume && (
@@ -188,7 +275,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
               onUploadError={(error: Error) => {
                 toast({ title: `ERROR! ${error.message}` });
               }}
-            />                                      
+            />
           </div>
         )}
       </div>
@@ -203,12 +290,17 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
           />
         ) : (
           <div className="flex justify-between items-center">
-            <p>{bio}</p>
+            <p>{newBio}</p>
             <div
               className="bottom-0 bg-white right-0 w-8 h-8 flex justify-center items-center cursor-pointer"
               onClick={() => setIsEditingBio(true)}
             >
-              <Icon icon="ri:edit-2-fill" color="#7B3B99" width={25} height={25} />
+              <Icon
+                icon="ri:edit-2-fill"
+                color="#7B3B99"
+                width={25}
+                height={25}
+              />
             </div>
           </div>
         )}

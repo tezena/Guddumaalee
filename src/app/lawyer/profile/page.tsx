@@ -58,6 +58,7 @@ const Home: React.FC = () => {
         initialData={{ language: languages, resume }}
       />
       <ProfileForm
+      setLanguages={setLanguages}
         languages={languages}
         profilePhoto={profilePhoto}
         bio={bio}

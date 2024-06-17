@@ -29,6 +29,16 @@ export class Client extends Account {
     });
     return newUser;
   }
+  static async getById() {
+    const clientSession = await isClient();
+    const client = await db.client.findUnique({
+      where: {
+        //@ts-ignore
+        id: clientSession.user.image.id,
+      },
+    });
+    return client;
+  }
 
   static async getAll() {
     await isAdmin();

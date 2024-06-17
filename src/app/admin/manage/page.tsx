@@ -12,7 +12,7 @@ export function Manage() {
   const { data, error, isLoading } = useQuery({
     queryKey: ['lawyers'],
     queryFn: getNewLawyers,
-    refetchInterval: 6000, // Refetch every 2 minutes
+    refetchInterval: 3000, // Refetch every 2 minutes
   });
 
   const { setLawyerNotifications } = useNotifications();
@@ -47,6 +47,8 @@ export function Manage() {
                 className="w-20 h-20 rounded-full"
                 src={lawyer?.photo}
                 alt="lawyer"
+                width={200}
+                height={200}
               />
               <h1>{lawyer.email}</h1>
             </div>

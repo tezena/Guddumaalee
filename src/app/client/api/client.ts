@@ -3,13 +3,13 @@ import axios from "axios";
 export async function getClientById(id: number) {
     try {
       const response = await axios.get(
-        ``
+        `/api/clients/${id}`
       );
       if (response.status !== 200) {
         throw new Error(`Error: ${response.statusText}`);
       }
       const data = response;
-      console.log(data);
+      console.log('this is from clieant id',data.data.client);
   
       return data.data.client;
     } catch (err) {
@@ -21,9 +21,9 @@ export async function getClientById(id: number) {
     [key: string]: any;
   }
   
-  export async function updateClient(data: ClientData, id: number) {
+  export async function updateClient(data: ClientData) {
     try {
-      const response = await axios.put(`/api/client/${id}`, data);
+      const response = await axios.put(`/api/clients`, data);
   
       if (response.status !== 200) {
         throw new Error(`Error: ${response.statusText}`);

@@ -1,12 +1,23 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import React from "react";
 
-const AdminSidebar = () => {
+interface props {
+  isVisible:Boolean
+}
+const AdminSidebar :React.FC<props> =({isVisible}) => {
   const path = usePathname();
+  console.log(isVisible);
+  
   return (
     <>
-      <div className="fixed top-0 left-0 z-40 w-56 p-2 h-[94vh] shadow-lg mt-4 ml-4 rounded-2xl transition-transform -translate-x-full  lg:translate-x-0  bg-white border-r border-gray-200">
+      {/* <div className="fixed top-0 left-0 z-40 w-56 p-2 h-[94vh] shadow-lg mt-4 ml-4 rounded-2xl transition-transform -translate-x-full  lg:translate-x-0  bg-white border-r border-gray-200"> */}
+      <div
+        className={`fixed top-20 lg:top-0 left-0 z-40 w-56 p-2 h-[94vh] shadow-lg mt-4 ml-4 rounded-2xl transition-transform transform ${
+          isVisible ? "translate-x-0" : "-translate-x-full"
+        } lg:translate-x-0 bg-white border-r border-gray-200`}
+      >
         <div className="h-full px-3 pb-4 overflow-y-auto bg-white ">
           <h1 className="font-bold text-3xl mt-3 self-center text-[#7B3B99]">
             Gudum<span className="text-black">maale</span>
