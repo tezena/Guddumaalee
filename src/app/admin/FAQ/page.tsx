@@ -11,7 +11,7 @@ import {
 } from "@tanstack/react-query";
 import { answerFaq, getFaqs } from "../api/faq";
 
-
+import { LoadingComponent, ErrorComponent } from '@/components/LoadingErrorComponents';
 
 export function FAQ() {
   const queryClient = useQueryClient()
@@ -56,6 +56,12 @@ export function FAQ() {
       }
     }
   };
+
+  if (isLoading) return <LoadingComponent />;
+  if (error)
+    return (
+      <ErrorComponent errorMessage="Failed to load data. Please try again." />
+    );
 
   return (
     <div className="w-full font-sans min-h-screen pt-28 pl-10 lg:pl-72 bg-[#f2f6fa] text-black overflow-auto flex flex-col gap-4">

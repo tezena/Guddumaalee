@@ -17,8 +17,10 @@ import {
   UseMutationResult,
   useQueryClient,
 } from "@tanstack/react-query";
-
-// Mock data for disputes
+import {
+  LoadingComponent,
+  ErrorComponent,
+} from "@/components/LoadingErrorComponents";
 
 type DisputeData = {
   creator_email: string | null | undefined;
@@ -92,20 +94,10 @@ const Disputes = () => {
     console.log("from cleint dispute", session);
   }, [session]);
 
-  if (isLoading)
-    return (
-      <div className="w-full font-sans min-h-screen pt-24 pl-10 lg:pl-72 bg-[#f2f6fa]">
-        <div className="w-full h-full pt-28 flex gap-5 items-center justify-center m-auto">
-          <Icon icon="eos-icons:loading" width="80" height="80" color="green" />
-          {/* <p className="text-2xl text-green-500">...Loading</p> */}
-        </div>
-      </div>
-    );
+  if (isLoading) return <LoadingComponent />;
   if (error)
     return (
-      <div className="w-full font-sans min-h-screen pt-24 pl-10 lg:pl-72 bg-[#f2f6fa]">
-        Error loading data
-      </div>
+      <ErrorComponent errorMessage="Failed to load data. Please try again." />
     );
 
   return (

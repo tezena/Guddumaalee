@@ -11,6 +11,10 @@ import {
 } from "@tanstack/react-query";
 import { getTrialsForCase, addTrial } from "../../api/trial";
 import { deliver, getCaesesById } from "../../api/offer";
+import {
+  LoadingComponent,
+  ErrorComponent,
+} from "@/components/LoadingErrorComponents";
 
 function CaseDetail() {
   const queryClient = useQueryClient();
@@ -93,7 +97,11 @@ function CaseDetail() {
     await deliverMutation.mutateAsync(id);
   };
 
-
+  if (caseLoading && trialLoading) return <LoadingComponent />;
+  if (trialError && caseError)
+    return (
+      <ErrorComponent errorMessage="Failed to load data. Please try again." />
+    );
 
   return (
     <>

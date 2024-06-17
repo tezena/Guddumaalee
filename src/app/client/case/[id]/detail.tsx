@@ -10,6 +10,10 @@ import {
 } from "@tanstack/react-query";
 import { accept, getCaesesById } from "@/app/lawyer/api/offer";
 import RatingPopup from "@/components/ratingpop";
+import {
+  LoadingComponent,
+  ErrorComponent,
+} from "@/components/LoadingErrorComponents";
 
 const CaseDetail: React.FC = () => {
   const queryClient = useQueryClient();
@@ -44,6 +48,12 @@ const CaseDetail: React.FC = () => {
   const handleClosePopup = () => {
     setShowPopup(false);
   };
+
+  if (isLoading) return <LoadingComponent />;
+  if (error)
+    return (
+      <ErrorComponent errorMessage="Failed to load data. Please try again." />
+    );
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">

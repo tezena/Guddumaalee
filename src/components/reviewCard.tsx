@@ -33,38 +33,4 @@ const ReviewSectionCard: React.FC<ReviewSectionCardProps> = ({ clientName, ratin
 
 export default ReviewSectionCard;
 
-
-
-
-
-
-
-
-
-// import ReactStars from 'react-rating-stars-component';
-
-// interface ReviewSectionCardProps {
-//     clientName: string;
-//     rating: number;
-//     comment: string;
-//   }
-  
-//   const ReviewSectionCard: React.FC<ReviewSectionCardProps> = ({ clientName, rating, comment }) => {
-//     return (
-      
-//     <>
-       
-//         <div className="bg-white rounded-lg shadow-md p-4 mb-4">
-//           <p className="font-semibold text-black">{clientName}</p>
-//           <ReactStars count={5} value={rating} edit={false} size={18} activeColor="#ffd700" />
-//           <p className="mt-2 text-black">{comment}</p>
-//         </div>
-//         </>
-//     );
-//   };
-  
-
-
-// export default ReviewSectionCard;
-
   

@@ -12,6 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 import RatingPopup from "@/components/ratingpop";
 import { useSession } from "next-auth/react";
 import { getAverageRating, getRatings } from "../../api/rating";
+import { LoadingComponent, ErrorComponent } from '@/components/LoadingErrorComponents';
 
 // lawyer: LawyerProps;
 
@@ -39,8 +40,8 @@ const LawyerDetail: React.FC<{ lawyers: LawyerProps[] }> = ({ lawyers }) => {
 
   const {
     data: averageRate,
-    isLoading: averageRateing,
-    error: averageRater,
+    isLoading: averageLoading,
+    error: averageError,
   } = useQuery({
     queryKey: ["average"],
     queryFn: () => getAverageRating(lawyer_id),
@@ -76,6 +77,12 @@ const LawyerDetail: React.FC<{ lawyers: LawyerProps[] }> = ({ lawyers }) => {
     }
     return stars;
   };
+
+  if (averageLoading && lawyerLoading && ratingsLoading) return <LoadingComponent />;
+  if (averageError && lawyerError && ratingsError)
+    return (
+      <ErrorComponent errorMessage="Failed to load data. Please try again." />
+    );
 
   return (
     <motion.div

@@ -5,6 +5,10 @@ import LineChart from "@/components/admincomponentd/LineChart";
 import DoughnutChart from "@/components/admincomponentd/DoughnutChart";
 import TrialNotify from "@/components/TrialNotify";
 import {
+  LoadingComponent,
+  ErrorComponent,
+} from "@/components/LoadingErrorComponents";
+import {
   QueryClient,
   useMutation,
   useQuery,
@@ -24,7 +28,7 @@ export function Lawyer() {
   } = useQuery({
     queryKey: ["trials"],
     queryFn: getTrials,
-    refetchInterval: 120000, // Refetch every 2 minutes
+    refetchInterval: 6000, // Refetch every 2 minutes
   });
 
   // Fetch statistics data
@@ -37,6 +41,12 @@ export function Lawyer() {
   //   queryFn: getStatistics,
   //   refetchInterval: 120000, // Refetch every 2 minutes
   // });
+
+  if (isLoadingTrials) return <LoadingComponent />;
+  if (trialsError)
+    return (
+      <ErrorComponent errorMessage="Failed to load data. Please try again." />
+    );
 
   return (
     <div className="w-full font-sans min-h-screen  px-10 lg:pl-64 bg-[#f2f6fa]">

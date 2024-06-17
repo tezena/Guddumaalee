@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { LawyerProps } from '@/components/lawyersCard';
+import Image from 'next/image';
 
 
 interface SlideshowProps {
@@ -34,7 +35,7 @@ const Slideshow: React.FC<SlideshowProps> = ({ lawyers }) => {
   return (
     <div className="slideshow-container">
       <div className="slideshow-item">
-        <img
+        <Image
           src={lawyers[currentLawyerIndex].imageUrl}
           alt={lawyers[currentLawyerIndex].name}
           className="slideshow-image"

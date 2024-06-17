@@ -11,6 +11,7 @@ import {
 } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { getLawyerCaeses } from "../api/offer";
+import { LoadingComponent, ErrorComponent } from '@/components/LoadingErrorComponents';
 
 function Inprogress() {
   
@@ -27,6 +28,11 @@ function Inprogress() {
     (clientcase: any) => clientcase.status !== "DELIVERED"
   );
  
+  if (isLoading) return <LoadingComponent />;
+  if (error)
+    return (
+      <ErrorComponent errorMessage="Failed to load data. Please try again." />
+    );
 
   return (
     <div className="w-full font-sans min-h-screen pt-8 pl-10 lg:pl-60 bg-gray-100 flex flex-col gap-6">
