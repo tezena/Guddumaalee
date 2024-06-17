@@ -3,7 +3,7 @@ import axios from 'axios';
 export async function withdraw(amount: number) {
   try {
   const response = await axios.post(
-  "http://localhost:3000/api/transaction/withdraw",
+  "/api/transaction/withdraw",
   JSON.stringify({ amount: amount }),
   );
   if (response.status < 200 || response.status >= 300) {
@@ -19,7 +19,7 @@ export async function withdraw(amount: number) {
 
 export async function getwithdraw() {
     try {
-      const response = await axios.get("http://localhost:3000/api/transaction/withdraw/admin");
+      const response = await axios.get("/api/transaction/withdraw/admin");
       if (response.status !== 200) {
         throw new Error(`Error: ${response.statusText}`);
       }

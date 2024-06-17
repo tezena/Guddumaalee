@@ -1,31 +1,27 @@
 "use client";
 import { useState } from "react";
-import { useMutation, useQuery, useQueryClient, UseMutationResult } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+  UseMutationResult,
+} from "@tanstack/react-query";
 import { getwithdraw } from "@/app/lawyer/api/withdraw";
 import { pay } from "../api/withdraw";
-
-interface WithdrawRequest {
-  id: number;
-  lawyer_id: number;
-  amount: number;
-  status: string;
-  created_at: string;
-  lawyer: {
-    name: string;
-  };
-}
+import {
+  LoadingComponent,
+  ErrorComponent,
+} from "@/components/LoadingErrorComponents";
 
 const WithdrawRequestsPage = () => {
   const queryClient = useQueryClient();
-
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["withdraw"],
     queryFn: () => getwithdraw(),
   });
 
-
- const PayMutation: UseMutationResult<void, unknown, number> = useMutation({
+  const PayMutation: UseMutationResult<void, unknown, number> = useMutation({
     mutationFn: (id: number) => pay(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["disputes"] });
@@ -36,33 +32,11 @@ const WithdrawRequestsPage = () => {
     await PayMutation.mutateAsync(id);
   };
 
-  const [withdrawRequests] = useState<WithdrawRequest[]>([
-    {
-      id: 1,
-      lawyer_id: 1,
-      amount: 500.0,
-      status: "PENDING",
-      created_at: new Date().toISOString(),
-      lawyer: { name: "John Doe" },
-    },
-    {
-      id: 2,
-      lawyer_id: 2,
-      amount: 750.0,
-      status: "APPROVED",
-      created_at: new Date().toISOString(),
-      lawyer: { name: "Alice Johnson" },
-    },
-    {
-      id: 3,
-      lawyer_id: 3,
-      amount: 300.0,
-      status: "REJECTED",
-      created_at: new Date().toISOString(),
-      lawyer: { name: "Michael White" },
-    },
-  ]);
-
+  if (isLoading) return <LoadingComponent />;
+  if (error)
+    return (
+      <ErrorComponent errorMessage="Failed to load data. Please try again." />
+    );
   return (
     <div className="w-full font-sans min-h-screen pt-28 pl-10 lg:pl-72 bg-[#f2f6fa] text-black overflow-auto">
       <h1 className="text-2xl font-bold mb-4">Withdraw Request History</h1>
@@ -79,7 +53,7 @@ const WithdrawRequestsPage = () => {
             </tr>
           </thead>
           <tbody>
-            {withdrawRequests.map((request, index) => (
+            {data?.map((request: any, index: any) => (
               <tr
                 key={request.id}
                 className={`border-t ${
@@ -99,7 +73,7 @@ const WithdrawRequestsPage = () => {
                   <div className="flex gap-4 items-center justify-center ">
                     <button
                       className="rounded py-2 px-6 text-lg font-semibold outline-double outline-[#7B3B99]"
-                      onClick={()=>handlePay(1)}
+                      onClick={() => handlePay(1)}
                     >
                       Pay
                     </button>

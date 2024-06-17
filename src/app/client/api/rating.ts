@@ -1,11 +1,8 @@
 import axios from "axios";
 
-export async function addTrial(data: object) {
+export async function rate(data: object) {
   try {
-    const response = await axios.post(
-      "/api/trial",
-      data
-    );
+    const response = await axios.post("/api/rating", data);
     if (response.status < 200 || response.status >= 300) {
       throw new Error(`Error: ${response.statusText}`);
     }
@@ -17,36 +14,38 @@ export async function addTrial(data: object) {
   }
 }
 
-export async function getTrials() {
+export async function getRatings(id: number) {
     try {
-      const response = await axios.get("/api/trial/lawyer/upcoming");
+      const response = await axios.get(
+        `/api/rating/lawyer/${id}`
+      );
       if (response.status !== 200) {
         throw new Error(`Error: ${response.statusText}`);
       }
       const data = response;
-      console.log(data);
+      console.log('this is from lawyer rating',data);
   
-      return data.data.upcomingTrials;
+      return data.data.ratings;
     } catch (err) {
       console.error(err);
       throw err; // Ensure errors are propagated correctly
     }
   }
 
-  export async function getTrialsForCase(id:number) {
+  export async function getAverageRating(id: number) {
     try {
-      const response = await axios.get(`/api/trial/case/${id}`);
+      const response = await axios.get(
+        `/api/rating/lawyer/${id}/average`
+      );
       if (response.status !== 200) {
         throw new Error(`Error: ${response.statusText}`);
       }
       const data = response;
-      console.log(data);
+      console.log('this is from lawyer average rating',data);
   
-      return data.data.trials;
+      return data.data.rating;
     } catch (err) {
       console.error(err);
       throw err; // Ensure errors are propagated correctly
     }
   }
-  
-  

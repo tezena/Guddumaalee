@@ -1,5 +1,8 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import React, { useState } from "react";
+import { useMutation, useQuery, useQueryClient, UseMutationResult } from "@tanstack/react-query";
+import { getClientById, updateClient } from "../api/client";
+import { useSession } from "next-auth/react";
 
 interface ClientProfileFormProps {
   profilePhoto: string;
@@ -28,6 +31,25 @@ const ClientProfileForm: React.FC<ClientProfileFormProps> = ({
   onUpdateFirstName,
   onUpdateLastName,
 }) => {
+  const queryClient = useQueryClient();
+  const {data:session}= useSession()
+
+// @ts-ignore
+  const client_id = session?.user?.image?.id
+
+const {data,isLoading,error} = useQuery({
+queryKey:['client'],
+queryFn:()=>getClientById(client_id)
+})
+
+const updateMutation: UseMutationResult<void, unknown, object> = useMutation({
+  mutationFn: (data:object) => updateClient(data,client_id),
+  onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ["disputes"] });
+  },
+});
+
+
   const [newPhoto, setNewPhoto] = useState(profilePhoto);
   const [newEmail, setNewEmail] = useState(email);
   const [newPhoneNumber, setNewPhoneNumber] = useState(phoneNumber);
@@ -39,26 +61,34 @@ const ClientProfileForm: React.FC<ClientProfileFormProps> = ({
   const [isEditingFirstName, setIsEditingFirstName] = useState(false);
   const [isEditingLastName, setIsEditingLastName] = useState(false);
 
-  const handlePhotoSubmit = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const fileSizeMB = file.size / (1024 * 1024);
-      if (fileSizeMB > MAX_PHOTO_SIZE_MB) {
-        alert(
-          `The file size exceeds ${MAX_PHOTO_SIZE_MB}MB. Please upload a smaller photo.`
-        );
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        if (reader.result) {
-          onUpdatePhoto(reader.result as string);
-          setNewPhoto(reader.result as string);
-        }
-      };
-      reader.readAsDataURL(file);
+  const handlePhotoSubmit =async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const data ={ 
+      photo:newPhoto,
+      phone_number:newPhoneNumber,
+      full_name:newFirstName +" "+ newLastName
     }
+
+     await updateMutation.mutateAsync(data)
+
+    // const file = event.target.files?.[0];
+    // if (file) {
+    //   const fileSizeMB = file.size / (1024 * 1024);
+    //   if (fileSizeMB > MAX_PHOTO_SIZE_MB) {
+    //     alert(
+    //       `The file size exceeds ${MAX_PHOTO_SIZE_MB}MB. Please upload a smaller photo.`
+    //     );
+    //     return;
+    //   }
+
+    //   const reader = new FileReader();
+    //   reader.onloadend = () => {
+    //     if (reader.result) {
+    //       onUpdatePhoto(reader.result as string);
+    //       setNewPhoto(reader.result as string);
+    //     }
+    //   };
+    //   reader.readAsDataURL(file);
+    // }
   };
 
   const handleEmailSubmit = () => {

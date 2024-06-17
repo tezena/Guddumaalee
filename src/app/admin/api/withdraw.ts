@@ -3,7 +3,7 @@ import axios from "axios";
 export async function getWithdraw() {
   try {
     const response = await axios.get(
-      "http://localhost:3000/api/transaction/withdraw/admin"
+      "/api/transaction/withdraw/admin"
     );
     if (response.status !== 200) {
       throw new Error(`Error: ${response.statusText}`);
@@ -27,7 +27,7 @@ export async function pay(withdrawRequestId: number) {
 
   try {
     const response = await axios.post(
-      "http://localhost:3000/api/transaction/withdraw/admin/pay",
+      "/api/transaction/withdraw/admin/pay",
       JSON.stringify(payload),
       {
         headers: {
