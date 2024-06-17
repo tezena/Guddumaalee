@@ -4,6 +4,15 @@ import { UploadDropzone } from "@/lib/uploadthing"
 import Image from "next/image";
 import { useToast } from "@/components/ui/use-toast";
 import { useMutation, useQuery, useQueryClient, UseMutationResult } from "@tanstack/react-query";
+import { UploadDropzone } from "@/lib/uploadthing";
+import Image from "next/image";
+import { useToast } from "@/components/ui/use-toast";
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+  UseMutationResult,
+} from "@tanstack/react-query";
 import { getClientById, updateClient } from "../api/client";
 import { useSession } from "next-auth/react";
 
@@ -24,23 +33,24 @@ const ClientProfileForm: React.FC<ClientProfileFormProps> = ({
   onUpdatePhoneNumber,
   onUpdateFullName,
 }) => {
+  
   const queryClient = useQueryClient();
-  const {data:session}= useSession()
+  const { data: session } = useSession();
 
-// @ts-ignore
-  const client_id = session?.user?.image?.id
+  // @ts-ignore
+  const client_id = session?.user?.image?.id;
 
-const {data,isLoading,error} = useQuery({
-queryKey:['client'],
-queryFn:()=>getClientById(client_id)
-})
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["client"],
+    queryFn: () => getClientById(client_id),
+  });
 
-const updateMutation: UseMutationResult<void, unknown, object> = useMutation({
-  mutationFn: (data:object) => updateClient(data,client_id),
-  onSuccess: () => {
-    queryClient.invalidateQueries({ queryKey: ["disputes"] });
-  },
-});
+  const updateMutation: UseMutationResult<void, unknown, object> = useMutation({
+    mutationFn: (data: object) => updateClient(data, client_id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["disputes"] });
+    },
+  });
 
 const [newPhoto, setNewPhoto] = useState('https://utfs.io/f/2af8c841-20cc-4696-aae6-33cfb4271fa2-1t0lc7.jpg');
   const [newFullName, setNewFullName] = useState(fullName);
@@ -51,21 +61,19 @@ const [newPhoto, setNewPhoto] = useState('https://utfs.io/f/2af8c841-20cc-4696-a
   const [isEditingFullName, setIsEditingFullName] = useState(false);
   const { toast } = useToast();
   const [isEditingFirstName, setIsEditingFirstName] = useState(false);
-  const [isEditingLastName, setIsEditingLastName] = useState(false);
+  const [isEditingLastName, setIsEditingLastName] = useState(false);  
 
-  const handlePhotoSubmit =async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const data ={ 
-      photo:newPhoto,
-      phone_number:newPhoneNumber,
-      full_name:newFullName
-    }
+  const handlePhotoSubmit = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const data = {
+      photo: newPhoto,
+      phone_number: newPhoneNumber,
+      full_name: newFullName,
+    };
 
-     await updateMutation.mutateAsync(data)
-
-    
+    await updateMutation.mutateAsync(data);
   };
-
-  
 
   const handlePhoneNumberSubmit = () => {
     onUpdatePhoneNumber(newPhoneNumber);
@@ -107,8 +115,8 @@ const [newPhoto, setNewPhoto] = useState('https://utfs.io/f/2af8c841-20cc-4696-a
               />
               <button
                 onClick={() => {
-                  onUpdatePhoto('');
-                  setNewPhoto('');
+                  onUpdatePhoto("");
+                  setNewPhoto("");
                 }}
                 className="w-[200px] bg-[#7B3B99] hover:bg-purple-700 text-white font-bold py-2 px-4 rounded mt-2"
               >
@@ -143,7 +151,12 @@ const [newPhoto, setNewPhoto] = useState('https://utfs.io/f/2af8c841-20cc-4696-a
               className="bg-white w-8 h-8 rounded-full outline outline-green-500 flex justify-center items-center cursor-pointer"
               onClick={() => setIsEditingFullName(true)}
             >
-              <Icon icon="ic:outline-edit" color="green" width={20} height={20} />
+              <Icon
+                icon="ic:outline-edit"
+                color="green"
+                width={20}
+                height={20}
+              />
             </div>
           </div>
         )}
@@ -173,7 +186,12 @@ const [newPhoto, setNewPhoto] = useState('https://utfs.io/f/2af8c841-20cc-4696-a
               className="bg-white w-8 h-8 rounded-full outline outline-green-500 flex justify-center items-center cursor-pointer"
               onClick={() => setIsEditingPhoneNumber(true)}
             >
-              <Icon icon="ic:outline-edit" color="green" width={20} height={20} />
+              <Icon
+                icon="ic:outline-edit"
+                color="green"
+                width={20}
+                height={20}
+              />
             </div>
           </div>
         )}
