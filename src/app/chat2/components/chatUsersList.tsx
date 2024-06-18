@@ -19,6 +19,7 @@ export default function ChatUserList({ data }: iAppProps) {
   const [totalComments, setTotalComments] = useState(data);
   const messageEndRef = useRef<HTMLInputElement>(null);
   const { data: session } = useSession();
+  console.log(totalComments);
 
   const userId = session?.user?.id;
   const userEmail = session?.user?.email;
