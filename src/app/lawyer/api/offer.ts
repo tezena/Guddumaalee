@@ -31,7 +31,24 @@ export async function deliver(id: number) {
 }
 
 
-export async function accept(id: number) {
+export async function acceptDelivery(id: number) {
+  try {
+    const response = await axios.post(
+      `/api/case/${id}/accept-delivery`
+    );
+    if (response.status < 200 || response.status >= 300) {
+      throw new Error(`Error: ${response.statusText}`);
+    }
+    console.log(response);
+    return response.data; // Return response data if needed
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+}
+
+
+export async function acceptOffer(id: number) {
   try {
     const response = await axios.post(
       `/api/case/${id}/accept`
@@ -46,6 +63,24 @@ export async function accept(id: number) {
     throw err;
   }
 }
+
+export async function rejectOffer(id: number) {
+  try {
+    const response = await axios.post(
+      `/api/case/${id}/reject`
+    );
+    if (response.status < 200 || response.status >= 300) {
+      throw new Error(`Error: ${response.statusText}`);
+    }
+    console.log(response);
+    return response.data; // Return response data if needed
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+}
+
+
 
 export async function getLawyerCaeses(id: number) {
   try {

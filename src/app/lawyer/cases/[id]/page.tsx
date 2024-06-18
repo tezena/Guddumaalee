@@ -124,7 +124,7 @@ function CaseDetail() {
                 </button>
                 <button
                   className="px-6 py-2 rounded-md text-lg font-semibold text-white bg-[#7e31a2] "
-                  onClick={() => router.push(`${path}/dispute`)}
+                  onClick={() => router.push(`${path}/dispute?client_id=${caseData?.client_id}`)}
                 >
                   DISPUTE
                 </button>

@@ -13,23 +13,32 @@ import { useSession } from "next-auth/react";
 interface OfferModalProps {
   isOpen: boolean;
   onClose: () => void;
-  setOffer: ()=> void;
-  client_id:number;
+  setOffer: () => void;
+  client_id: number;
 }
-const OfferModal: React.FC<OfferModalProps> = ({ isOpen, onClose ,setOffer,client_id}) => {
+const OfferModal: React.FC<OfferModalProps> = ({
+  isOpen,
+  onClose,
+  setOffer,
+  client_id,
+}) => {
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
   const [caseName, setCaseName] = useState("");
-  const {data:session}=useSession()
-  
+  const { data: session } = useSession();
+
   //@ts-ignore
-  const lawyer_id=session?.user?.image?.id
+  const lawyer_id = session?.user?.image?.id;
 
   const [inputData, setInputData] = useState({
     description: "",
     price: 0,
     title: "",
   });
+  const { data: sesstion } = useSession();
+
+  //@ts-ignore
+  const lawyer_id = sesstion?.user?.image?.id;
 
   const handleChange = (e: any) => {
     setInputData({ ...inputData, [e.target.name]: e.target.value });
@@ -37,11 +46,13 @@ const OfferModal: React.FC<OfferModalProps> = ({ isOpen, onClose ,setOffer,clien
   const handleSubmit = () => {
     console.log({ caseName, description, amount });
     const data = {
-      ...inputData,price: Number(inputData.price),
-      lawyer_id: 1,
+      ...inputData,
+      price: Number(inputData.price),
+      lawyer_id: lawyer_id,
+
       client_id: client_id,
     };
-    mutateAsync( data);
+    mutateAsync(data);
   };
 
   const { mutateAsync }: UseMutationResult<void, unknown, Object> = useMutation(

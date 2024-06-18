@@ -153,27 +153,25 @@ const LawyerDetail: React.FC<{ lawyers: LawyerProps[] }> = ({ lawyers }) => {
                 >
                   Chat with Lawyer
                 </Link>
-                <button
-                  onClick={handleOpenPopup}
-                  className="bg-[#7B3B99] text-white font-bold py-2 px-4 rounded hover:bg-purple-700 inline-block"
-                >
-                  Review & Rate
-                </button>
+                
               </div>
             </div>
 
-            <div className="max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden grid grid-cols-1 gap-4">
+            <div className="max-w-2xl  bg-white shadow-lg rounded-lg overflow-hidden flex flex-col gap-4">
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6, duration: 0.6 }}
-                className="relative"
+                className="relative h-[300px]"
+
+                
               >
                 <motion.img
                   src={lawyerData?.photo}
                   alt={lawyerData?.full_name}
-                  className="w-full object-cover rounded-t-lg"
+                  className="w-full h-full object-contain rounded-t-lg "
                   whileHover={{ scale: 1.1 }}
+                 
                 />
                 <div className="absolute bottom-0 left-0 p-6 bg-gray-800 bg-opacity-75 rounded-br-lg">
                   <h2 className="text-3xl font-semibold text-white">

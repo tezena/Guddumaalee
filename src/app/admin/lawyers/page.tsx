@@ -90,28 +90,6 @@ function Lawyers() {
         <div className="w-full p-4">
           <h1 className="font-bold text-3xl  text-black">Lawyers</h1>
         </div>
-        <div className="w-full flex gap-20">
-          <div className="w-3/4 lg:w-1/4 h-20 flex gap-3 shadow-md rounded-lg p-4 bg-white text-black items-center justify-center">
-            <Icon
-              icon="icon-park-solid:peoples"
-              width={30}
-              height={30}
-              color="#634670"
-            />
-            <p>320</p>
-            <p>Active Lawyers</p>
-          </div>
-          <div className="w-3/4 lg:w-1/4 h-20 flex gap-3 shadow-md rounded-lg p-4 bg-white text-black items-center justify-center">
-            <Icon
-              icon="icon-park-solid:peoples"
-              width={30}
-              height={30}
-              color="#BE73E0"
-            />
-            <p>320</p>
-            <p>Inactive Lawyers</p>
-          </div>
-        </div>
 
         <div className="rounded-2xl overflow-auto py-10 pr-10">
           <table className="w-full text-left rounded-xl">
@@ -121,7 +99,7 @@ function Lawyers() {
                 <th className="py-3 px-6 ">PHONE</th>
                 <th className="py-3 px-6">EMAIL</th>
                 <th className="py-3 px-6">STATUS</th>
-                <th className="py-3 px-6 ">ACTION</th>
+                {/* <th className="py-3 px-6 ">ACTION</th> */}
               </tr>
             </thead>
             <tbody>
@@ -147,11 +125,11 @@ function Lawyers() {
                           : "w-[100px] px-4 py-2 bg-[#7B3B99] text-white rounded-full "
                       }
                     >
-                      Active
+                      {lawyer.isVerified}
                     </button>
                   </td>
 
-                  <td className="py-3 px-6 text-black flex gap-4 items-center ">
+                  {/* <td className="py-3 px-6 text-black flex gap-4 items-center ">
                     <div>
                       <Icon
                         icon="material-symbols-light:delete-outline"
@@ -168,7 +146,7 @@ function Lawyers() {
                         height={25}
                       />
                     </div>
-                  </td>
+                  </td> */}
                 </tr>
               ))}
             </tbody>

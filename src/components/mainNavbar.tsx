@@ -18,6 +18,7 @@ import { useNotifications } from "@/app/context/NotificationContext";
 import Notification from "./header/Notification";
 import { useQuery } from "@tanstack/react-query";
 import { getLawyerById } from "@/app/admin/api/lawyers";
+import AcceptOffer from "@/app/lawyer/offer/acceptOffer";
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
@@ -167,6 +168,7 @@ const Navbar = () => {
           Profile
         </li>
       </ul>
+      
     </div>
   );
 };
