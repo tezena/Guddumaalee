@@ -107,7 +107,7 @@ function Dispute() {
   return (
     <div className="w-full font-sans min-h-screen pt-28 pl-10 lg:pl-72 bg-[#f2f6fa] text-black overflow-auto">
       <div className="rounded-2xl overflow-auto py-10 pr-10">
-        <table className="w-full text-left rounded-xl">
+        <table className="w-3/4 lg:w-full text-left rounded-xl">
           <thead>
             <tr className="bg-white text-gray-600 rounded-xl">
               <th className="py-3 px-6 text-center">Lawyer ID</th>

@@ -153,8 +153,8 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
 
       <div className="mb-4 text-center">
         <div className="relative inline-block">
-          <Image
-            src={profilePhoto1 + ""}
+          <img
+            src={profilePhoto1}
             alt="Profile"
             className="w-24 h-24 rounded-full mx-auto"
             width={400}

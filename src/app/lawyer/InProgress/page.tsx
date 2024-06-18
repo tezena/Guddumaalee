@@ -50,18 +50,18 @@ function Inprogress() {
           key={index}
         >
           <div className="w-4/5 bg-white rounded-lg shadow-md border-2 p-8 m-auto mb-4 transition-transform transform hover:scale-105">
-            <div className="flex justify-between">
-              <div className="flex items-center gap-4 w-1/3">
+            <div className="flex flex-col gap-4 lg:flex-row justify-between">
+              <div className="flex items-center gap-4 w-full lg:w-1/3">
                 <p className="text-lg text-gray-700 font-semibold">Case</p>
                 <p className="text-gray-800">{onecase.title}</p>
               </div>
 
-              <div className="flex items-center gap-4 w-1/3">
+              <div className="flex items-center gap-4 w-full lg:w-1/3">
                 <p className="text-lg text-gray-700 font-semibold">Client_id</p>
                 <p className="text-gray-800">{onecase.client_id}</p>
               </div>
 
-              <div className="flex items-center  gap-4 w-1/3">
+              <div className="flex items-center  gap-4w-full lg:w-1/3">
                 <p className="text-lg text-gray-700 font-semibold">Date</p>
                 <p className="text-gray-800">{new Date( onecase.created_at).toLocaleDateString()}</p>
               </div>

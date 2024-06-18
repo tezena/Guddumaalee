@@ -65,6 +65,10 @@
       --ring: 212.7 26.8% 83.9%;
     }
   }
+  .bg-hero-section {
+    @apply bg-cover bg-center bg-no-repeat w-full relative;
+    background-image: url('/banner1.jpg');
+  }
 
   @layer base {
     * {
@@ -74,3 +78,4 @@
       @apply bg-background text-foreground;
     }
   }
+
