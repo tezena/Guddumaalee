@@ -1,9 +1,7 @@
-
-export const authToken:string =process.env.NEXT_PUBLIC_VIDEO_AUTH_KEY
-
+export const authToken: string = process.env.NEXT_PUBLIC_VIDEO_AUTH_KEY!;
 
 export const createMeeting = async ({ token }: { token: string }) => {
-  console.log(authToken)
+  console.log(authToken);
   const res = await fetch(`https://api.videosdk.live/v2/rooms`, {
     method: "POST",
     headers: {

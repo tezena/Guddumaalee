@@ -65,7 +65,7 @@ const RegistrationUserForm = () => {
       router.refresh();
     } catch (e: any) {
       return toast({
-        title: "Couldn't log you in.",
+        title: `Couldn't log you in.`,
         description: "Please check the credentials you provided.",
         variant: "destructive",
         duration: 3000,
@@ -126,7 +126,7 @@ const RegistrationUserForm = () => {
                 )}
                 Sign In
               </Button>
-              <p className="text-center text-sm">Don't have an account?</p>
+              <p className="text-center text-sm">Don&apos;t have an account?</p>
               <Button asChild className="w-full" variant="outline">
                 <Link href={"/signup"}>Create Account</Link>
               </Button>

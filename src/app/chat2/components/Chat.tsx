@@ -90,16 +90,18 @@ export default function ChatComponent({ data }: iAppProps) {
                           onError={onError}
                           style={{ width: "300px", height: "200px" }}
                           className="rounded-md"
-                        />{
-                        //@ts-ignore
-                        <FileDownloader fileUrl={message.message} />}
+                        />
+                        {
+                          //@ts-ignore
+                          <FileDownloader fileUrl={message.message} />
+                        }
                       </div>
                     )
                   }
 
                   {userType == "lawyer" ? (
-                    <img
-                      src={message.lawyer.photo}
+                    <Image
+                      src={message?.lawyer?.photo || ""}
                       alt="Profile image of user"
                       className="w-12 h-12 object-cover rounded-lg "
                       width={50}
@@ -116,7 +118,7 @@ export default function ChatComponent({ data }: iAppProps) {
               ) : (
                 <div className="flex items-center  ">
                   {userType === "lawyer" ? (
-                    <img
+                    <Image
                       src={message?.lawyer.photo}
                       alt="Profile image of user"
                       className="w-12 h-12 object-cover rounded-lg "
@@ -145,9 +147,11 @@ export default function ChatComponent({ data }: iAppProps) {
                           onError={onError}
                           style={{ width: "300px", height: "200px" }}
                           className="rounded-md"
-                        />{
-                        //@ts-ignore
-                        <FileDownloader fileUrl={message.message} />}
+                        />
+                        {
+                          //@ts-ignore
+                          <FileDownloader fileUrl={message.message} />
+                        }
                       </div>
                     )
                   }

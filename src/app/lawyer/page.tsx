@@ -18,7 +18,7 @@ import {
 import { getTrials } from "./api/trial";
 import { getStatistics } from "./api/statistics";
 
-export function Lawyer() {
+function Lawyer() {
   const queryClient = useQueryClient();
 
   const {

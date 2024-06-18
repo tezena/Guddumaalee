@@ -1,16 +1,19 @@
-'use client';
+"use client";
 import React, { useEffect } from "react";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import { getNewLawyers } from "../api/lawyers";
 import { Icon } from "@iconify/react";
 import { useNotifications } from "@/app/context/NotificationContext";
-import { LoadingComponent, ErrorComponent } from '@/components/LoadingErrorComponents';
+import {
+  LoadingComponent,
+  ErrorComponent,
+} from "@/components/LoadingErrorComponents";
 import Image from "next/image";
 
-export function Manage() {
+function Manage() {
   const { data, error, isLoading } = useQuery({
-    queryKey: ['lawyers'],
+    queryKey: ["lawyers"],
     queryFn: getNewLawyers,
     refetchInterval: 3000, // Refetch every 2 minutes
   });
@@ -19,8 +22,8 @@ export function Manage() {
 
   useEffect(() => {
     if (data) {
-      console.log('length',data?.lawyers?.length);
-      
+      console.log("length", data?.lawyers?.length);
+
       setLawyerNotifications(data?.lawyers?.length);
     }
   }, [data, setLawyerNotifications]);

@@ -7,7 +7,7 @@ import {
   LoadingComponent,
   ErrorComponent,
 } from "@/components/LoadingErrorComponents";
-export function Clients() {
+function Clients() {
   const { data, isLoading, error } = useQuery({
     queryKey: ["client"],
     queryFn: getClients,
@@ -83,7 +83,7 @@ export function Clients() {
     return (
       <ErrorComponent errorMessage="Failed to load data. Please try again." />
     );
- 
+
   return (
     <div className="w-full font-sans min-h-screen pt-24 pl-10 lg:pl-72 bg-[#f2f6fa]">
       <div className="w-full p-4">
