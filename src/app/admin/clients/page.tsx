@@ -97,7 +97,7 @@ export function Clients() {
             height={30}
             color="#634670"
           />
-          <p>320</p>
+          <p>3</p>
           <p>Active Clients</p>
         </div>
         <div className="w-3/4 lg:w-1/4 h-20 flex gap-3 shadow-md rounded-lg p-4 bg-white text-black items-center justify-center">
@@ -107,7 +107,7 @@ export function Clients() {
             height={30}
             color="#be75e0"
           />
-          <p>320</p>
+          <p>0</p>
           <p>Not Active Clients</p>
         </div>
       </div>

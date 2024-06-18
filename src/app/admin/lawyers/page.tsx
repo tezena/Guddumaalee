@@ -97,7 +97,7 @@ export function Lawyers() {
               height={30}
               color="#634670"
             />
-            <p>320</p>
+            <p>6</p>
             <p>Active Lawyers</p>
           </div>
           <div className="w-3/4 lg:w-1/4 h-20 flex gap-3 shadow-md rounded-lg p-4 bg-white text-black items-center justify-center">
@@ -107,7 +107,7 @@ export function Lawyers() {
               height={30}
               color="#BE73E0"
             />
-            <p>320</p>
+            <p>0</p>
             <p>Inactive Lawyers</p>
           </div>
         </div>
@@ -120,7 +120,7 @@ export function Lawyers() {
                 <th className="py-3 px-6 ">PHONE</th>
                 <th className="py-3 px-6">EMAIL</th>
                 <th className="py-3 px-6">STATUS</th>
-                <th className="py-3 px-6 ">ACTION</th>
+                {/* <th className="py-3 px-6 ">ACTION</th> */}
               </tr>
             </thead>
             <tbody>
@@ -144,11 +144,11 @@ export function Lawyers() {
                           : "w-[100px] px-4 py-2 bg-[#7B3B99] text-white rounded-full "
                       }
                     >
-                      Active
+                      {lawyer.isVerified}
                     </button>
                   </td>
 
-                  <td className="py-3 px-6 text-black flex gap-4 items-center ">
+                  {/* <td className="py-3 px-6 text-black flex gap-4 items-center ">
                     <div>
                       <Icon
                         icon="material-symbols-light:delete-outline"
@@ -165,7 +165,7 @@ export function Lawyers() {
                         height={25}
                       />
                     </div>
-                  </td>
+                  </td> */}
                 </tr>
               ))}
             </tbody>

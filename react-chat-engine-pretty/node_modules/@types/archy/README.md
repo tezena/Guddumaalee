@@ -1,0 +1,40 @@
+# Installation
+> `npm install --save @types/archy`
+
+# Summary
+This package contains type definitions for archy (https://github.com/substack/node-archy).
+
+# Details
+Files were exported from https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/archy.
+## [index.d.ts](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/archy/index.d.ts)
+````ts
+// Type definitions for archy
+// Project: https://github.com/substack/node-archy
+// Definitions by: vvakame <https://github.com/vvakame>
+// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
+
+
+declare function archy(obj: archy.Data, prefix?: string, opts?: archy.Options): string;
+declare function archy(obj: string, prefix?: string, opts?: archy.Options): string;
+
+declare namespace archy {
+    interface Data {
+        label: string;
+        nodes?: (Data | string)[] | undefined;
+    }
+    interface Options {
+        unicode?: boolean | undefined;
+    }
+}
+
+export = archy;
+
+````
+
+### Additional Details
+ * Last updated: Tue, 06 Jul 2021 18:05:34 GMT
+ * Dependencies: none
+ * Global values: none
+
+# Credits
+These definitions were written by [vvakame](https://github.com/vvakame).
