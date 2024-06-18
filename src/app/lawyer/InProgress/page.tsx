@@ -25,7 +25,7 @@ function Inprogress() {
   });
 
   const inProgressCases = data?.filter(
-    (clientcase: any) => clientcase.status !== "DELIVERED"
+    (clientcase: any) => clientcase.status !== "FINISHED"
   );
  
   if (isLoading) return <LoadingComponent />;

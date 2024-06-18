@@ -19,6 +19,7 @@ const LawyersList: React.FC<Props> = ({
   const { data, isLoading, error } = useQuery({
     queryKey: ["clientlawyers"],
     queryFn: () => getVerifiedLawyers(),
+    refetchInterval: 3000,
   });
 
 useEffect(()=>{
