@@ -27,6 +27,13 @@ export class Rating {
       where: {
         lawyer_id,
       },
+      include: {
+        client: {
+          select: {
+            full_name: true,
+          },
+        },
+      },
     });
     return ratings;
   }

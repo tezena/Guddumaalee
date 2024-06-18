@@ -90,6 +90,7 @@ export class Payment {
       data: {
         payment_id: transactionId,
         case_id: acceptedCase.id,
+        paid_at: new Date(),
       },
     });
     return acceptedCase;
