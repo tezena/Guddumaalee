@@ -12,7 +12,10 @@ import { useQuery } from "@tanstack/react-query";
 import RatingPopup from "@/components/ratingpop";
 import { useSession } from "next-auth/react";
 import { getAverageRating, getRatings } from "../../api/rating";
-import { LoadingComponent, ErrorComponent } from '@/components/LoadingErrorComponents';
+import {
+  LoadingComponent,
+  ErrorComponent,
+} from "@/components/LoadingErrorComponents";
 
 // lawyer: LawyerProps;
 
@@ -78,7 +81,8 @@ const LawyerDetail: React.FC<{ lawyers: LawyerProps[] }> = ({ lawyers }) => {
     return stars;
   };
 
-  if (averageLoading && lawyerLoading && ratingsLoading) return <LoadingComponent />;
+  if (averageLoading && lawyerLoading && ratingsLoading)
+    return <LoadingComponent />;
   if (averageError && lawyerError && ratingsError)
     return (
       <ErrorComponent errorMessage="Failed to load data. Please try again." />
@@ -153,27 +157,23 @@ const LawyerDetail: React.FC<{ lawyers: LawyerProps[] }> = ({ lawyers }) => {
                 >
                   Chat with Lawyer
                 </Link>
-                
               </div>
             </div>
 
-            <div className="max-w-2xl  bg-white shadow-lg rounded-lg overflow-hidden flex flex-col gap-4">
+            <div className="max-w-2xl bg-white shadow-lg rounded-lg overflow-hidden flex flex-col gap-4">
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6, duration: 0.6 }}
-                className="relative h-[300px]"
-
-                
+                className="relative h-[400px] w-full"
               >
                 <motion.img
                   src={lawyerData?.photo}
                   alt={lawyerData?.full_name}
-                  className="w-full h-full object-contain rounded-t-lg "
+                  className="w-full h-full object-cover rounded-t-lg"
                   whileHover={{ scale: 1.1 }}
-                 
                 />
-                <div className="absolute bottom-0 left-0 p-6 bg-gray-800 bg-opacity-75 rounded-br-lg">
+                <div className="absolute bottom-0 left-0 p-6 bg-gray-800 bg-opacity-75 rounded-br-lg w-full">
                   <h2 className="text-3xl font-semibold text-white">
                     {lawyerData?.full_name}
                   </h2>
@@ -190,7 +190,6 @@ const LawyerDetail: React.FC<{ lawyers: LawyerProps[] }> = ({ lawyers }) => {
                   </div>
                 </div>
                 <hr className="my-6 border-t border-gray-200" />
-
                 <div>
                   <h3 className="text-xl font-semibold text-gray-800 mb-4">
                     Languages
@@ -203,7 +202,6 @@ const LawyerDetail: React.FC<{ lawyers: LawyerProps[] }> = ({ lawyers }) => {
                     ))}
                   </ul>
                 </div>
-
                 <div>
                   <h3 className="text-xl font-semibold text-gray-800 mb-4">
                     Specialties
@@ -216,9 +214,7 @@ const LawyerDetail: React.FC<{ lawyers: LawyerProps[] }> = ({ lawyers }) => {
                     ))}
                   </ul>
                 </div>
-
                 <hr className="my-6 border-t border-gray-200" />
-
                 <div>
                   <h3 className="text-xl font-semibold text-gray-800 mb-4">
                     Courts
@@ -243,7 +239,7 @@ const LawyerDetail: React.FC<{ lawyers: LawyerProps[] }> = ({ lawyers }) => {
           {Lawyerratings?.map((clientName: any, index: any) => (
             <ReviewSectionCard
               key={index}
-              clientName={clientName.name}
+              clientName={clientName?.client?.full_name}
               rating={clientName.rate}
               comment={clientName.comment}
             />

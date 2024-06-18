@@ -3,12 +3,14 @@ import { Button } from "@/components/ui/button";
 import { url } from "inspector";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-
+import { useRouter } from "next/navigation";
 const HeroSection = () => {
+  const router = useRouter()
   const { data: session } = useSession();
   return (
     <section
-      className={` bg-cover bg-center bg-no-repeat  bg-hero-section w-full  relative `}
+      // className={` bg-cover bg-center bg-no-repeat  bg-hero-section w-full  relative `}
+      className="bg-hero-section"
     >
       <div className="absolute inset-0 bg-white/75 sm:bg-transparent sm:from-white/95 sm:to-white/25 sm:bg-gradient-to-r h-full"></div>
 
@@ -30,15 +32,15 @@ const HeroSection = () => {
           <>
             {!session && (
               <div className="mt-8 flex flex-wrap gap-4 text-center">
-                <Button className="block w-full rounded bg-[#7B3B99] px-12 py-3 text-sm font-medium text-white shadow  focus:outline-none focus:ring  sm:w-auto">
+                <Button onClick={()=>router.push('/signin')}  className="block w-full rounded bg-[#7B3B99] px-12 py-3 text-sm font-medium text-white shadow  focus:outline-none focus:ring  sm:w-auto">
                   Get Lawyers
                 </Button>
-                <Link
-                  href="/signup"
+                <Button
+                  onClick={()=>router.push('/signin')}
                   className="block w-full rounded bg-[#7B3B99] px-12 py-3 text-sm font-medium text-white shadow hover:text-white focus:outline-none focus:ring  sm:w-auto"
                 >
                   Become a Lawyer
-                </Link>
+                </Button>
               </div>
             )}
           </>
