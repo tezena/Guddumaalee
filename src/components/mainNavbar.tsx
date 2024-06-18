@@ -25,7 +25,7 @@ const Navbar = () => {
   const { data: session } = useSession();
   //@ts-ignore
   const userType = session?.user?.image?.type;
-   //@ts-ignore
+  //@ts-ignore
   const lawyer_id = session?.user?.image?.id;
   const [visted, setVisted] = useState(false);
 
@@ -36,9 +36,7 @@ const Navbar = () => {
   } = useQuery({
     queryKey: ["lawyer"],
     queryFn: () => getLawyerById(lawyer_id),
-    
   });
-
 
   const { handleClosePopup, handleNotificationClick } = useNotifications();
 
@@ -74,7 +72,7 @@ const Navbar = () => {
         {session ? (
           <>
             <div className="w-[30%]  md:flex hidden">
-              <SearchInput />
+              {userType == "client" ? <SearchInput /> : null}
             </div>
 
             <ul className="hidden md:flex items-center ">
@@ -113,7 +111,7 @@ const Navbar = () => {
                         className="  hover:text-white rounded-full p-1  hover:opacity-100 transition-opacity duration-300"
                       >
                         <p className="text-gray-400  hover:text-[#7B3B99]">
-                         {lawyerData?.balance} ETB
+                          {lawyerData?.balance} ETB
                         </p>
                       </div>
                     )}
@@ -137,8 +135,11 @@ const Navbar = () => {
             </div>
           </>
         ) : (
-          <Button className=" rounded bg-[#7B3B99] px-8 py-3 text-sm font-medium text-white shadow hover:text-white focus:outline-none focus:ring  sm:w-auto">
-            <Link href="/signin">Sign In</Link>
+          <Button
+            onClick={() => router.push("/signin")}
+            className=" rounded bg-[#7B3B99] px-8 py-3 text-sm font-medium text-white shadow hover:text-white focus:outline-none focus:ring  sm:w-auto"
+          >
+            Sign In
           </Button>
         )}
       </>
@@ -153,22 +154,24 @@ const Navbar = () => {
         <h1 className="w-full text-3xl font-bold text-white m-4">Guddumalee</h1>
 
         <li className="p-4 border-b rounded-xl hover:bg-[#00df9a] duration-300 hover:text-black cursor-pointer border-gray-600">
-          <span>Chat</span>
+          <Link href={"/chat2"}>Chat</Link>
         </li>
 
         <li className="p-4 border-b rounded-xl hover:bg-[#00df9a] duration-300 hover:text-black cursor-pointer border-gray-600">
           {userType == "client" ? (
-            <Link href="/client/lawyers">Lawyer</Link>
+            <Link href="/client/lawyers">Lawyers</Link>
           ) : (
-            <Link href="/lawyers">My Page</Link>
+            <Link href="/lawyer">My Page</Link>
           )}
         </li>
 
         <li className="p-4 border-b rounded-xl hover:bg-[#00df9a] duration-300 hover:text-black cursor-pointer border-gray-600">
+          <Link
+            href={userType === "client" ? "/client/profile" : "/lawyer/profile"}
+          ></Link>{" "}
           Profile
         </li>
       </ul>
-      
     </div>
   );
 };

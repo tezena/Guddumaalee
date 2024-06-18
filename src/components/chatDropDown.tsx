@@ -30,9 +30,10 @@ export function ChatDropdown() {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-32">
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <Link href="/chat2">
+          <DropdownMenuItem >
+            <Link href="/chat2" className="flex gap-2 items-center">
             <MessageSquareText className="mr-2 h-4 w-4" />
+            {" "}
             <span > Chat </span>
             </Link>
             
