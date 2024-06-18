@@ -73,7 +73,10 @@ const Form: React.FC<Props> = ({ recipent_id }) => {
     
     // {caseId ,title,  description,price}=data
 
-    const case_Id=String(caseId)
+    const case_Id=caseId.toString()
+
+    console.log(`case id in funcion ${case_Id}`)
+    console.log("post called")
 
     const offerData = {
       recipient_id: recipent_id,

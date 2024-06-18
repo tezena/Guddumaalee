@@ -13,14 +13,14 @@ import { useSession } from "next-auth/react";
 interface OfferModalProps {
   isOpen: boolean;
   onClose: () => void;
-  HandleOffer: (data:number) => void;
+  HandleOffer: (data: number) => void;
   client_id: number;
 }
-interface OfferProps{
-  caseId:string;
-  title:string;
-  describtion:string;
-  price:number;
+interface OfferProps {
+  caseId: string;
+  title: string;
+  describtion: string;
+  price: number;
 }
 const OfferModal: React.FC<OfferModalProps> = ({
   isOpen,
@@ -31,7 +31,6 @@ const OfferModal: React.FC<OfferModalProps> = ({
   const { data: session } = useSession();
 
   //@ts-ignore
-  const lawyer_id = session?.user?.image?.id;
 
   const [inputData, setInputData] = useState({
     description: "",
@@ -46,29 +45,40 @@ const OfferModal: React.FC<OfferModalProps> = ({
   const handleChange = (e: any) => {
     setInputData({ ...inputData, [e.target.name]: e.target.value });
   };
-  const handleSubmit = () => {
-    const data = {
-      ...inputData,
-      price: Number(inputData.price),
-      lawyer_id: lawyer_id,
-
-      client_id: client_id,
-    };
-    mutateAsync(data);
-  };
 
   const { mutateAsync }: UseMutationResult<void, unknown, Object> = useMutation(
     {
       mutationFn: (data) => createOffer(data),
-      onSuccess: (data) => {
-        console.log(`data from offer ${data}`)
-          const caseId=data.id
+      onSuccess: (d) => {
+        console.log(d);
+        // console.log(`data from offer ${mutateAsync.data}`);
+        console.log("mutaion ...3...3333333");
 
-        HandleOffer(caseId);
         onClose();
       },
     }
   );
+
+  const handleSubmit = async () => {
+    console.log("sumbir co3e4r5r5r5r4e");
+    console.log("client id from handle mennnnnnnnn", client_id);
+
+    const data = {
+      ...inputData,
+      price: Number(inputData.price),
+      lawyer_id: lawyer_id,
+      client_id: client_id,
+    };
+    const mutaion = await mutateAsync(data);
+    console.log("mution");
+    if (mutaion != null) {
+      //@ts-ignore
+      const caseId = mutaion.newCase.id;
+      console.log(`cas idddddddd ${caseId}`);
+
+      HandleOffer(caseId);
+    }
+  };
 
   if (!isOpen) return null;
 

@@ -3,10 +3,11 @@ import axios from "axios";
 export async function createOffer(data: object) {
   try {
     const response = await axios.post("/api/case", data);
+
     if (response.status < 200 || response.status >= 300) {
       throw new Error(`Error: ${response.statusText}`);
     }
-    console.log(response);
+    console.log("offer response", response);
     return response.data; // Return response data if needed
   } catch (err) {
     console.error(err);
@@ -16,9 +17,7 @@ export async function createOffer(data: object) {
 
 export async function deliver(id: number) {
   try {
-    const response = await axios.post(
-      `/api/case/${id}/deliver`
-    );
+    const response = await axios.post(`/api/case/${id}/deliver`);
     if (response.status < 200 || response.status >= 300) {
       throw new Error(`Error: ${response.statusText}`);
     }
@@ -29,13 +28,10 @@ export async function deliver(id: number) {
     throw err;
   }
 }
-
 
 export async function acceptDelivery(id: number) {
   try {
-    const response = await axios.post(
-      `/api/case/${id}/accept-delivery`
-    );
+    const response = await axios.post(`/api/case/${id}/accept-delivery`);
     if (response.status < 200 || response.status >= 300) {
       throw new Error(`Error: ${response.statusText}`);
     }
@@ -47,12 +43,9 @@ export async function acceptDelivery(id: number) {
   }
 }
 
-
 export async function acceptOffer(id: number) {
   try {
-    const response = await axios.post(
-      `/api/case/${id}/accept`
-    );
+    const response = await axios.post(`/api/case/${id}/accept`);
     if (response.status < 200 || response.status >= 300) {
       throw new Error(`Error: ${response.statusText}`);
     }
@@ -66,9 +59,7 @@ export async function acceptOffer(id: number) {
 
 export async function rejectOffer(id: number) {
   try {
-    const response = await axios.post(
-      `/api/case/${id}/reject`
-    );
+    const response = await axios.post(`/api/case/${id}/reject`);
     if (response.status < 200 || response.status >= 300) {
       throw new Error(`Error: ${response.statusText}`);
     }
@@ -80,18 +71,14 @@ export async function rejectOffer(id: number) {
   }
 }
 
-
-
 export async function getLawyerCaeses(id: number) {
   try {
-    const response = await axios.get(
-      `/api/case/lawyer/${id}`
-    );
+    const response = await axios.get(`/api/case/lawyer/${id}`);
     if (response.status !== 200) {
       throw new Error(`Error: ${response.statusText}`);
     }
     const data = response;
-    console.log('this is from lawyer case',data);
+    console.log("this is from lawyer case", data);
 
     return data.data.cases;
   } catch (err) {
@@ -103,15 +90,13 @@ export async function getLawyerCaeses(id: number) {
 export async function getCaesesById(id: number) {
   try {
     console.log(id);
-    
-    const response = await axios.get(
-      `/api/case/${id}`
-    );
+
+    const response = await axios.get(`/api/case/${id}`);
     if (response.status !== 200) {
       throw new Error(`Error: ${response.statusText}`);
     }
     const data = response;
-    console.log('this is from case by id',data);
+    console.log("this is from case by id", data);
 
     return data.data.caseById;
   } catch (err) {
@@ -120,19 +105,16 @@ export async function getCaesesById(id: number) {
   }
 }
 
-
 export async function getClientCaseById(id: number) {
   try {
     console.log(id);
-    
-    const response = await axios.get(
-      `/api/case/client/${id}`
-    );
+
+    const response = await axios.get(`/api/case/client/${id}`);
     if (response.status !== 200) {
       throw new Error(`Error: ${response.statusText}`);
     }
     const data = response;
-    console.log('this is from client case by id',data);
+    console.log("this is from client case by id", data);
 
     return data.data;
   } catch (err) {
