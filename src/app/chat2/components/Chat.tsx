@@ -9,6 +9,7 @@ import FileViewer from "react-file-viewer";
 import FileDownloader from "./fileDownloader";
 import { getClientCaseById } from "@/app/lawyer/api/offer";
 import { useQuery } from "@tanstack/react-query";
+import OfferDisplay from "@/app/lawyer/offer/offerDisplay";
 
 
 interface iAppProps {
@@ -40,10 +41,7 @@ export default function ChatComponent({ data }: iAppProps) {
 
 
 
-  const { data:clientcasedata, isLoading, error } = useQuery({
-    queryKey: ["clientlawyers"],
-    queryFn: () => getClientCaseById(userId),
-  });
+ 
 
   console.log(`this is toke: ${process.env.NEXT_PUBLIC_PUSHER_KEY}`);
 
@@ -93,11 +91,13 @@ export default function ChatComponent({ data }: iAppProps) {
                       </div>
 
                     ) : 
-
-                      
+ 
                     //@ts-ignore
 
-                        message.messageType === "offer"?(<></>):
+                        message.messageType === "offer"?(
+                           //@ts-ignore
+                      <OfferDisplay caseId={Number(message.message)} userType={userType} />
+                        ):
                         (
                         <div className="flex flex-col" >
                           <FileViewer
@@ -113,8 +113,7 @@ export default function ChatComponent({ data }: iAppProps) {
                           }
                         </div>
                       )
-                        
-                                          
+                                                
 
                   }
 
@@ -152,12 +151,16 @@ export default function ChatComponent({ data }: iAppProps) {
                     </div>
                   )}
                   {
+                 
                     //@ts-ignore
                     message.messageType == "text" ? (
                       <div className="rounded-lg bg-white p-4 shadow-md self-start mr-4">
                         {message.message}
                       </div>
-                    ) : message.messageType === "offer"?(<></>):
+                    ) : message.messageType === "offer"?(
+                        //@ts-ignore
+                      <OfferDisplay message={message} caseId={Number(message.message)} userType={userType} />
+                    ):
                     (
                     <div className="flex flex-col" >
                       <FileViewer
