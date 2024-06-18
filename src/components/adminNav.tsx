@@ -6,6 +6,8 @@ import { Icon } from "@iconify/react";
 import { useNotifications } from "@/app/context/NotificationContext";
 import { useSession } from "next-auth/react";
 import { ProfileDropdown } from "./profileDropDown";
+import { useQuery } from "@tanstack/react-query";
+import { getAdminBalance } from "@/app/admin/api/dashboard";
 
 interface Props {
   toggleShowSideBar: () => void;
@@ -17,6 +19,16 @@ const AdminNavbar: React.FC<Props> = ({ toggleShowSideBar }) => {
   const [showProfileDrop, setShowProfileDrop] = useState(false);
 
   const { data: session } = useSession();
+
+
+  const {
+    data ,
+    isLoading ,
+    error ,
+  } = useQuery({
+    queryKey: ["balance"],
+    queryFn: () => getAdminBalance(),
+  });
 
   const {
     faqNotifications,
@@ -133,7 +145,7 @@ const AdminNavbar: React.FC<Props> = ({ toggleShowSideBar }) => {
             )}
           </div>
           <div className="hover:text-white rounded-full p-1 hover:opacity-100 transition-opacity duration-300">
-            <p className="text-gray-400 hover:text-[#7B3B99]">$ 455</p>
+            <p className="text-gray-400 hover:text-[#7B3B99]">{data} ETB</p>
           </div>
           <div className="flex flex-col gap-1 text-black">
             <p>{session?.user?.email}</p>

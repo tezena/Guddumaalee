@@ -51,7 +51,7 @@ useEffect(()=>{
                 name={item.full_name}
                 imageUrl={item.photo}
                 des={item.description}
-                rate={item.rate}
+                rate={item.ratings}
               />
             );
           })
