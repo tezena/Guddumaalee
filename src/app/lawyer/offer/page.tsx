@@ -1,8 +1,8 @@
 // pages/index.jsx
-'use client'
-import React, { useState } from 'react';
-import OfferModal from './offer';
-import AcceptOffer from './acceptOffer';
+"use client";
+import React, { useState } from "react";
+import OfferModal from "./offer";
+import AcceptOffer from "./acceptOffer";
 
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -23,7 +23,7 @@ const Home = () => {
       >
         Offer
       </button>
-      <OfferModal isOpen={isModalOpen} onClose={handleCloseModal} />
+      {/* <OfferModal isOpen={isModalOpen} onClose={handleCloseModal} /> */}
       <AcceptOffer />
     </div>
   );
