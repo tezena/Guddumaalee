@@ -48,7 +48,7 @@ export async function askFaq(question: String) {
 
 export async function getAnsweredFaqs() {
   try {
-    const response = await axios.get(`http://localhost:3000/api/faq/answered`);
+    const response = await axios.get(`/api/faq/answered`);
     if (response.status < 200 || response.status >= 300) {
       throw new Error(`Error: ${response.statusText}`);
     }
