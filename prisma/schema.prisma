@@ -211,6 +211,8 @@ model Transaction {
   case_id Int
   case Case @relation(fields: [case_id], references: [id])
   status TransactionStatus @default(PENDING)
+  created_at     DateTime  @default(now())
+  paid_at DateTime
 }
 
 
