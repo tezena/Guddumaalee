@@ -28,7 +28,7 @@ const AcceptOffer = () => {
   const rejectMutation: UseMutationResult<void, unknown, number> = useMutation({
     mutationFn: (id: number) => rejectOffer(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["disputes"] });
+      queryClient.invalidateQueries({ queryKey: ["offer"] });
     },
   });
 
@@ -39,6 +39,9 @@ const AcceptOffer = () => {
   const handleAccept = async (id: number) => {
     await acceptMutation.mutateAsync(id);
   };
+
+
+  
   return (
     <Sheet>
       <SheetTrigger>Open</SheetTrigger>
