@@ -14,12 +14,12 @@ import {
 import { verifyLawyer, getLawyerById, rejectLawyer } from "../../api/lawyers";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
-import { LoadingComponent, ErrorComponent } from '@/components/LoadingErrorComponents';
+import {
+  LoadingComponent,
+  ErrorComponent,
+} from "@/components/LoadingErrorComponents";
 
-
-
-export function Detail() {
-
+function Detail() {
   const queryClient = useQueryClient();
   const router = useRouter();
 
@@ -43,10 +43,9 @@ export function Detail() {
       queryClient.invalidateQueries({ queryKey: ["lawyers"] });
       console.log("lawyer acceptd.", data);
       toast.success("Question submitted successfully!");
-      setTimeout(()=>{
+      setTimeout(() => {
         router.back();
-      },2000)
-    
+      }, 2000);
     },
     onError: (error: any) => {
       toast.error("Failed to submit the question.");

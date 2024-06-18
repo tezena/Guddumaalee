@@ -11,6 +11,7 @@ import {
 import { useSession } from "next-auth/react";
 import { getLawyerById } from "@/app/admin/api/lawyers";
 import { updateLawyer } from "../api/profile";
+import Image from "next/image";
 
 interface Language {
   name: string;
@@ -72,15 +73,15 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
   });
 
   const [isEditingBio, setIsEditingBio] = useState(false);
-  const [newBio, setNewBio] = useState('');
+  const [newBio, setNewBio] = useState("");
   const [isEditingPhoto, setIsEditingPhoto] = useState(false);
   const [newLanguage, setNewLanguage] = useState<Language>({ name: "" });
   const [editingLanguageIndex, setEditingLanguageIndex] = useState<
     number | null
   >(null);
   const [profilePhoto1, setProfilePhoto] = useState<string>();
-  const [newFullName, setNewFullName] = useState('');
-  const [newPhoneNumber, setNewPhoneNumber] = useState('');
+  const [newFullName, setNewFullName] = useState("");
+  const [newPhoneNumber, setNewPhoneNumber] = useState("");
   const [isEditingResume, setIsEditingResume] = useState(false);
   const [newResume, setNewResume] = useState<string>(""); // Stores the resume URL
   const { toast } = useToast();
@@ -101,22 +102,17 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
     }
   };
 
-
   useEffect(() => {
-    console.log("thi if fuck", profileData?.phone_number);
     setProfilePhoto(profileData?.photo);
     setNewPhoneNumber(profileData?.phone_number);
     setNewFullName(profileData?.full_name);
-    setNewBio(profileData?.description)
-    setNewResume(profileData?.resume)
-    setLanguages(profileData?.languages)
-
-    console.log('this is another fuck',profileData?.language);
-    
-  }, [profileData,languages]);
+    setNewBio(profileData?.description);
+    setNewResume(profileData?.resume);
+    setLanguages(profileData?.languages);
+  }, [profileData, languages, setLanguages]);
 
   const handleUpdateProfile = async () => {
-    console.log('ezih neg3');
+    console.log("ezih neg3");
     if (isEditingBio) handleBioSubmit();
     if (editingLanguageIndex !== null) handleUpdateLanguage();
     if (isEditingPhoto) setIsEditingPhoto(false);
@@ -126,21 +122,19 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
       onUpdateResume(newResume); // Assuming newResume holds the URL of the uploaded resume
       setIsEditingResume(false);
     }
-    console.log('ezih negn1');
+    console.log("ezih negn1");
 
-
-// .map((lang) => ({ name: lang.name.toUpperCase() }))
+    // .map((lang) => ({ name: lang.name.toUpperCase() }))
     const updatedProfile = {
       full_name: newFullName.toUpperCase(),
       phone_number: newPhoneNumber,
       description: newBio,
-      language:  languages,
-      photo:profilePhoto1,
-      resume:newResume
+      language: languages,
+      photo: profilePhoto1,
+      resume: newResume,
     };
 
-    console.log('ezih negn');
-    
+    console.log("ezih negn");
 
     // console.log("Updated Profile:", updatedProfile);
     await updateMutation.mutateAsync(updatedProfile);
@@ -157,10 +151,12 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
 
       <div className="mb-4 text-center">
         <div className="relative inline-block">
-          <img
-            src={profilePhoto1}
+          <Image
+            src={profilePhoto1 + ""}
             alt="Profile"
             className="w-24 h-24 rounded-full mx-auto"
+            width={400}
+            height={400}
           />
           <div
             className="absolute bottom-0 bg-white right-0 w-8 h-8 rounded-full outline outline-green-500 flex justify-center items-center cursor-pointer"
@@ -210,7 +206,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
       <div className="mb-4">
         <label className="block text-gray-700 font-semibold">Languages</label>
         <ul>
-          {languages?.map((language:any, index:any) => (
+          {languages?.map((language: any, index: any) => (
             <li key={index} className="flex justify-between items-center mb-2">
               <span>{language}</span>
               <div

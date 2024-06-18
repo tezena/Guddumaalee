@@ -32,8 +32,11 @@ const LawyerNotifications = () => {
         <b className="text-lg">Trials </b>
         <p className="text-sm"> [{getTodayFormatted()}]</p>
       </div>
-      {data.map((trial: any) => (
-        <div className="border-l-2 border-l-red-400 flex flex-col items-start p-3 rounded-l-md shadow-sm mb-2">
+      {data.map((trial: any, i: number) => (
+        <div
+          key={i}
+          className="border-l-2 border-l-red-400 flex flex-col items-start p-3 rounded-l-md shadow-sm mb-2"
+        >
           <div className="flex items-center font-bold gap-[3px]">
             <MapPin className="w-4 h-4  text-gray-400" /> {trial.location}
           </div>
