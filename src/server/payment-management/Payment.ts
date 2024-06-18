@@ -55,8 +55,7 @@ export class Payment {
     );
     await db.case.update({
       where: {
-        //@ts-ignore
-        id: client.user.image.id,
+        id: case_id,
       },
       data: {
         payment_id: TEXT_REF,
