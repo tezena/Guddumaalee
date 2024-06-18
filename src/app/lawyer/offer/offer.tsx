@@ -22,9 +22,6 @@ const OfferModal: React.FC<OfferModalProps> = ({
   setOffer,
   client_id,
 }) => {
-  const [description, setDescription] = useState("");
-  const [amount, setAmount] = useState("");
-  const [caseName, setCaseName] = useState("");
   const { data: session } = useSession();
 
   //@ts-ignore
@@ -44,7 +41,6 @@ const OfferModal: React.FC<OfferModalProps> = ({
     setInputData({ ...inputData, [e.target.name]: e.target.value });
   };
   const handleSubmit = () => {
-    console.log({ caseName, description, amount });
     const data = {
       ...inputData,
       price: Number(inputData.price),
