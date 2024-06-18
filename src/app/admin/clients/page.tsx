@@ -19,7 +19,7 @@ export function Clients() {
   const [currentPage, setCurrentPage] = useState(1);
 
   const totalPages = useMemo(() => {
-    return Math.ceil(data?.clients.length / pageSize);
+    return Math.ceil(data?.clients?.length / pageSize);
   }, [data?.clients]);
 
   const startPage = useMemo(() => {
@@ -131,9 +131,9 @@ export function Clients() {
                 }
                 key={index}
               >
-                <td className="py-3 px-6 text-black">{client.full_name}</td>
-                <td className="py-3 px-6 text-black">{client.phone_number}</td>
-                <td className="py-3 px-6 text-black">{client.email}</td>
+                <td className="py-3 px-6 text-black">{client?.full_name}</td>
+                <td className="py-3 px-6 text-black">{client?.phone_number}</td>
+                <td className="py-3 px-6 text-black">{client?.email}</td>
               </tr>
             ))}
           </tbody>

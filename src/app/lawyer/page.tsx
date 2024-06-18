@@ -31,16 +31,16 @@ export function Lawyer() {
     refetchInterval: 6000, // Refetch every 2 minutes
   });
 
-  // Fetch statistics data
-  // const {
-  //   data: statisticsData,
-  //   isLoading: isLoadingStatistics,
-  //   error: statisticsError,
-  // } = useQuery({
-  //   queryKey: ["statistics"],
-  //   queryFn: getStatistics,
-  //   refetchInterval: 120000, // Refetch every 2 minutes
-  // });
+ 
+  const {
+    data: statisticsData,
+    isLoading: isLoadingStatistics,
+    error: statisticsError,
+  } = useQuery({
+    queryKey: ["statistics"],
+    queryFn: getStatistics,
+    refetchInterval: 120000, // Refetch every 2 minutes
+  });
 
   if (isLoadingTrials) return <LoadingComponent />;
   if (trialsError)
@@ -59,7 +59,7 @@ export function Lawyer() {
               height={30}
               color="#C075E3"
             />
-            <p>320</p>
+            <p>{statisticsData?.totalCases}</p>
             <p>Total cases</p>
           </div>
           <div className="w-full lg:w-3/4 h-20 flex gap-3 shadow-md rounded-lg p-4 bg-white text-black items-center justify-center">
@@ -69,7 +69,7 @@ export function Lawyer() {
               height={30}
               color="#C6EF67"
             />
-            <p>320</p>
+            <p>{statisticsData?.completedCases}</p>
             <p>Complated Cases</p>
           </div>
           <div className="w-full lg:w-3/4 h-20 flex gap-3 shadow-md rounded-lg p-4 bg-white text-black items-center justify-center">
@@ -79,7 +79,7 @@ export function Lawyer() {
               height={30}
               color="#69BEF0"
             />
-            <p>320</p>
+            <p>{statisticsData?.inProgressCases}</p>
             <p>Pending case</p>
           </div>
         </div>
@@ -92,9 +92,10 @@ export function Lawyer() {
               <thead className="sticky top-0 bg-white z-40">
                 <tr className="bg-white text-gray-600 rounded-xl">
                   <th className="py-3 px-6 ">CASE_ID</th>
-                  <th className="py-3 px-6 ">CLIENT NAME</th>
-                  <th className="py-3 px-6 ">DESCRIPTION</th>
+                  {/* <th className="py-3 px-6 ">CLIENT NAME</th> */}
+                 
                   <th className="py-3 px-6">COURT PLACE</th>
+                  <th className="py-3 px-6 ">DESCRIPTION</th>
                   <th className="py-3 px-6">DATE</th>
                 </tr>
               </thead>
@@ -111,9 +112,9 @@ export function Lawyer() {
                     <td className="py-3 px-6 text-black text-center">
                       {apointment?.id}
                     </td>
-                    <td className="py-3 px-6 text-black text-center">
+                    {/* <td className="py-3 px-6 text-black text-center">
                       {apointment?.clientname}
-                    </td>
+                    </td> */}
                     <td className="py-3 px-6 text-black text-center">
                       {apointment?.location}
                     </td>
@@ -136,10 +137,10 @@ export function Lawyer() {
 
       <div className="w-full flex flex-col lg:flex-row gap-4 justify-between mt-6">
         <div className="w-full lg:w-1/2 h-full border-2 border-gray-300 px-2  bg-white flex justify-center ">
-          <DoughnutChart data={[40, 80, 120]} />
+          <DoughnutChart data={[statisticsData?.totalCases,statisticsData?.completedCases, statisticsData?.inProgressCases]} />
         </div>
         <div className="w-full lg:w-1/2 h-full border-2 border-gray-300 px-10 p-2 bg-white">
-          <LineChart data={[40, 60, 80, 81, 95, 98, 120]} />
+          <LineChart data={statisticsData?.filteredIncomePerMonth} />
         </div>
       </div>
       <TrialNotify show={true} />

@@ -8,6 +8,7 @@ import {
 } from "@tanstack/react-query";
 import { createOffer } from "@/app/lawyer/api/offer";
 import { join } from "path";
+import { useSession } from "next-auth/react";
 
 interface OfferModalProps {
   isOpen: boolean;
@@ -23,6 +24,10 @@ const OfferModal: React.FC<OfferModalProps> = ({ isOpen, onClose }) => {
     price: 0,
     title: "",
   });
+  const {data:sesstion} = useSession();
+
+  //@ts-ignore
+  const lawyer_id = sesstion?.user?.image?.id
 
   const handleChange = (e: any) => {
     setInputData({ ...inputData, [e.target.name]: e.target.value });
@@ -31,8 +36,8 @@ const OfferModal: React.FC<OfferModalProps> = ({ isOpen, onClose }) => {
     console.log({ caseName, description, amount });
     const data = {
       ...inputData,price: Number(inputData.price),
-      lawyer_id: 1,
-      client_id: 1,
+      lawyer_id: lawyer_id,
+      client_id: 3,
     };
     mutateAsync( data);
   };
