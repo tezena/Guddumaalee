@@ -89,8 +89,6 @@ export class Case {
     const client = await isClient();
     const acceptedCase = await db.case.update({
       where: {
-        //@ts-ignore
-        client_id: client.user.image.id,
         id: case_id,
       },
       data: {
