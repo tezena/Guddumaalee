@@ -119,3 +119,24 @@ export async function getCaesesById(id: number) {
     throw err; // Ensure errors are propagated correctly
   }
 }
+
+
+export async function getClientCaseById(id: number) {
+  try {
+    console.log(id);
+    
+    const response = await axios.get(
+      `/api/case/client/${id}`
+    );
+    if (response.status !== 200) {
+      throw new Error(`Error: ${response.statusText}`);
+    }
+    const data = response;
+    console.log('this is from client case by id',data);
+
+    return data.data;
+  } catch (err) {
+    console.error(err);
+    throw err; // Ensure errors are propagated correctly
+  }
+}
