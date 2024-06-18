@@ -13,10 +13,18 @@ import { useState } from "react";
 import { useSession } from "next-auth/react"
 import { Button } from "@/components/ui/button";
 import OfferModal from "@/app/lawyer/offer/offer";
+import { calculateSizeAdjustValues } from "next/dist/server/font-utils";
 
 
 interface Props {
   recipent_id: number;
+}
+
+interface OfferProps{
+  caseId:string;
+  title:string;
+  describtion:string;
+  price:number;
 }
 
 const Form: React.FC<Props> = ({ recipent_id }) => {
@@ -40,6 +48,8 @@ const Form: React.FC<Props> = ({ recipent_id }) => {
       fileType = "pdf";
     }
 
+  
+
     const fileData = {
       recipient_id: recipent_id,
       message: url,
@@ -59,6 +69,22 @@ const Form: React.FC<Props> = ({ recipent_id }) => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+  function HandleOffers(data: OfferProps): void {
+    
+    {caseId ,title,  description,price}=data
+
+    caseId=String(caseId)
+
+    const offerData = {
+      recipient_id: recipent_id,
+      message: caseId,
+      messageType: "offer",
+    };
+    postData(undefined, fileData);
+    
+    throw new Error("Function not implemented.");
+  }
+
   return (
     <form
       action={async (formData) => {
@@ -116,7 +142,8 @@ const Form: React.FC<Props> = ({ recipent_id }) => {
         </div>
        
       </div>
-      <OfferModal isOpen={isModalOpen} onClose={handleCloseModal} client_id={recipent_id} setOffer={setOffer}/>
+      
+      <OfferModal isOpen={isModalOpen} onClose={handleCloseModal} client_id={recipent_id} HandleOffer={HandleOffers}/>
     </form>
   );
 };

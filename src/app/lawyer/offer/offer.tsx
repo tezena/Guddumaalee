@@ -13,13 +13,19 @@ import { useSession } from "next-auth/react";
 interface OfferModalProps {
   isOpen: boolean;
   onClose: () => void;
-  setOffer: () => void;
+  HandleOffer: (data:OfferProps) => void;
   client_id: number;
+}
+interface OfferProps{
+  caseId:string;
+  title:string;
+  describtion:string;
+  price:number;
 }
 const OfferModal: React.FC<OfferModalProps> = ({
   isOpen,
   onClose,
-  setOffer,
+  HandleOffer,
   client_id,
 }) => {
   const { data: session } = useSession();
@@ -54,7 +60,16 @@ const OfferModal: React.FC<OfferModalProps> = ({
   const { mutateAsync }: UseMutationResult<void, unknown, Object> = useMutation(
     {
       mutationFn: (data) => createOffer(data),
-      onSuccess: () => {
+      onSuccess: (data) => {
+        console.log(`data from offer ${data}`)
+        const offerData={
+           caseId:data.id,
+           describtion:data.describtion,
+           title:data.title,
+           price:data.price
+        }
+
+        HandleOffer(offerData);
         onClose();
       },
     }
