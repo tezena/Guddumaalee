@@ -11,7 +11,7 @@ import {
   UseMutationResult,
   useQueryClient,
 } from "@tanstack/react-query";
-import { getDashboard } from "./api/dashboard";
+import { getCaseData, getClientData, getLawyerData } from "./api/dashboard";
 import {
   LoadingComponent,
   ErrorComponent,
@@ -20,18 +20,30 @@ import {
 function Admin() {
   const queryClient = useQueryClient();
 
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["faqs"],
-    queryFn: () => getDashboard(),
+  const { data:casedata, isLoading:caseLoading, error:caseError } = useQuery({
+    queryKey: ["casedata"],
+    queryFn: () => getCaseData(),
     refetchInterval: 6000,
   });
 
-  const data1 = [200, 300, 400];
+  const { data:clientdata, isLoading:clientLoading, error:clientError } = useQuery({
+    queryKey: ["clientdata"],
+    queryFn: () => getClientData(),
+    refetchInterval: 6000,
+  });
+
+  const { data:lawyerdata, isLoading:lawyerLoading, error:lawyerError } = useQuery({
+    queryKey: ["lawyerdata"],
+    queryFn: () => getLawyerData(),
+    refetchInterval: 6000,
+  });
+
+  const data1 = [clientdata, lawyerdata?.verifiedLawyerCount, casedata?.totalCases];
 
   // const [count, setCount] = useState(0);
 
-  if (isLoading) return <LoadingComponent />;
-  if (error)
+  if (caseLoading || lawyerLoading || clientLoading ) return <LoadingComponent />;
+  if (lawyerError || clientError || caseError)
     return (
       <ErrorComponent errorMessage="Failed to load data. Please try again." />
     );
@@ -58,7 +70,7 @@ function Admin() {
               <path d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z" />
             </svg>
             <p>Total clients</p>
-            <p>530</p>
+            <p>{clientdata}</p>
           </div>
 
           <div className="bg-white w-3/4 lg:w-1/2 h-20 flex gap-4 text-black items-center px-10 lg:m-auto">
@@ -71,8 +83,8 @@ function Admin() {
             >
               <path d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z" />
             </svg>
-            <p>Total clients</p>
-            <p>530</p>
+            <p>Total Cases</p>
+            <p>{casedata?.totalCases}</p>
           </div>
 
           <div className="bg-white  w-3/4 lg:w-1/2 h-20 flex text-black gap-4 items-center px-10 lg:m-auto">
@@ -85,8 +97,8 @@ function Admin() {
             >
               <path d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z" />
             </svg>
-            <p>Total clients</p>
-            <p>530</p>
+            <p>Total Lawyer</p>
+            <p>{lawyerdata.verifiedLawyerCount}</p>
           </div>
         </div>
       </div>

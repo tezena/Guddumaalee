@@ -26,6 +26,7 @@ const Form: React.FC<Props> = ({ recipent_id }) => {
   const [link, setLink] = useState("");
   const [open, setOpen] = useState(false);
   const {data:session}=useSession()
+  const [offer,setOffer]=useState("")
 
   //@ts-ignore
   const userType=session?.user?.image?.type
@@ -115,7 +116,7 @@ const Form: React.FC<Props> = ({ recipent_id }) => {
         </div>
        
       </div>
-      <OfferModal isOpen={isModalOpen} onClose={handleCloseModal}/>
+      <OfferModal isOpen={isModalOpen} onClose={handleCloseModal} client_id={recipent_id} setOffer={setOffer}/>
     </form>
   );
 };

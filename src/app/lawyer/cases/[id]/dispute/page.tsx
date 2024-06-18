@@ -8,7 +8,7 @@ import {
   getLawyerDisputes,
   submitDispute,
 } from "@/app/lawyer/api/dispute";
-import { useRouter } from "next/navigation";
+import { useRouter,useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import {
   QueryClient,
@@ -36,6 +36,8 @@ const Disputes = () => {
   const [newDispute, setNewDispute] = useState({
     content: "",
   });
+  
+ 
   // @ts-ignore
   const lawyerid = session?.user?.image?.id;
   const { data, isLoading, error } = useQuery({
@@ -44,7 +46,7 @@ const Disputes = () => {
   });
 
   // Ensure data is defined before accessing id
-  const clientId = data?.[0]?.client_id;
+  // const clientId = data?.[0]?.client_id;
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
@@ -53,6 +55,9 @@ const Disputes = () => {
   };
 
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const client_id =Number( searchParams.get('client_id'));
+  
 
   const mutationFn = async (data: DisputeData) => {
     return submitDispute(data);
@@ -79,7 +84,7 @@ const Disputes = () => {
       ...newDispute,
       creator_email: session.user.email,
       lawyer_id: lawyerid,
-      client_id: clientId,
+      client_id: client_id,
     };
 
     try {
@@ -91,6 +96,8 @@ const Disputes = () => {
 
   useEffect(() => {
     console.log(session);
+    console.log('params',client_id);
+    
   }, [session]);
 
 
