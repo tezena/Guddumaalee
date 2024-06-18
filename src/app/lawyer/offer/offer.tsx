@@ -13,7 +13,6 @@ import { useSession } from "next-auth/react";
 interface OfferModalProps {
   isOpen: boolean;
   onClose: () => void;
-  HandleOffer: (data: number) => void;
   client_id: number;
 }
 interface OfferProps {
@@ -25,13 +24,9 @@ interface OfferProps {
 const OfferModal: React.FC<OfferModalProps> = ({
   isOpen,
   onClose,
-  HandleOffer,
   client_id,
 }) => {
-  const { data: session } = useSession();
-
   //@ts-ignore
-
   const [inputData, setInputData] = useState({
     description: "",
     price: 0,
@@ -46,38 +41,26 @@ const OfferModal: React.FC<OfferModalProps> = ({
     setInputData({ ...inputData, [e.target.name]: e.target.value });
   };
 
-  const { mutateAsync }: UseMutationResult<void, unknown, Object> = useMutation(
-    {
-      mutationFn: (data) => createOffer(data),
-      onSuccess: (d) => {
-        console.log(d);
-        // console.log(`data from offer ${mutateAsync.data}`);
-        console.log("mutaion ...3...3333333");
-
-        onClose();
-      },
-    }
-  );
+  const createCaseMutation = useMutation({
+    mutationFn: (data: any) => createOffer(data),
+    onSuccess: (d) => {
+      onClose();
+      setInputData({
+        description: "",
+        price: 0,
+        title: "",
+      });
+    },
+  });
 
   const handleSubmit = async () => {
-    console.log("sumbir co3e4r5r5r5r4e");
-    console.log("client id from handle mennnnnnnnn", client_id);
-
     const data = {
       ...inputData,
       price: Number(inputData.price),
       lawyer_id: lawyer_id,
       client_id: client_id,
     };
-    const mutaion = await mutateAsync(data);
-    console.log("mution");
-    if (mutaion != null) {
-      //@ts-ignore
-      const caseId = mutaion.newCase.id;
-      console.log(`cas idddddddd ${caseId}`);
-
-      HandleOffer(caseId);
-    }
+    createCaseMutation.mutate(data);
   };
 
   if (!isOpen) return null;

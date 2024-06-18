@@ -162,6 +162,11 @@ export class Lawyer extends Account {
         specialties: true,
         updatedAt: true,
         balance: true,
+        ratings: {
+          select: {
+            rate: true,
+          },
+        },
       },
       where: {
         isVerified: "VERIFIED",

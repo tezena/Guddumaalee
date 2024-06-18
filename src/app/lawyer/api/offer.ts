@@ -1,3 +1,4 @@
+import { postData } from "@/app/chat2/components/action";
 import axios from "axios";
 
 export async function createOffer(data: object) {
@@ -7,7 +8,15 @@ export async function createOffer(data: object) {
     if (response.status < 200 || response.status >= 300) {
       throw new Error(`Error: ${response.statusText}`);
     }
-    console.log("offer response", response);
+
+    const newCase = response.data.newCase;
+
+    const offerData = {
+      recipient_id: newCase.client_id,
+      message: newCase.id + "",
+      messageType: "offer",
+    };
+    postData(undefined, offerData);
     return response.data; // Return response data if needed
   } catch (err) {
     console.error(err);
@@ -35,7 +44,6 @@ export async function acceptDelivery(id: number) {
     if (response.status < 200 || response.status >= 300) {
       throw new Error(`Error: ${response.statusText}`);
     }
-    console.log(response);
     return response.data; // Return response data if needed
   } catch (err) {
     console.error(err);
@@ -49,7 +57,6 @@ export async function acceptOffer(id: number) {
     if (response.status < 200 || response.status >= 300) {
       throw new Error(`Error: ${response.statusText}`);
     }
-    console.log(response);
     return response.data; // Return response data if needed
   } catch (err) {
     console.error(err);
@@ -63,7 +70,6 @@ export async function rejectOffer(id: number) {
     if (response.status < 200 || response.status >= 300) {
       throw new Error(`Error: ${response.statusText}`);
     }
-    console.log(response);
     return response.data; // Return response data if needed
   } catch (err) {
     console.error(err);
@@ -78,7 +84,6 @@ export async function getLawyerCaeses(id: number) {
       throw new Error(`Error: ${response.statusText}`);
     }
     const data = response;
-    console.log("this is from lawyer case", data);
 
     return data.data.cases;
   } catch (err) {
@@ -89,15 +94,11 @@ export async function getLawyerCaeses(id: number) {
 
 export async function getCaesesById(id: number) {
   try {
-    console.log(id);
-
     const response = await axios.get(`/api/case/${id}`);
     if (response.status !== 200) {
       throw new Error(`Error: ${response.statusText}`);
     }
     const data = response;
-    console.log("this is from case by id", data);
-
     return data.data.caseById;
   } catch (err) {
     console.error(err);
@@ -107,14 +108,11 @@ export async function getCaesesById(id: number) {
 
 export async function getClientCaseById(id: number) {
   try {
-    console.log(id);
-
     const response = await axios.get(`/api/case/client/${id}`);
     if (response.status !== 200) {
       throw new Error(`Error: ${response.statusText}`);
     }
     const data = response;
-    console.log("this is from client case by id", data);
 
     return data.data;
   } catch (err) {

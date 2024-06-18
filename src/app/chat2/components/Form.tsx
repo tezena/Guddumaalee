@@ -10,45 +10,41 @@ import {
 import { UploadButton, UploadDropzone } from "@/lib/uploadthing";
 import { useToast } from "@/components/ui/use-toast";
 import { useState } from "react";
-import { useSession } from "next-auth/react"
+import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import OfferModal from "@/app/lawyer/offer/offer";
 import { calculateSizeAdjustValues } from "next/dist/server/font-utils";
-
 
 interface Props {
   recipent_id: number;
 }
 
-interface OfferProps{
-  caseId:string;
-  title:string;
-  describtion:string;
-  price:number;
+interface OfferProps {
+  caseId: string;
+  title: string;
+  describtion: string;
+  price: number;
 }
 
 const Form: React.FC<Props> = ({ recipent_id }) => {
-
   const { toast } = useToast();
   const formRef = useRef<HTMLFormElement>(null);
   const [link, setLink] = useState("");
   const [open, setOpen] = useState(false);
-  const {data:session}=useSession()
-  const [offer,setOffer]=useState("")
+  const { data: session } = useSession();
+  const [offer, setOffer] = useState("");
 
   //@ts-ignore
-  const userType=session?.user?.image?.type
+  const userType = session?.user?.image?.type;
 
   const HandleFileSend = (url: string, fileType: string) => {
     if (fileType === "image/png") {
       console.log("file type");
       fileType = "png";
     }
-    if(fileType=="application/pdf"){
+    if (fileType == "application/pdf") {
       fileType = "pdf";
     }
-
-  
 
     const fileData = {
       recipient_id: recipent_id,
@@ -70,13 +66,12 @@ const Form: React.FC<Props> = ({ recipent_id }) => {
     setIsModalOpen(false);
   };
   function HandleOffers(caseId: number): void {
-    
     // {caseId ,title,  description,price}=data
 
-    const case_Id=caseId.toString()
+    const case_Id = caseId.toString();
 
-    console.log(`case id in funcion ${case_Id}`)
-    console.log("post called")
+    console.log(`case id in funcion ${case_Id}`);
+    console.log("post called");
 
     const offerData = {
       recipient_id: recipent_id,
@@ -84,8 +79,6 @@ const Form: React.FC<Props> = ({ recipent_id }) => {
       messageType: "offer",
     };
     postData(undefined, offerData);
-    
-    
   }
 
   return (
@@ -106,7 +99,6 @@ const Form: React.FC<Props> = ({ recipent_id }) => {
         <div className=" cursor-pointer">
           {open ? (
             <UploadDropzone
-              
               className=" bg-transparent-100 "
               endpoint="fileUploader"
               onClientUploadComplete={(res) => {
@@ -130,23 +122,30 @@ const Form: React.FC<Props> = ({ recipent_id }) => {
           className="flex-grow py-2 px-4 outline-none"
         />
         <div className="flex items-center ">
-        <button
-          type="submit"
-          className="bg-teal-500 hover:bg-teal-600 text-white py-2 px-4 rounded-full mr-2"
-        >
-          Send
-        </button>
-        {
-          userType ==="lawyer"? <Button 
-          onClick={handleOpenModal}
-          
-          className="bg-teal-500 hover:bg-teal-600 text-white py-2 px-4 rounded-full">Create Offer</Button>:""
-        }
+          <button
+            type="submit"
+            className="bg-teal-500 hover:bg-teal-600 text-white py-2 px-4 rounded-full mr-2"
+          >
+            Send
+          </button>
+          {userType === "lawyer" ? (
+            <Button
+              onClick={handleOpenModal}
+              className="bg-teal-500 hover:bg-teal-600 text-white py-2 px-4 rounded-full"
+            >
+              Create Offer
+            </Button>
+          ) : (
+            ""
+          )}
         </div>
-       
       </div>
-      
-      <OfferModal isOpen={isModalOpen} onClose={handleCloseModal} client_id={recipent_id} HandleOffer={HandleOffers}/>
+
+      <OfferModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        client_id={recipent_id}
+      />
     </form>
   );
 };

@@ -15,8 +15,6 @@ export async function postData(formData?: FormData, fileData?: any) {
   //@ts-ignore
   const userType = session?.user.image?.type;
 
-  console.log(`user type is${userType}`);
-
   const Pusher = require("pusher");
   // const prisma2 = new db2();
   let message;
@@ -62,15 +60,11 @@ export async function postData(formData?: FormData, fileData?: any) {
     clientId = recipentId;
   }
 
-  console.log(`user is: ${user}`);
-
   if (!user) {
     throw new Error("User not found");
   }
 
   // Create the message
-
-  console.log(`message type is ${fileType}`);
 
   const data = await db.message.create({
     data: {
@@ -104,23 +98,6 @@ export async function postData(formData?: FormData, fileData?: any) {
       },
     },
   });
-
-  // const data = await db.message.create({
-  //   data: {
-  //     message: message as string,
-  //     email: session?.user?.email,
-  //   },
-  //   include: {
-  //     User: {
-  //       select: {
-  //         name: true,
-  //         image: true,
-  //       },
-  //     },
-  //   },
-  // });
-
-  console.log(process.env.NEXT_PUBLIC_PUSHER_KEY);
 
   const pusher = new Pusher({
     appId: process.env.NEXT_PUBLIC_PUSHER_APP_ID,

@@ -1,5 +1,6 @@
 import { db } from "@/lib/db";
 import { isAuthenticated, isClient, isLawyer } from "../checkRole";
+import { Payment } from "../payment-management/Payment";
 
 export class Case {
   static async create(
@@ -86,7 +87,7 @@ export class Case {
   }
   static async acceptOffer(case_id: number) {
     const client = await isClient();
-    const acceptedCase = await db.case.updateMany({
+    const acceptedCase = await db.case.update({
       where: {
         //@ts-ignore
         client_id: client.user.image.id,
@@ -96,7 +97,16 @@ export class Case {
         status: "ACCEPTED",
       },
     });
-    return acceptedCase;
+
+    const checkout_url = await Payment.initiate(
+      "khalid.yewe@gmail.com",
+      "Yohannes",
+      "Legessu",
+      "0943685872",
+      acceptedCase.id
+    );
+
+    return checkout_url;
   }
   static async rejectOffer(case_id: number) {
     const client = await isClient();

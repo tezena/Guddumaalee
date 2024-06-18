@@ -26,8 +26,8 @@ async function getData(recipent_id: number) {
       select: {
         message: true,
         //@ts-ignore
-        messageType:true,
-        fileType:true,
+        messageType: true,
+        fileType: true,
         id: true,
         client: {
           select: {
@@ -47,7 +47,7 @@ async function getData(recipent_id: number) {
       orderBy: {
         createdAt: "asc",
       },
-      take: 50,
+      // take: 50,
     });
   } else {
     data = await db.message.findMany({
@@ -61,8 +61,8 @@ async function getData(recipent_id: number) {
       select: {
         message: true,
         //@ts-ignore
-        messageType:true,
-        fileType:true,
+        messageType: true,
+        fileType: true,
         id: true,
         lawyer: {
           select: {
@@ -82,7 +82,7 @@ async function getData(recipent_id: number) {
       orderBy: {
         createdAt: "asc",
       },
-      take: 50,
+      // take: 50,
     });
   }
 
