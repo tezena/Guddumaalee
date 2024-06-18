@@ -81,14 +81,14 @@ export default function ChatComponent({ data }: iAppProps) {
                       <div className="rounded-lg bg-white p-4 shadow-md self-start mr-4">
                         {message.message}
                       </div>
-                    ) : (
+                    ) : 
 
-                      {
+                      
                     //@ts-ignore
 
-                        message.messageType == "offer"?(<></>):
+                        message.messageType === "offer"?(<></>):
                         (
-                        <div className="flex flex-col">
+                        <div className="flex flex-col" >
                           <FileViewer
                             fileType={message.fileType}
                             filePath={message.message}
@@ -100,10 +100,11 @@ export default function ChatComponent({ data }: iAppProps) {
                             //@ts-ignore
                             <FileDownloader fileUrl={message.message} />
                           }
-                        </div>)                    
-                        }
-                      
-                    )
+                        </div>
+                      )
+                        
+                                          
+                    
                   }
 
                   {userType == "lawyer" ? (
@@ -145,22 +146,22 @@ export default function ChatComponent({ data }: iAppProps) {
                       <div className="rounded-lg bg-white p-4 shadow-md self-start mr-4">
                         {message.message}
                       </div>
-                    ) : (
-                      //@ts-ignore
-                      <div className="flex flex-col">
-                        <FileViewer
-                          fileType={message.fileType}
-                          filePath={message.message}
-                          onError={onError}
-                          style={{ width: "300px", height: "200px" }}
-                          className="rounded-md"
-                        />
-                        {
-                          //@ts-ignore
-                          <FileDownloader fileUrl={message.message} />
-                        }
-                      </div>
-                    )
+                    ) : message.messageType === "offer"?(<></>):
+                    (
+                    <div className="flex flex-col" >
+                      <FileViewer
+                        fileType={message.fileType}
+                        filePath={message.message}
+                        onError={onError}
+                        style={{ width: "300px", height: "200px" }}
+                        className="rounded-md"
+                      />
+                      {
+                        //@ts-ignore
+                        <FileDownloader fileUrl={message.message} />
+                      }
+                    </div>
+                  )
                   }
                 </div>
               )
