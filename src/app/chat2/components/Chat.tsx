@@ -83,7 +83,7 @@ export default function ChatComponent({ data }: iAppProps) {
                       {
                         // @ts-ignore
                         message.messageType === "text" ? (
-                          <div className="rounded-lg bg-white p-4 shadow-md self-start mr-4">
+                          <div className="ml-3 rounded-lg bg-white p-4 shadow-md self-start mr-4">
                             {message.message}
                           </div>
                         ) : //@ts-ignore
@@ -138,7 +138,7 @@ export default function ChatComponent({ data }: iAppProps) {
                           height={50}
                         />
                       ) : (
-                        <div className="flex p-1 bg-[#7B3B99] cursor-pointer items-center justify-center h-[40px] w-[40px] rounded-full ">
+                        <div className="mr-3 flex p-1 bg-[#7B3B99] cursor-pointer items-center justify-center h-[40px] w-[40px] rounded-full ">
                           <span className="text-xl text-white font-semibold capitalize ">
                             {message.client?.full_name?.slice(0, 1)}
                           </span>

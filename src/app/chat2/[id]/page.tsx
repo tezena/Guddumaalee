@@ -39,7 +39,7 @@ export default async function Chathomepage({
       <div className="w-[25%] relative">
         <ChatUserList />
       </div>
-      <div className="h-[50vh] bg-gray-200 flex flex-col w-[75%] relative">
+      <div className="h-[85vh] bg-white border rounded-md flex flex-col w-[73%] relative mt-3">
         <ChatComponent data={data as any} />
         <Form recipent_id={recipentId} />
       </div>

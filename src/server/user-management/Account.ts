@@ -2,11 +2,14 @@ import { signIn, signOut } from "next-auth/react";
 
 export class Account {
   static async login(email: string, password: string) {
-    await signIn("credentials", {
+    const res = await signIn("credentials", {
       redirect: false,
       email,
       password,
     });
+    if (!res?.ok) {
+      throw new Error("Invalid credentials");
+    }
     return;
   }
 

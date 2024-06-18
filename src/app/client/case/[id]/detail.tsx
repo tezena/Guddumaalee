@@ -8,7 +8,7 @@ import {
   UseMutationResult,
   useQueryClient,
 } from "@tanstack/react-query";
-import { accept, getCaesesById } from "@/app/lawyer/api/offer";
+import { acceptDelivery, getCaesesById } from "@/app/lawyer/api/offer";
 import RatingPopup from "@/components/ratingpop";
 import {
   LoadingComponent,
@@ -29,7 +29,7 @@ const CaseDetail: React.FC = () => {
   });
 
   const acceptMutation: UseMutationResult<void, unknown, number> = useMutation({
-    mutationFn: (id: number) => accept(id),
+    mutationFn: (id: number) => acceptDelivery(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["disputes"] });
     },

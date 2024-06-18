@@ -171,6 +171,9 @@ export class Case {
         },
       },
     });
+
+    console.log(acceptedCase.payment_id);
+
     // update transaction status
     await db.transaction.update({
       where: {
