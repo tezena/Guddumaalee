@@ -3,13 +3,14 @@ import Link from "next/link";
 import React from "react";
 import { FaStar } from "react-icons/fa";
 import Image from "next/image";
+import { Average } from "next/font/google";
 
 export interface LawyerProps {
   id: string;
   name: string;
   des: string;
   imageUrl: string;
-  rate: number;
+  rate: number[];
 }
 const LawyersCard: React.FC<LawyerProps> = ({
   id,
@@ -18,6 +19,14 @@ const LawyersCard: React.FC<LawyerProps> = ({
   des,
   rate,
 }) => {
+//@ts-ignore
+  const rateValues = rate.map(item => item?.rate);
+const averageRate = rateValues.reduce((sum, rate) => sum + rate, 0) / rateValues.length;
+
+  console.log('this rate av',averageRate);
+  console.log('this rate',rate);
+  
+
   const renderStars = (rating: number) => {
     const stars = [];
     for (let i = 0; i < 5; i++) {
@@ -43,7 +52,7 @@ const LawyersCard: React.FC<LawyerProps> = ({
           <h2 className="text-xl font-bold text-gray-800 mb-2">{name}</h2>
           <p className="text-gray-700 text-sm leading-tight mb-4">{des}</p>
           <div className="flex felx-row">
-            <div className="flex items-center mt-2">{renderStars(rate)}</div>
+            <div className="flex items-center mt-2">{renderStars(averageRate)}</div>
           </div>
         </div>
       </div>
