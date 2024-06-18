@@ -12,7 +12,7 @@ export class Faq extends Account {
         question,
       },
     });
-    return newFaq;
+    return newFaq;  
   }
 
   static async getAnswered() {
