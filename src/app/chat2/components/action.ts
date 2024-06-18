@@ -5,61 +5,61 @@ import { db } from "@/lib/db";
 import { getServerAuthSession } from "@/server/auth";
 import { Console } from "console";
 
-export async function postData(formData?: FormData,fileData?:any) {
+export async function postData(formData?: FormData, fileData?: any) {
   "use server";
 
   // const {data:session}=useSession()
 
   const session = await getServerAuthSession();
- 
-   //@ts-ignore
+
+  //@ts-ignore
   const userType = session?.user.image?.type;
 
   console.log(`user type is${userType}`);
 
   const Pusher = require("pusher");
   // const prisma2 = new db2();
-  let message
-  let recipentId
-  let messageType
-  let fileType
+  let message;
+  let recipentId;
+  let messageType;
+  let fileType;
 
-  if(formData){
-    message =formData.get("message");
+  if (formData) {
+    message = formData.get("message");
 
-    recipentId=Number(formData?.get("recipient_id"))
-    messageType=formData.get("messageType")
-  }else{
-        message=fileData.message
-        recipentId=Number(fileData.recipient_id)
-        messageType=fileData.messageType
-        fileType=fileData.fileType
+    recipentId = Number(formData?.get("recipient_id"));
+    messageType = formData.get("messageType");
+  } else {
+    message = fileData.message;
+    recipentId = Number(fileData.recipient_id);
+    messageType = fileData.messageType;
+    fileType = fileData.fileType;
   }
 
   const email = session?.user?.email;
 
   // Check if the user exists based on the userType
   let user = null;
-  let clientId="";
-  let lawyerId="";
+  let clientId = "";
+  let lawyerId = "";
 
   if (userType === "client" && email) {
     user = await db.client.findUnique({
       where: { email },
     });
-     
+
     //@ts-ignore
-    clientId=user?.id
+    clientId = user?.id;
     //@ts-ignore
-    lawyerId=recipentId
+    lawyerId = recipentId;
   } else if (userType === "lawyer" && email) {
     user = await db.lawyer.findUnique({
       where: { email },
     });
     //@ts-ignore
-    lawyerId=user?.id
+    lawyerId = user?.id;
     //@ts-ignore
-    clientId=recipentId
+    clientId = recipentId;
   }
 
   console.log(`user is: ${user}`);
@@ -68,37 +68,40 @@ export async function postData(formData?: FormData,fileData?:any) {
     throw new Error("User not found");
   }
 
-    
-
   // Create the message
 
-  console.log(`message type is ${fileType}`)
-  
-   const data  = await db.message.create({
+  console.log(`message type is ${fileType}`);
+
+  const data = await db.message.create({
     data: {
       //@ts-ignore
       message,
       //@ts-ignore
       lawyerId,
       //@ts-ignore
-      clientId ,
-      reciver_email:'lla@gmail.com',
+      clientId,
+      reciver_email: "lla@gmail.com",
       //@ts-ignore
-      sender_email:email,
+      sender_email: email,
       //@ts-ignore
 
       messageType,
       //@ts-ignore
       fileType,
-
     },
     include: {
-      ...(userType === "client"
-        ? { client: { select: { full_name: true } } }
-        : {}),
-      ...(userType === "lawyer"
-        ? { lawyer: { select: { full_name: true, photo: true } } }
-        : {}),
+      client: {
+        select: {
+          full_name: true,
+          photo: true,
+        },
+      },
+      lawyer: {
+        select: {
+          full_name: true,
+          photo: true,
+        },
+      },
     },
   });
 

@@ -101,7 +101,7 @@ export default function ChatComponent({ data }: iAppProps) {
 
                   {userType == "lawyer" ? (
                     <Image
-                      src={message.lawyer.photo}
+                      src={message?.lawyer?.photo || ""}
                       alt="Profile image of user"
                       className="w-12 h-12 object-cover rounded-lg "
                       width={50}
