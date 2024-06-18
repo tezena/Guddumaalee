@@ -70,7 +70,7 @@ export default function ChatComponent({ data }: iAppProps) {
   };
 
   return (
-    <div className="p-6 flex-grow max-h-screen overflow-y-auto py-24">
+    <div className="p-6 flex-grow h-[80vh] overflow-y-auto py-24">
       <div className="flex flex-col gap-4">
         {totalComments?.map(
           (message, index) =>
