@@ -13,18 +13,21 @@ import { useSession } from "next-auth/react";
 interface OfferModalProps {
   isOpen: boolean;
   onClose: () => void;
-  setOffer: () => void;
+  HandleOffer: (data:OfferProps) => void;
   client_id: number;
+}
+interface OfferProps{
+  caseId:string;
+  title:string;
+  describtion:string;
+  price:number;
 }
 const OfferModal: React.FC<OfferModalProps> = ({
   isOpen,
   onClose,
-  setOffer,
+  HandleOffer,
   client_id,
 }) => {
-  const [description, setDescription] = useState("");
-  const [amount, setAmount] = useState("");
-  const [caseName, setCaseName] = useState("");
   const { data: session } = useSession();
 
   //@ts-ignore
@@ -44,7 +47,6 @@ const OfferModal: React.FC<OfferModalProps> = ({
     setInputData({ ...inputData, [e.target.name]: e.target.value });
   };
   const handleSubmit = () => {
-    console.log({ caseName, description, amount });
     const data = {
       ...inputData,
       price: Number(inputData.price),
@@ -58,7 +60,16 @@ const OfferModal: React.FC<OfferModalProps> = ({
   const { mutateAsync }: UseMutationResult<void, unknown, Object> = useMutation(
     {
       mutationFn: (data) => createOffer(data),
-      onSuccess: () => {
+      onSuccess: (data) => {
+        console.log(`data from offer ${data}`)
+        const offerData={
+           caseId:data.id,
+           describtion:data.describtion,
+           title:data.title,
+           price:data.price
+        }
+
+        HandleOffer(offerData);
         onClose();
       },
     }
