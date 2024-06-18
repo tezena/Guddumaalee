@@ -11,10 +11,13 @@ import {
 } from "@tanstack/react-query";
 import { answerFaq, getFaqs } from "../api/faq";
 
-import { LoadingComponent, ErrorComponent } from '@/components/LoadingErrorComponents';
+import {
+  LoadingComponent,
+  ErrorComponent,
+} from "@/components/LoadingErrorComponents";
 
-export function FAQ() {
-  const queryClient = useQueryClient()
+function FAQ() {
+  const queryClient = useQueryClient();
   const [activeFAQ, setActiveFAQ] = useState<number | null>(null);
   const [answer, setAnswer] = useState<string>("");
 
@@ -24,20 +27,27 @@ export function FAQ() {
     refetchInterval: 3000,
   });
 
-  const mutationFn = async ({ id, answer }: { id: number; answer: string }): Promise<void> => {
+  const mutationFn = async ({
+    id,
+    answer,
+  }: {
+    id: number;
+    answer: string;
+  }): Promise<void> => {
     await answerFaq(id, answer);
   };
 
-  const { mutateAsync }: UseMutationResult<void, unknown, { id: number; answer: string }> = useMutation({
-    mutationFn,
+  const {
+    mutateAsync,
+  }: UseMutationResult<void, unknown, { id: number; answer: string }> =
+    useMutation({
+      mutationFn,
 
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["faqs"] });
-      console.log("Answer submitted successfully.");
-    },
-  });
-
-  
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["faqs"] });
+        console.log("Answer submitted successfully.");
+      },
+    });
 
   const toggleShowInput = (id: number) => {
     setActiveFAQ((prev) => (prev === id ? null : id));
@@ -65,7 +75,7 @@ export function FAQ() {
 
   return (
     <div className="w-full font-sans min-h-screen pt-28 pl-10 lg:pl-72 bg-[#f2f6fa] text-black overflow-auto flex flex-col gap-4">
-      {data?.map((FAQ:any) => (
+      {data?.map((FAQ: any) => (
         <div
           className="w-full max-w-2xl lg:max-w-4xl p-8 bg-white border border-gray-300 rounded-xl shadow-md mx-auto relative transform transition duration-500 hover:scale-105 "
           key={FAQ.id}
@@ -116,35 +126,3 @@ export function FAQ() {
 }
 
 export default FAQ;
-
-
-// const FAQS = [
-//   {
-//     id: 1,
-//     question: `Jack six pounders spike haul wind gangplank me wherry quarter nipper
-//   mizzenmast. Schooner execution dock furl flogging scuttle ballast
-//   gangplank hornswaggle Cat o' nine tails yardarm. Pink tender knave Jolly
-//   Roger hands loaded to the gunwalls carouser stern reef sails aft?`,
-//   },
-//   {
-//     id: 2,
-//     question: `Jack six pounders spike haul wind gangplank me wherry quarter nipper
-//     mizzenmast. Schooner execution dock furl flogging scuttle ballast
-//     gangplank hornswaggle Cat o' nine tails yardarm. Pink tender knave Jolly
-//     Roger hands loaded to the gunwalls carouser stern reef sails aft?`,
-//   },
-//   {
-//     id: 3,
-//     question: `Jack six pounders spike haul wind gangplank me wherry quarter nipper
-//     mizzenmast. Schooner execution dock furl flogging scuttle ballast
-//     gangplank hornswaggle Cat o' nine tails yardarm. Pink tender knave Jolly
-//     Roger hands loaded to the gunwalls carouser stern reef sails aft?`,
-//   },
-//   {
-//     id: 4,
-//     question: `Jack six pounders spike haul wind gangplank me wherry quarter nipper
-//     mizzenmast. Schooner execution dock furl flogging scuttle ballast
-//     gangplank hornswaggle Cat o' nine tails yardarm. Pink tender knave Jolly
-//     Roger hands loaded to the gunwalls carouser stern reef sails aft?`,
-//   },
-// ];

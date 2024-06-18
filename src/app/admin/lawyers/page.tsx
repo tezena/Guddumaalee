@@ -4,15 +4,16 @@ import { useState, useEffect, useMemo } from "react";
 import { Icon } from "@iconify/react";
 import { getVerifiedLawyers } from "../api/lawyers";
 import { useQuery } from "@tanstack/react-query";
-import { LoadingComponent, ErrorComponent } from '@/components/LoadingErrorComponents';
+import {
+  LoadingComponent,
+  ErrorComponent,
+} from "@/components/LoadingErrorComponents";
 
-export function Lawyers() {
+function Lawyers() {
   const { data, error, isLoading } = useQuery({
     queryKey: ["lawyers"],
     queryFn: getVerifiedLawyers,
   });
-
- 
 
   const pageSize = 5;
   const visiblePages = 3;
@@ -134,7 +135,9 @@ export function Lawyers() {
                   key={index}
                 >
                   <td className="py-3 px-6 text-black">{lawyer.full_name}</td>
-                  <td className="py-3 px-6 text-black">{lawyer.phone_number}</td>
+                  <td className="py-3 px-6 text-black">
+                    {lawyer.phone_number}
+                  </td>
                   <td className="py-3 px-6 text-black">{lawyer.email}</td>
                   <td className="py-3 px-6 text-black">
                     <button

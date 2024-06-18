@@ -17,7 +17,7 @@ import {
   ErrorComponent,
 } from "@/components/LoadingErrorComponents";
 
-export function Admin() {
+function Admin() {
   const queryClient = useQueryClient();
 
   const { data, isLoading, error } = useQuery({

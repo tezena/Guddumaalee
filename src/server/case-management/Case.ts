@@ -168,6 +168,7 @@ export class Case {
       },
       data: {
         status: "TRANSFERRED",
+        paid_at: new Date(),
       },
     });
     return acceptedCase;

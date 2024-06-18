@@ -2,7 +2,6 @@ import { siteConfig } from "@/config/site";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/server/auth";
 import Logout from "./Logout";
-import { MobileNav } from "./moblie-nav";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { MainNav } from "./main-nav";

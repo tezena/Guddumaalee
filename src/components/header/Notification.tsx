@@ -9,24 +9,22 @@ const Notification = () => {
   // get trial notification based on session
   const { data: session } = useSession();
 
+  //@ts-ignore
   const { data, isLoading, error } =
     //@ts-ignore
-    session.user.image.type == "client"
-      ? useQuery({
-          queryKey: ["notifications"],
-          queryFn: async () => {
-            const res = await axios.get("/api/trial/client");
-            return res.data.trials;
-          },
-        })
-      : useQuery({
-          queryKey: ["notifications"],
-          queryFn: async () => {
-            const res = await axios.get("/api/trial/lawyer");
-            return res.data.trials;
-          },
-        });
-  console.log(data);
+    session.user.image.type == "client";
+  useQuery({
+    queryKey: ["notifications"],
+    queryFn: async () => {
+      const res = await axios.get(
+        `/api/trial/${
+          //@ts-ignore
+          session.user.image.type
+        }`
+      );
+      return res.data.trials;
+    },
+  });
 
   return (
     <Link
