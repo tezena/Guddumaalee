@@ -28,10 +28,10 @@ const Cases: React.FC = () => {
 
   // Filter cases based on their status
   const currentCases = data?.filter(
-    (clientcase: any) => clientcase.status !== "DELIVERED"
+    (clientcase: any) => clientcase.status !== "FINISHED"
   );
   const recentCases = data?.filter(
-    (clientcase: any) => clientcase.status === "DELIVERED"
+    (clientcase: any) => clientcase.status === "FINISHED"
   );
 
   if (isLoading) return <LoadingComponent />;
