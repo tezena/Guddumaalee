@@ -13,7 +13,7 @@ import { useSession } from "next-auth/react";
 interface OfferModalProps {
   isOpen: boolean;
   onClose: () => void;
-  HandleOffer: (data:OfferProps) => void;
+  HandleOffer: (data:number) => void;
   client_id: number;
 }
 interface OfferProps{
@@ -62,14 +62,9 @@ const OfferModal: React.FC<OfferModalProps> = ({
       mutationFn: (data) => createOffer(data),
       onSuccess: (data) => {
         console.log(`data from offer ${data}`)
-        const offerData={
-           caseId:data.id,
-           describtion:data.describtion,
-           title:data.title,
-           price:data.price
-        }
+          const caseId=data.id
 
-        HandleOffer(offerData);
+        HandleOffer(caseId);
         onClose();
       },
     }

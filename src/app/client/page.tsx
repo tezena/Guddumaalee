@@ -5,7 +5,7 @@ function Client() {
   return (
     <div className=" min-h-screen   w-full">
       <LandingPage />
-      another fucck from sami
+  
     </div>
   );
 }
