@@ -81,12 +81,11 @@ export default function ChatComponent({ data }: iAppProps) {
                       <div className="rounded-lg bg-white p-4 shadow-md self-start mr-4">
                         {message.message}
                       </div>
-                    ) : (
-
-                      {
-                    //@ts-ignore
-
-                        message.messageType == "offer"?(<></>):
+                    ) : 
+                       //@ts-ignore
+                        message.messageType == "offer" ?(
+                        <div>
+                          </div>):
                         (
                         <div className="flex flex-col">
                           <FileViewer
@@ -103,8 +102,6 @@ export default function ChatComponent({ data }: iAppProps) {
                         </div>)                    
                         }
                       
-                    )
-                  }
 
                   {userType == "lawyer" ? (
                     <Image
