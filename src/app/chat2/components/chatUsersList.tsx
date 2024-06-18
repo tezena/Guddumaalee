@@ -67,9 +67,9 @@ export default function ChatUserList({ data }: iAppProps) {
             <div key={index}>
               <Link href={`/chat2/${user.lawyerId || user.clientId}`}>
                 <div className="flex items-center ">
-                  {user.photo ? (
+                  {user?.photo ? (
                     <Image
-                      src={user?.photo + ""}
+                      src={user?.photo}
                       alt="Profile image of user"
                       className="w-12 h-12 object-cover rounded-lg mr-4 rounded-full"
                       width={50}
