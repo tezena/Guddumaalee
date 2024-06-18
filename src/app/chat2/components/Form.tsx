@@ -69,20 +69,20 @@ const Form: React.FC<Props> = ({ recipent_id }) => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
-  function HandleOffers(data: OfferProps): void {
+  function HandleOffers(caseId: number): void {
     
-    {caseId ,title,  description,price}=data
+    // {caseId ,title,  description,price}=data
 
-    caseId=String(caseId)
+    const case_Id=String(caseId)
 
     const offerData = {
       recipient_id: recipent_id,
-      message: caseId,
+      message: case_Id,
       messageType: "offer",
     };
-    postData(undefined, fileData);
+    postData(undefined, offerData);
     
-    throw new Error("Function not implemented.");
+    
   }
 
   return (

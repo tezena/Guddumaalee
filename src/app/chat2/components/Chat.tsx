@@ -69,7 +69,7 @@ export default function ChatComponent({ data }: iAppProps) {
   return (
     <div className="p-6 flex-grow max-h-screen overflow-y-auto py-24">
       <div className="flex flex-col gap-4">
-        {totalComments.map((message, index) => (
+        {totalComments?.map((message, index) => (
           <div key={index}>
             {
               //@ts-ignore
@@ -82,20 +82,27 @@ export default function ChatComponent({ data }: iAppProps) {
                         {message.message}
                       </div>
                     ) : (
-                      //@ts-ignore
-                      <div className="flex flex-col">
-                        <FileViewer
-                          fileType={message.fileType}
-                          filePath={message.message}
-                          onError={onError}
-                          style={{ width: "300px", height: "200px" }}
-                          className="rounded-md"
-                        />
-                        {
-                          //@ts-ignore
-                          <FileDownloader fileUrl={message.message} />
+
+                      {
+                    //@ts-ignore
+
+                        message.messageType == "offer"?(<></>):
+                        (
+                        <div className="flex flex-col">
+                          <FileViewer
+                            fileType={message.fileType}
+                            filePath={message.message}
+                            onError={onError}
+                            style={{ width: "300px", height: "200px" }}
+                            className="rounded-md"
+                          />
+                          {
+                            //@ts-ignore
+                            <FileDownloader fileUrl={message.message} />
+                          }
+                        </div>)                    
                         }
-                      </div>
+                      
                     )
                   }
 
