@@ -89,28 +89,7 @@ function Clients() {
       <div className="w-full p-4">
         <h1 className="font-bold text-3xl  text-black">Clients</h1>
       </div>
-      <div className="w-full flex gap-20">
-        <div className="w-3/4 lg:w-1/4 h-20 flex gap-3 shadow-md rounded-lg p-4 bg-white text-black items-center justify-center">
-          <Icon
-            icon="icon-park-solid:peoples"
-            width={30}
-            height={30}
-            color="#634670"
-          />
-          <p>3</p>
-          <p>Active Clients</p>
-        </div>
-        <div className="w-3/4 lg:w-1/4 h-20 flex gap-3 shadow-md rounded-lg p-4 bg-white text-black items-center justify-center">
-          <Icon
-            icon="icon-park-solid:peoples"
-            width={30}
-            height={30}
-            color="#be75e0"
-          />
-          <p>0</p>
-          <p>Not Active Clients</p>
-        </div>
-      </div>
+    
 
       <div className="rounded-2xl overflow-auto py-10 pr-10">
         <table className="w-full text-left rounded-xl">
