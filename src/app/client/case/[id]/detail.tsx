@@ -80,7 +80,7 @@ const CaseDetail: React.FC = () => {
             </div>
 
             <div className="flex items-center gap-4">
-              {data?.status !== "DELIVERED" && (
+              {data?.status !== "FINISHED" && (
                 <div>
                   <button
                     onClick={() => handleAccept(Number(id))}
