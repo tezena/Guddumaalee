@@ -4,7 +4,8 @@ import { Icon } from "@iconify/react";
 import { useMutation, useQuery, useQueryClient, UseMutationResult } from "@tanstack/react-query";
 import { getDisputes, acceptDispute, resolveDispute } from "@/app/lawyer/api/dispute";
 import { LoadingComponent, ErrorComponent } from '@/components/LoadingErrorComponents';
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function Dispute() {
   const queryClient = useQueryClient();
   const { data, isLoading, error } = useQuery({
@@ -13,18 +14,31 @@ function Dispute() {
     refetchInterval: 3000,
   });
 
+ 
+
+ 
+
   const acceptMutation: UseMutationResult<void, unknown, number> = useMutation({
     mutationFn: (id: number) => acceptDispute(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["disputes"] });
+      toast.success("Dispute Accepted successfully!");
     },
+    onError:()=>{
+      toast.error("Failed to Accept the dispute.");
+    }
+
   });
 
   const resolveMutation: UseMutationResult<void, unknown, number> = useMutation({
     mutationFn: (id: number) => resolveDispute(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["disputes"] });
+      toast.success("Dispute Resolved successfully!");
     },
+    onError:()=>{
+      toast.error("Failed to Resolve the dispute.");
+    }
   });
 
   const handleResolve = async (id: number) => {

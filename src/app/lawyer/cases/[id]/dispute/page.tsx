@@ -8,7 +8,7 @@ import {
   getLawyerDisputes,
   submitDispute,
 } from "@/app/lawyer/api/dispute";
-import { useRouter,useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import {
   QueryClient,
@@ -17,7 +17,12 @@ import {
   UseMutationResult,
   useQueryClient,
 } from "@tanstack/react-query";
-import { LoadingComponent, ErrorComponent } from '@/components/LoadingErrorComponents';
+import {
+  LoadingComponent,
+  ErrorComponent,
+} from "@/components/LoadingErrorComponents";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // Mock data for disputes
 
@@ -30,14 +35,13 @@ type DisputeData = {
 
 const Disputes = () => {
   const queryClient = useQueryClient();
-  
+
   const { data: session } = useSession();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newDispute, setNewDispute] = useState({
     content: "",
   });
-  
- 
+
   // @ts-ignore
   const lawyerid = session?.user?.image?.id;
   const { data, isLoading, error } = useQuery({
@@ -56,8 +60,7 @@ const Disputes = () => {
 
   const router = useRouter();
   const searchParams = useSearchParams();
-  const client_id =Number( searchParams.get('client_id'));
-  
+  const client_id = Number(searchParams.get("client_id"));
 
   const mutationFn = async (data: DisputeData) => {
     return submitDispute(data);
@@ -68,7 +71,17 @@ const Disputes = () => {
       mutationFn,
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["disputes"] });
-        handleCloseModal();
+        toast.success("Dispute submited successfully!");
+
+        setTimeout(() => {
+          handleCloseModal();
+        }, 12000);
+      },
+      onError: () => {
+        toast.error("Failed to Submite the dispute.");
+        setTimeout(() => {
+          handleCloseModal();
+        }, 12000);
       },
     });
 
@@ -96,10 +109,8 @@ const Disputes = () => {
 
   useEffect(() => {
     console.log(session);
-    console.log('params',client_id);
-    
+    console.log("params", client_id);
   }, [session]);
-
 
   if (isLoading) return <LoadingComponent />;
   if (error)
@@ -142,18 +153,18 @@ const Disputes = () => {
             </p>
           </div>
           <p className="flex gap-4 items-center">
-              <span className="text-xl font-bold text-[#60287a]">
-                Lawyer_Email:
-              </span>
-              {data?.[0]?.creator_email}
-            </p>
+            <span className="text-xl font-bold text-[#60287a]">
+              Lawyer_Email:
+            </span>
+            {data?.[0]?.creator_email}
+          </p>
 
-            <p className="flex gap-4 items-center">
-              <span className="text-xl font-bold text-[#60287a]">
-                Client_Email:
-              </span>
-              {data?.[0]?.client?.email}
-            </p>
+          <p className="flex gap-4 items-center">
+            <span className="text-xl font-bold text-[#60287a]">
+              Client_Email:
+            </span>
+            {data?.[0]?.client?.email}
+          </p>
         </div>
 
         {data?.map((dispute: any) => (
@@ -175,7 +186,6 @@ const Disputes = () => {
               <div className="flex gap-2 items-center absolute right-12 top-12 text-sm">
                 <p className=" font-bold text-[#60277b]">Submission Date:</p>
                 {new Date(dispute.created_at).toLocaleDateString()}
-              
               </div>
               <div className="flex gap-2 items-center">
                 <p className="text-2xl font-bold text-[#60287a]">Status:</p>

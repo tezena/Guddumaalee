@@ -13,11 +13,12 @@ import {
 } from "@tanstack/react-query";
 import { verifyLawyer, getLawyerById, rejectLawyer } from "../../api/lawyers";
 import { useRouter } from "next/navigation";
-import { ToastContainer, toast } from "react-toastify";
 import {
   LoadingComponent,
   ErrorComponent,
 } from "@/components/LoadingErrorComponents";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Detail() {
   const queryClient = useQueryClient();
@@ -42,13 +43,14 @@ function Detail() {
     onSuccess: (data: any) => {
       queryClient.invalidateQueries({ queryKey: ["lawyers"] });
       console.log("lawyer acceptd.", data);
-      toast.success("Question submitted successfully!");
+      toast.success("Lawyer Accepted successfully!");
+
       setTimeout(() => {
         router.back();
-      }, 2000);
+      }, 12000);
     },
-    onError: (error: any) => {
-      toast.error("Failed to submit the question.");
+    onError: () => {
+      toast.error("Failed to accept the lawyer.");
     },
   });
 
@@ -56,8 +58,14 @@ function Detail() {
     mutationFn: rejectMutationFn,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["lawyers"] });
-      console.log("lawyer rejected.");
-      router.back();
+      toast.success("Lawyer rejected successfully!");
+
+      setTimeout(() => {
+        router.back();
+      }, 12000);
+    },
+    onError: () => {
+      toast.error("Failed to reject the lawyer.");
     },
   });
 

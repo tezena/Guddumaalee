@@ -16,6 +16,9 @@ import {
   ErrorComponent,
 } from "@/components/LoadingErrorComponents";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function FAQ() {
   const queryClient = useQueryClient();
   const [activeFAQ, setActiveFAQ] = useState<number | null>(null);
@@ -45,8 +48,11 @@ function FAQ() {
 
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["faqs"] });
-        console.log("Answer submitted successfully.");
+        toast.success("FAQ Answered successfully!");
       },
+      onError:()=>{
+        toast.error("Failed to answer the question.");
+      }
     });
 
   const toggleShowInput = (id: number) => {

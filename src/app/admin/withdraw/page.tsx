@@ -12,6 +12,8 @@ import {
   LoadingComponent,
   ErrorComponent,
 } from "@/components/LoadingErrorComponents";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const WithdrawRequestsPage = () => {
   const queryClient = useQueryClient();
@@ -24,7 +26,11 @@ const WithdrawRequestsPage = () => {
   const PayMutation: UseMutationResult<void, unknown, number> = useMutation({
     mutationFn: (id: number) => pay(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["disputes"] });
+      queryClient.invalidateQueries({ queryKey: ["withdraw"] });
+      toast.success("Pay submited successfully!");
+    },
+    onError: () => {
+      toast.error("Failed pay tray agin later.");
     },
   });
 
