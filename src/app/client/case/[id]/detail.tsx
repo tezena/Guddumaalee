@@ -14,6 +14,8 @@ import {
   LoadingComponent,
   ErrorComponent,
 } from "@/components/LoadingErrorComponents";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CaseDetail: React.FC = () => {
   const queryClient = useQueryClient();
@@ -31,7 +33,11 @@ const CaseDetail: React.FC = () => {
   const acceptMutation: UseMutationResult<void, unknown, number> = useMutation({
     mutationFn: (id: number) => acceptDelivery(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["disputes"] });
+      queryClient.invalidateQueries({ queryKey: ["case"] });
+      toast.success("Delivey Accepted successfully!");
+    },
+    onError: () => {
+      toast.error("Failed to Acccept Delivery!.");
     },
   });
 

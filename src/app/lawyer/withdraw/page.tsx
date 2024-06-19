@@ -106,7 +106,7 @@ function Withdraw() {
           {message && <p>{message}</p>}
         </div>
 
-        <div className="flex flex-col gap-4">
+        {/* <div className="flex flex-col gap-4">
           <h1 className="text-xl font-bold text-[#60287a]">WithDraw history</h1>
           <div className="px-10">
             <p>
@@ -128,7 +128,7 @@ function Withdraw() {
               11/3/2024
             </p>
           </div>
-        </div>
+        </div> */}
         <hr />
       </div>
       <ToastContainer />

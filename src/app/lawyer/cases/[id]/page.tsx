@@ -15,6 +15,8 @@ import {
   LoadingComponent,
   ErrorComponent,
 } from "@/components/LoadingErrorComponents";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function CaseDetail() {
   const queryClient = useQueryClient();
@@ -63,12 +65,17 @@ function CaseDetail() {
       mutationFn,
 
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["trials"] });
+        queryClient.invalidateQueries({ queryKey: ["trial"] });
+        toast.success("Trial submited successfully!");
+
         setInputData({
           trial_date: "",
           description: "",
           location: "",
         });
+      },
+      onError: () => {
+        toast.error("Failed to submite trial.");
       },
     }
   );
@@ -88,7 +95,11 @@ function CaseDetail() {
     {
       mutationFn: (id: number) => deliver(id),
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["disputes"] });
+        queryClient.invalidateQueries({ queryKey: ["case"] });
+        toast.success("Delivery request is made successfully!");
+      },
+      onError: () => {
+        toast.error("Failed to make Delivery.");
       },
     }
   );
@@ -124,7 +135,11 @@ function CaseDetail() {
                 </button>
                 <button
                   className="px-6 py-2 rounded-md text-lg font-semibold text-white bg-[#7e31a2] "
-                  onClick={() => router.push(`${path}/dispute?client_id=${caseData?.client_id}`)}
+                  onClick={() =>
+                    router.push(
+                      `${path}/dispute?client_id=${caseData?.client_id}`
+                    )
+                  }
                 >
                   DISPUTE
                 </button>

@@ -21,6 +21,8 @@ import {
   LoadingComponent,
   ErrorComponent,
 } from "@/components/LoadingErrorComponents";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 type DisputeData = {
   creator_email: string | null | undefined;
@@ -64,7 +66,17 @@ const Disputes = () => {
       mutationFn,
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["disputes"] });
-        handleCloseModal();
+        toast.success("Dispute submited successfully!");
+
+        setTimeout(() => {
+          handleCloseModal();
+        }, 12000);
+      },
+      onError: () => {
+        toast.error("Failed to submite dispute.");
+        setTimeout(() => {
+          handleCloseModal();
+        }, 12000);
       },
     });
 
