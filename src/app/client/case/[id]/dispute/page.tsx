@@ -68,15 +68,11 @@ const Disputes = () => {
         queryClient.invalidateQueries({ queryKey: ["disputes"] });
         toast.success("Dispute submited successfully!");
 
-        setTimeout(() => {
-          handleCloseModal();
-        }, 12000);
+        handleCloseModal();
       },
       onError: () => {
         toast.error("Failed to submite dispute.");
-        setTimeout(() => {
-          handleCloseModal();
-        }, 12000);
+        handleCloseModal();
       },
     });
 
