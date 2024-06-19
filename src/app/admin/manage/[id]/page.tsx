@@ -42,12 +42,7 @@ function Detail() {
     mutationFn: VerifyMutationFn,
     onSuccess: (data: any) => {
       queryClient.invalidateQueries({ queryKey: ["lawyers"] });
-      console.log("lawyer acceptd.", data);
-      toast.success("Lawyer Accepted successfully!");
-
-      setTimeout(() => {
-        router.back();
-      }, 12000);
+      router.back();
     },
     onError: () => {
       toast.error("Failed to accept the lawyer.");
@@ -58,11 +53,7 @@ function Detail() {
     mutationFn: rejectMutationFn,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["lawyers"] });
-      toast.success("Lawyer rejected successfully!");
-
-      setTimeout(() => {
-        router.back();
-      }, 12000);
+      router.back();
     },
     onError: () => {
       toast.error("Failed to reject the lawyer.");
