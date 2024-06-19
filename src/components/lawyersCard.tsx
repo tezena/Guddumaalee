@@ -19,13 +19,13 @@ const LawyersCard: React.FC<LawyerProps> = ({
   des,
   rate,
 }) => {
-//@ts-ignore
-  const rateValues = rate.map(item => item?.rate);
-const averageRate = rateValues.reduce((sum, rate) => sum + rate, 0) / rateValues.length;
+  //@ts-ignore
+  const rateValues = rate.map((item) => item?.rate);
+  const averageRate =
+    rateValues.reduce((sum, rate) => sum + rate, 0) / rateValues.length;
 
-  console.log('this rate av',averageRate);
-  console.log('this rate',rate);
-  
+  console.log("this rate av", averageRate);
+  console.log("this rate", rate);
 
   const renderStars = (rating: number) => {
     const stars = [];
@@ -43,8 +43,8 @@ const averageRate = rateValues.reduce((sum, rate) => sum + rate, 0) / rateValues
         <Image
           src={imageUrl}
           alt="Mountain"
-          width={40}
-          height={40}
+          width={400}
+          height={400}
           className="w-full h-64 object-cover"
         />
 
@@ -52,7 +52,9 @@ const averageRate = rateValues.reduce((sum, rate) => sum + rate, 0) / rateValues
           <h2 className="text-xl font-bold text-gray-800 mb-2">{name}</h2>
           <p className="text-gray-700 text-sm leading-tight mb-4">{des}</p>
           <div className="flex felx-row">
-            <div className="flex items-center mt-2">{renderStars(averageRate)}</div>
+            <div className="flex items-center mt-2">
+              {renderStars(averageRate)}
+            </div>
           </div>
         </div>
       </div>
